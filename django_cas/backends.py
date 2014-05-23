@@ -42,7 +42,7 @@ def _verify_cas2(ticket, service):
         from elementtree import ElementTree
 
     params = {'ticket': ticket, 'service': service}
-    url = (urljoin(settings.CAS_SERVER_URL, 'proxyValidate') + '?' +
+    url = (urljoin(settings.CAS_SERVER_URL, 'serviceValidate') + '?' +
            urlencode(params))
     page = urlopen(url)
     try:
