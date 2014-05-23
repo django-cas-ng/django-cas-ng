@@ -13,7 +13,7 @@ setup(
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'Framework :: Django',
-        'License :: BSD License',
+        'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Topic :: Internet :: WWW/HTTP',
