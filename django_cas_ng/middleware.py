@@ -8,7 +8,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.views import login, logout
 from django.core.urlresolvers import reverse
 
-from django_cas.views import login as cas_login, logout as cas_logout
+from .views import login as cas_login, logout as cas_logout
 
 __all__ = ['CASMiddleware']
 
