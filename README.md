@@ -2,9 +2,8 @@ Django CAS NG
 =============
 
 
-`django-cas-ng` is inherit from `django-cas` [https://bitbucket.org/cpcc/django-cas]. `django-cas` is not updated since 2013-4-1.
+`django-cas-ng` is CAS (Central Authentication Service) client implementation. This project inherit from [django-cas](https://bitbucket.org/cpcc/django-cas). `django-cas` is not updated since 2013-4-1. This project will include new bugfix and new feature development.
 
-`django-cas-ng` is CAS (Central Authentication Service) client implementation.
 
 Features
 --------
