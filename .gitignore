@@ -1,0 +1,10 @@
+# Python garbage
+*.pyc
+*.egg-info
+
+# Mac OS X garbage
+.DS_Store
+
+# PyDev garbage
+.tmp*
+
