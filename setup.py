@@ -5,8 +5,11 @@ try:
 except ImportError:
     from distutils.core import setup
 
+with open('README.rst') as f:
+    readme = f.read()
+
 setup(
-    author='MING CHEN',
+    author='Ming Chen',
     author_email='mockey.chen@gmail.com',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
@@ -18,31 +21,16 @@ setup(
         'Operating System :: OS Independent',
         'Topic :: Internet :: WWW/HTTP',
     ],
-    description='CAS 1.0/2.0 authentication backend for Django (inherited from django-cas)',
-    keywords='django cas cas2 sso auth authentication middleware backend',
+    description='CAS 1.0/2.0 client authentication backend for Django (inherited from django-cas)',
+    keywords=['django', 'cas', 'cas2', 'client', 'sso', 'single sign-on', 'authentication', 'auth'],
     license='BSD',
-    long_description="""
-``django_cas`` is a `CAS`_ 1.0 and CAS 2.0 authentication backend for
-`Django`_. It allows you to use Django's built-in authentication mechanisms
-and ``User`` model while adding support for CAS.
-
-It also includes a middleware that intercepts calls to the original login and
-logout pages and forwards them to the CASified versions, and adds CAS support
-to the admin interface.
-
-**Credits**
-
-This is project is inherited from CCPC's `django-cas`_ . 
-It seems `django-cas` not update since 2013-4-1. 
-I moved it github and keep github to fix exist and continue new feature develop.
-
-.. _CAS: http://www.ja-sig.org/cas/
-.. _Django: http://www.djangoproject.com/
-.. _django-cas: https://bitbucket.org/cpcc/django-cas
-""",
+    long_description=readme,
     name='django-cas-ng',
     packages=['django_cas_ng'],
     url='https://github.com/mingchen/django-cas-ng',
-    version='3.0.0',
+    #bugtrack_url='https://github.com/mingchen/django-cas-ng/issues',  # not support this key
+    download_url ='https://github.com/mingchen/django-cas-ng/releases',
+    version='3.1.0',
+    install_requires=['Django'],
 )
 

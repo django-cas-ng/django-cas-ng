@@ -3,7 +3,7 @@
 *.egg-info
 build/
 dist/
-
+_build/
 
 # Mac OS X garbage
 .DS_Store
@@ -11,3 +11,4 @@ dist/
 # PyDev garbage
 .tmp*
 
+.idea/
