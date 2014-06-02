@@ -47,6 +47,8 @@ def _login_url(service):
     """Generates CAS login URL"""
 
     params = {'service': service}
+    if settings.CAS_RENEW:
+        params.update({'renew': 'true'})
     if settings.CAS_EXTRA_LOGIN_PARAMS:
         params.update(settings.CAS_EXTRA_LOGIN_PARAMS)
     return urljoin(settings.CAS_SERVER_URL, 'login') + '?' + urlencode(params)
@@ -102,4 +104,6 @@ def logout(request, next_page=None):
     if settings.CAS_LOGOUT_COMPLETELY:
         return HttpResponseRedirect(_logout_url(request, next_page))
     else:
+        # This is in most cases pointless if not CAS_RENEW is set. The user will
+        # simply be logged in again on next request requiring authorization.
         return HttpResponseRedirect(next_page)

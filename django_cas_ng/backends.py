@@ -3,6 +3,7 @@
 from urllib import urlencode, urlopen
 from urlparse import urljoin
 import urllib2
+from uuid import uuid4
 
 from django.conf import settings
 
@@ -87,7 +88,32 @@ def _verify_cas3(ticket, service):
         page.close()
 
 def get_saml_assertion(ticket):
-   return """<?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><samlp:Request xmlns:samlp="urn:oasis:names:tc:SAML:1.0:protocol"  MajorVersion="1" MinorVersion="1" RequestID="_192.168.16.51.1024506224022" IssueInstant="2002-06-19T17:03:44.022Z"><samlp:AssertionArtifact>""" + ticket + """</samlp:AssertionArtifact></samlp:Request></SOAP-ENV:Body></SOAP-ENV:Envelope>"""
+    """
+    http://www.jasig.org/cas/protocol#samlvalidate-cas-3.0
+
+    SAML request values:
+
+    RequestID [REQUIRED] - unique identifier for the request
+    IssueInstant [REQUIRED] - timestamp of the request
+    samlp:AssertionArtifact [REQUIRED] - the valid CAS Service Ticket obtained as a response parameter at login.
+    """
+
+    request_id = uuid4()    # RequestID [REQUIRED] - unique identifier for the request
+    timestamp = datetime.datetime.now().isoformat()  # e.g. 2014-06-02T09:21:03.071189
+
+    return """<?xml version="1.0" encoding="UTF-8"?>
+    <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Header/>
+    <SOAP-ENV:Body>
+    <samlp:Request xmlns:samlp="urn:oasis:names:tc:SAML:1.0:protocol"
+     MajorVersion="1"
+     MinorVersion="1"
+     RequestID="%s"
+     IssueInstant="%s">
+    <samlp:AssertionArtifact>%s</samlp:AssertionArtifact></samlp:Request>
+    </SOAP-ENV:Body>
+    </SOAP-ENV:Envelope>""" % (request_id, timestamp, ticket)
+
 
 SAML_1_0_NS = 'urn:oasis:names:tc:SAML:1.0:'
 SAML_1_0_PROTOCOL_NS = '{' + SAML_1_0_NS + 'protocol' + '}'
@@ -113,7 +139,7 @@ def _verify_cas2_saml(ticket, service):
         'pragma': 'no-cache',
         'accept': 'text/xml',
         'connection': 'keep-alive',
-        'content-type': 'text/xml'}
+        'content-type': 'text/xml; charset=utf-8'}
     params = {'TARGET': service}
     url = urllib2.Request(urljoin(settings.CAS_SERVER_URL, 'samlValidate') + '?' + urlencode(params), '', headers)
     data = get_saml_assertion(ticket)
