@@ -1,8 +1,8 @@
 """CAS authentication backend"""
-
-from urllib import urlencode, urlopen
-from urlparse import urljoin
-import urllib2
+from urllib.parse import urlencode
+from urllib.request import urlopen
+from urllib.parse import urljoin
+import urllib.request, urllib.error, urllib.parse
 from uuid import uuid4
 
 from django.conf import settings
@@ -17,7 +17,7 @@ def _verify_cas1(ticket, service):
     Returns username on success and None on failure.
     """
 
-    params = {'ticket': ticket, 'service': service}
+    params = [('ticket', ticket), ('service', service)]
     url = (urljoin(settings.CAS_SERVER_URL, 'validate') + '?' +
            urlencode(params))
     page = urlopen(url)
@@ -42,7 +42,7 @@ def _verify_cas2(ticket, service):
     except ImportError:
         from elementtree import ElementTree
 
-    params = {'ticket': ticket, 'service': service}
+    params = [('ticket', ticket), ('service', service)]
     url = (urljoin(settings.CAS_SERVER_URL, 'serviceValidate') + '?' +
            urlencode(params))
     page = urlopen(url)
@@ -67,7 +67,7 @@ def _verify_cas3(ticket, service):
     except ImportError:
         from elementtree import ElementTree
 
-    params = {'ticket': ticket, 'service': service}
+    params = [('ticket', ticket), ('service', service)]
     url = (urljoin(settings.CAS_SERVER_URL, 'proxyValidate') + '?' +
            urlencode(params))
     page = urlopen(url)
@@ -140,18 +140,18 @@ def _verify_cas2_saml(ticket, service):
         'accept': 'text/xml',
         'connection': 'keep-alive',
         'content-type': 'text/xml; charset=utf-8'}
-    params = {'TARGET': service}
-    url = urllib2.Request(urljoin(settings.CAS_SERVER_URL, 'samlValidate') + '?' + urlencode(params), '', headers)
+    params = [('TARGET', service)]
+    url = urllib.request.Request(urljoin(settings.CAS_SERVER_URL, 'samlValidate') + '?' + urlencode(params), '', headers)
     data = get_saml_assertion(ticket)
     url.add_data(get_saml_assertion(ticket))
 
-    page = urllib2.urlopen(url)
+    page = urllib.request.urlopen(url)
 
     try:
         user = None
         attributes = {}
         response = page.read()
-        print response
+        print(response)
         tree = ElementTree.fromstring(response)
         # Find the authentication status
         success = tree.find('.//' + SAML_1_0_PROTOCOL_NS + 'StatusCode')
@@ -159,7 +159,7 @@ def _verify_cas2_saml(ticket, service):
             # User is validated
             attrs = tree.findall('.//' + SAML_1_0_ASSERTION_NS + 'Attribute')
             for at in attrs:
-                if 'uid' in at.attrib.values():
+                if 'uid' in list(at.attrib.values()):
                     user = at.find(SAML_1_0_ASSERTION_NS + 'AttributeValue').text
                     attributes['uid'] = user
                 values = at.findall(SAML_1_0_ASSERTION_NS + 'AttributeValue')

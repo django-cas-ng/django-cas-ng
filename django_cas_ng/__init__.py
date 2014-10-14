@@ -16,7 +16,7 @@ _DEFAULTS = {
     'CAS_VERSION': '2',
 }
 
-for key, value in _DEFAULTS.iteritems():
+for key, value in _DEFAULTS.items():
     try:
         getattr(settings, key)
     except AttributeError:
