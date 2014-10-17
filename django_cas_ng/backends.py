@@ -1,8 +1,8 @@
 """CAS authentication backend"""
-from urllib.parse import urlencode
-from urllib.request import urlopen
-from urllib.parse import urljoin
-import urllib.request, urllib.error, urllib.parse
+from __future__ import unicode_literals
+
+from django.utils.six.moves import urllib_parse
+from django.utils.six.moves.urllib_request import urlopen, Request
 from uuid import uuid4
 
 from django.conf import settings
@@ -18,8 +18,8 @@ def _verify_cas1(ticket, service):
     """
 
     params = [('ticket', ticket), ('service', service)]
-    url = (urljoin(settings.CAS_SERVER_URL, 'validate') + '?' +
-           urlencode(params))
+    url = (urllib_parse.urljoin(settings.CAS_SERVER_URL, 'validate') + '?' +
+           urllib_parse.urlencode(params))
     page = urlopen(url)
     try:
         verified = page.readline().strip()
@@ -36,15 +36,14 @@ def _verify_cas2(ticket, service):
 
     Returns username on success and None on failure.
     """
-
     try:
         from xml.etree import ElementTree
     except ImportError:
         from elementtree import ElementTree
 
     params = [('ticket', ticket), ('service', service)]
-    url = (urljoin(settings.CAS_SERVER_URL, 'serviceValidate') + '?' +
-           urlencode(params))
+    url = (urllib_parse.urljoin(settings.CAS_SERVER_URL, 'serviceValidate') + '?' +
+           urllib_parse.urlencode(params))
     page = urlopen(url)
     try:
         response = page.read()
@@ -68,8 +67,8 @@ def _verify_cas3(ticket, service):
         from elementtree import ElementTree
 
     params = [('ticket', ticket), ('service', service)]
-    url = (urljoin(settings.CAS_SERVER_URL, 'proxyValidate') + '?' +
-           urlencode(params))
+    url = (urllib_parse.urljoin(settings.CAS_SERVER_URL, 'proxyValidate') + '?' +
+           urllib_parse.urlencode(params))
     page = urlopen(url)
     try:
         user = None
@@ -141,11 +140,9 @@ def _verify_cas2_saml(ticket, service):
         'connection': 'keep-alive',
         'content-type': 'text/xml; charset=utf-8'}
     params = [('TARGET', service)]
-    url = urllib.request.Request(urljoin(settings.CAS_SERVER_URL, 'samlValidate') + '?' + urlencode(params), '', headers)
-    data = get_saml_assertion(ticket)
-    url.add_data(get_saml_assertion(ticket))
 
-    page = urllib.request.urlopen(url)
+    url = Request(urllib_parse.urljoin(settings.CAS_SERVER_URL, 'samlValidate') + '?' + urllib_parse.urlencode(params), '', headers)
+    page = urlopen(url, data=get_saml_assertion(ticket))
 
     try:
         user = None
@@ -189,7 +186,6 @@ class CASBackend(object):
 
     def authenticate(self, ticket, service, request):
         """Verifies CAS ticket and gets or creates User object"""
-
         username, attributes = _verify(ticket, service)
         if attributes:
             request.session['attributes'] = attributes

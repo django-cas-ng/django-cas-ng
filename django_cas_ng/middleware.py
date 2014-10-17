@@ -1,6 +1,8 @@
 """CAS authentication middleware"""
 
-from urllib.parse import urlencode
+from __future__ import unicode_literals
+
+from django.utils.six.moves import urllib_parse
 
 from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.conf import settings
@@ -48,5 +50,5 @@ class CASMiddleware(object):
                 error = ('<h1>Forbidden</h1><p>You do not have staff '
                          'privileges.</p>')
                 return HttpResponseForbidden(error)
-        params = urlencode({REDIRECT_FIELD_NAME: request.get_full_path()})
+        params = urllib_parse.urlencode({REDIRECT_FIELD_NAME: request.get_full_path()})
         return HttpResponseRedirect(reverse(cas_login) + '?' + params)

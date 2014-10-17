@@ -1,5 +1,7 @@
 """Django CAS 1.0/2.0 authentication backend"""
 
+from __future__ import unicode_literals
+
 from django.conf import settings
 
 __all__ = []

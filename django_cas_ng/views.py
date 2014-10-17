@@ -1,7 +1,8 @@
 """CAS login/logout replacement views"""
 
-from urllib.parse import urlencode
-from urllib.parse import urljoin
+from __future__ import unicode_literals
+
+from django.utils.six.moves import urllib_parse
 
 from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.conf import settings
@@ -21,7 +22,7 @@ def _service_url(request, redirect_to=None):
             service += '&'
         else:
             service += '?'
-        service += urlencode({REDIRECT_FIELD_NAME: redirect_to})
+        service += urllib_parse.urlencode({REDIRECT_FIELD_NAME: redirect_to})
     return service
 
 
@@ -51,17 +52,17 @@ def _login_url(service):
         params.update({'renew': 'true'})
     if settings.CAS_EXTRA_LOGIN_PARAMS:
         params.update(settings.CAS_EXTRA_LOGIN_PARAMS)
-    return urljoin(settings.CAS_SERVER_URL, 'login') + '?' + urlencode(params)
+    return urllib_parse.urljoin(settings.CAS_SERVER_URL, 'login') + '?' + urllib_parse.urlencode(params)
 
 
 def _logout_url(request, next_page=None):
     """Generates CAS logout URL"""
 
-    url = urljoin(settings.CAS_SERVER_URL, 'logout')
+    url = urllib_parse.urljoin(settings.CAS_SERVER_URL, 'logout')
     if next_page:
         protocol = ('http://', 'https://')[request.is_secure()]
         host = request.get_host()
-        url += '?' + urlencode({'url': protocol + host + next_page})
+        url += '?' + urllib_parse.urlencode({'url': protocol + host + next_page})
     return url
 
 
