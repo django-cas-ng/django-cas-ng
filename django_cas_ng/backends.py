@@ -81,7 +81,16 @@ def _verify_cas3(ticket, service):
                     user = element.text
                elif element.tag.endswith('attributes'):
                     for attribute in element:
-                        attributes[attribute.tag.split("}").pop()] = attribute.text
+                        tag = attribute.tag.split("}").pop()
+                        if tag in attributes:
+                            if isinstance(attributes[tag], list):
+                                attributes[tag].append(attribute.text)
+                            else:
+                                attributes[tag] = [attributes[tag]]
+                                attributes[tag].append(attribute.text)
+                        else:
+                            attributes[tag] = attribute.text
+
         return user, attributes
     finally:
         page.close()
