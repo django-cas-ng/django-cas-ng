@@ -9,9 +9,13 @@ How To Make A Release
 
     git tag v3.2.0
 
-5. Upload release to pypi.python.org
+5. push changes:
+
+    git push
+    git push -t
+
+6. Upload release to pypi.python.org
 
     python setup.py sdist upload    
 
-6. Create a new release on github.com and upload `django-cas-ng-x.x.x.tar.gz`
-    https://github.com/mingchen/django-cas-ng/releases
+7. Create a new release on https://github.com/mingchen/django-cas-ng/releases
