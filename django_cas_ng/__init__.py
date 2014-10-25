@@ -1,5 +1,7 @@
 """Django CAS 1.0/2.0 authentication backend"""
 
+from __future__ import unicode_literals
+
 from django.conf import settings
 
 __all__ = []
@@ -16,7 +18,7 @@ _DEFAULTS = {
     'CAS_VERSION': '2',
 }
 
-for key, value in _DEFAULTS.iteritems():
+for key, value in _DEFAULTS.items():
     try:
         getattr(settings, key)
     except AttributeError:
