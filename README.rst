@@ -89,9 +89,11 @@ Contribute
 ----------
 
 Contributions are welcome!
+
 If you would like to contribute this project, 
 please feel free to fork and send pull request.
-also welcome to add your name to **Credits** section of this document.
+Also welcome to add your name to **Credits** section of this document.
+
 New code should follow both `PEP8`_ and the `Django coding style`_.
 
 
