@@ -12,3 +12,6 @@ _build/
 .tmp*
 
 .idea/
+
+# Tox
+.tox

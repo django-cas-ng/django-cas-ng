@@ -1,6 +1,9 @@
 Django CAS NG
 =============
 
+.. image:: https://travis-ci.org/mingchen/django-cas-ng.svg?branch=master
+    :target: https://travis-ci.org/mingchen/django-cas-ng
+
 
 ``django-cas-ng`` is CAS (Central Authentication Service) client implementation.
 This project inherit from `django-cas`_.
