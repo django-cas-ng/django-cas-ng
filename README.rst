@@ -106,6 +106,7 @@ Credits
 * `django-cas`_.
 * `Stefan Horomnea`_.
 * `Piotr Buliński`_.
+* `Piper Merriam`_.
 
 
 References
@@ -123,3 +124,5 @@ References
 .. _User custom model: https://docs.djangoproject.com/en/1.5/topics/auth/customizing/
 .. _Piotr Buliński: https://github.com/piotrbulinski
 .. _Stefan Horomnea: https://github.com/choosy
+.. _Piper Merriam: https://github.com/pipermerriam
+
