@@ -3,11 +3,12 @@ from __future__ import unicode_literals
 
 from django.utils.six.moves import urllib_parse
 from django.utils.six.moves.urllib_request import urlopen, Request
+from django.contrib.auth import get_user_model
 from uuid import uuid4
 
 from django.conf import settings
 
-from .models import User
+User = get_user_model()
 
 __all__ = ['CASBackend']
 
