@@ -12,7 +12,7 @@ How To Make A Release
 5. push changes:
 
     git push
-    git push -t
+    git push --tags
 
 6. Upload release to pypi.python.org
 
