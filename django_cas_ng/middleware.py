@@ -14,6 +14,7 @@ from .views import login as cas_login, logout as cas_logout
 
 __all__ = ['CASMiddleware']
 
+
 class CASMiddleware(object):
     """Middleware that allows CAS authentication on admin pages"""
 
