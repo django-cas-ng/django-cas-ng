@@ -92,7 +92,7 @@ Testing
 
 Every code commit triggers a **travis-ci** build. checkout current build status at https://travis-ci.org/mingchen/django-cas-ng
 
-Testing is managed by pytest and tox. To run testing locally:
+Testing is managed by ``pytest`` and ``tox``. To run testing locally::
 
     pip install -r requirements-dev.txt
     tox
