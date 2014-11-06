@@ -15,8 +15,8 @@ Features
 --------
 
 - Support CAS_ version 1.0, 2.0 and 3.0.
-- Support Django 1.5+ `User custom model`_
-- Support Python 2.x, 3.x
+- Support Django 1.5, 1.6, 1.7 with `User custom model`_
+- Support Python 2.7, 3.x
 
 
 Installation
@@ -87,14 +87,25 @@ your URL mappings::
 
 Users should now be able to log into your site using CAS.
 
+Testing
+-------
 
-Contribute
-----------
+Every code commit triggers a **travis-ci** build. checkout current build status at https://travis-ci.org/mingchen/django-cas-ng
+
+Testing is managed by pytest and tox. To run testing locally:
+
+    pip install -r requirements-dev.txt
+    tox
+
+
+Contribution
+------------
 
 Contributions are welcome!
 
-If you would like to contribute this project, 
-please feel free to fork and send pull request.
+If you would like to contribute this project.
+Please feel free to fork and send pull request.
+Please make sure tests are passed.
 Also welcome to add your name to **Credits** section of this document.
 
 New code should follow both `PEP8`_ and the `Django coding style`_.
