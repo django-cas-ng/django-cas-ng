@@ -60,45 +60,51 @@ def _verify_cas2(ticket, service):
         page.close()
 
 
-def _verify_cas3(ticket, service):
-    """Verifies CAS 3.0+ XML-based authentication ticket and returns extended attributes.
+def get_cas3_verification_response(ticket, service):
+    params = [('ticket', ticket), ('service', service)]
+    base_url = urllib_parse.urljoin(settings.CAS_SERVER_URL, 'proxyValidate')
+    url = base_url + '?' + urllib_parse.urlencode(params)
+    page = urlopen(url)
+    return page.read()
 
-    Returns username on success and None on failure.
-    """
+
+def verify_cas3_response(response):
+    user = None
+    attributes = {}
 
     try:
         from xml.etree import ElementTree
     except ImportError:
         from elementtree import ElementTree
 
-    params = [('ticket', ticket), ('service', service)]
-    url = (urllib_parse.urljoin(settings.CAS_SERVER_URL, 'proxyValidate') + '?' +
-           urllib_parse.urlencode(params))
-    page = urlopen(url)
-    try:
-        user = None
-        attributes = {}
-        response = page.read()
-        tree = ElementTree.fromstring(response)
-        if tree[0].tag.endswith('authenticationSuccess'):
-            for element in tree[0]:
-                if element.tag.endswith('user'):
-                    user = element.text
-                elif element.tag.endswith('attributes'):
-                    for attribute in element:
-                        tag = attribute.tag.split("}").pop()
-                        if tag in attributes:
-                            if isinstance(attributes[tag], list):
-                                attributes[tag].append(attribute.text)
-                            else:
-                                attributes[tag] = [attributes[tag]]
-                                attributes[tag].append(attribute.text)
-                        else:
-                            attributes[tag] = attribute.text
+    tree = ElementTree.fromstring(response)
 
-        return user, attributes
-    finally:
-        page.close()
+    if tree[0].tag.endswith('authenticationSuccess'):
+        for element in tree[0]:
+            if element.tag.endswith('user'):
+                user = element.text
+            elif element.tag.endswith('attributes'):
+                for attribute in element:
+                    tag = attribute.tag.split("}").pop()
+                    if tag in attributes:
+                        if isinstance(attributes[tag], list):
+                            attributes[tag].append(attribute.text)
+                        else:
+                            attributes[tag] = [attributes[tag]]
+                            attributes[tag].append(attribute.text)
+                    else:
+                        attributes[tag] = attribute.text
+
+    return user, attributes
+
+
+def _verify_cas3(ticket, service):
+    """Verifies CAS 3.0+ XML-based authentication ticket and returns extended attributes.
+
+    Returns username on success and None on failure.
+    """
+    response = get_cas3_verification_response(ticket, service)
+    return verify_cas3_response(response)
 
 
 SAML_ASSERTION_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
