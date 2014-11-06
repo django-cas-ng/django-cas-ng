@@ -8,7 +8,7 @@ env:
     - TOX_ENV=py27-django15
     - TOX_ENV=py27-django16
     - TOX_ENV=py27-django17
-#    - TOX_ENV=flake8
+    - TOX_ENV=flake8
 cache:
   directories:
     - $HOME/.pip-cache/
