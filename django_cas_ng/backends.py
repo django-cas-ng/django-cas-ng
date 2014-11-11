@@ -210,7 +210,7 @@ def _verify_cas2_saml(ticket, service):
                             attributes[at.attrib['AttributeName']] = values_array
                     else:
                         attributes[at.attrib['AttributeName']] = values[0].text
-                        return user, attributes
+        return user, attributes
     finally:
         page.close()
 
@@ -237,15 +237,15 @@ class CASBackend(object):
         username, attributes = _verify(ticket, service)
         if attributes:
             request.session['attributes'] = attributes
-            if not username:
-                return None
+        if not username:
+            return None
         try:
             user = User.objects.get(username=username)
         except User.DoesNotExist:
             # user will have an "unusable" password
             user = User.objects.create_user(username, '')
             user.save()
-            return user
+        return user
 
     def get_user(self, user_id):
         """Retrieve the user's entry in the User model if it exists"""
