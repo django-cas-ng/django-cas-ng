@@ -6,9 +6,11 @@ import datetime
 from django.utils.six.moves import urllib_parse
 from django.utils.six.moves.urllib_request import urlopen, Request
 from django.contrib.auth import get_user_model
+from django.conf import settings
+
 from uuid import uuid4
 
-from django.conf import settings
+from django_cas_ng.signals import cas_user_authenticated
 
 User = get_user_model()
 
@@ -241,10 +243,22 @@ class CASBackend(object):
             return None
         try:
             user = User.objects.get(username=username)
+            created = False
         except User.DoesNotExist:
             # user will have an "unusable" password
             user = User.objects.create_user(username, '')
             user.save()
+            created = True
+
+        # send the `cas_user_authenticated` signal
+        cas_user_authenticated.send(
+            sender=self,
+            user=user,
+            created=created,
+            attributes=attributes,
+            ticket=ticket,
+            service=service,
+        )
         return user
 
     def get_user(self, user_id):
