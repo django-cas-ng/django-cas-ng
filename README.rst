@@ -165,4 +165,4 @@ References
 .. _Piotr Buliński: https://github.com/piotrbulinski
 .. _Stefan Horomnea: https://github.com/choosy
 .. _Piper Merriam: https://github.com/pipermerriam
-.. _Channel Factory: https://github.com/tsitra
+.. _Nathan Brown: https://github.com/tsitra
