@@ -146,7 +146,7 @@ Credits
 * `Stefan Horomnea`_.
 * `Piotr Buliński`_.
 * `Piper Merriam`_.
-* `Channel Factory`_.
+* `Nathan Brown`_.
 
 
 References
