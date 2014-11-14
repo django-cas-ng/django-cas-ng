@@ -146,6 +146,7 @@ Credits
 * `Stefan Horomnea`_.
 * `Piotr Buliński`_.
 * `Piper Merriam`_.
+* `Channel Factory`_.
 
 
 References
@@ -155,7 +156,7 @@ References
 * `CAS protocol`_
 
 .. _CAS: https://www.apereo.org/cas
-.. _CAS protocol: http://www.apereo.org/cas/protocol
+.. _CAS protocol: https://www.apereo.org/cas/protocol
 .. _django-cas: https://bitbucket.org/cpcc/django-cas
 .. _pip: http://www.pip-installer.org/
 .. _PEP8: http://www.python.org/dev/peps/pep-0008
@@ -164,4 +165,4 @@ References
 .. _Piotr Buliński: https://github.com/piotrbulinski
 .. _Stefan Horomnea: https://github.com/choosy
 .. _Piper Merriam: https://github.com/pipermerriam
-
+.. _Channel Factory: https://github.com/tsitra
