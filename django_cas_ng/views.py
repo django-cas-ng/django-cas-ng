@@ -2,6 +2,8 @@
 
 from __future__ import unicode_literals
 
+import re
+
 from django.utils.six.moves import urllib_parse
 
 from django.http import HttpResponseRedirect, HttpResponseForbidden
@@ -29,8 +31,14 @@ def _service_url(request, redirect_to=None):
 
     protocol = get_protocol(request)
     host = request.get_host()
+
+    ticketless_full_path = request.get_full_path()
+    match = re.search(r'(&ticket=[\w\-\.]+)(?:[&].+|$)(?:$|)', ticketless_full_path)
+    if match:
+        ticketless_full_path = ticketless_full_path.replace(match.group(1), "")
+
     service = urllib_parse.urlunparse(
-        (protocol, host, request.get_full_path(), '', '', ''),
+        (protocol, host, ticketless_full_path, '', '', ''),
     )
     if redirect_to:
         if '?' in service:
