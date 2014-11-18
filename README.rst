@@ -154,6 +154,7 @@ References
 
 * `django-cas`_
 * `CAS protocol`_
+* `Jasig CAS server`_
 
 .. _CAS: https://www.apereo.org/cas
 .. _CAS protocol: https://www.apereo.org/cas/protocol
@@ -162,6 +163,7 @@ References
 .. _PEP8: http://www.python.org/dev/peps/pep-0008
 .. _Django coding style: https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style
 .. _User custom model: https://docs.djangoproject.com/en/1.5/topics/auth/customizing/
+.. _Jasig CAS server: http://jasig.github.io/cas
 .. _Piotr Buliński: https://github.com/piotrbulinski
 .. _Stefan Horomnea: https://github.com/choosy
 .. _Piper Merriam: https://github.com/pipermerriam
