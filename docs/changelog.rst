@@ -6,6 +6,11 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+**django-cas-ng 3.4.1** ``[2014-11-27]``
+
+* Specific django version in dependence.
+* Removed the ticket GET param from the service, as it could break CAS.
+
 **django-cas-ng 3.4.0** ``[2014-11-12]``
 
 * Add signal support ``django_cas_ng.signals.cas_user_authenticated``
