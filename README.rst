@@ -157,6 +157,7 @@ Credits
 * `Piotr Buliński`_.
 * `Piper Merriam`_.
 * `Nathan Brown`_.
+* `Jason Brownbridge`_.
 
 
 References
@@ -178,3 +179,4 @@ References
 .. _Stefan Horomnea: https://github.com/choosy
 .. _Piper Merriam: https://github.com/pipermerriam
 .. _Nathan Brown: https://github.com/tsitra
+.. _Jason Brownbridge: https://github.com/jbrownbridge
