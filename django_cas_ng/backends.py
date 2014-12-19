@@ -245,6 +245,10 @@ class CASBackend(object):
             user = User.objects.get(username=username)
             created = False
         except User.DoesNotExist:
+            # check if we want to create new users, if we don't fail auth
+            create = getattr(settings, 'CAS_CREATE_USER', True)
+            if not create:
+                return None
             # user will have an "unusable" password
             user = User.objects.create_user(username, '')
             user.save()

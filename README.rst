@@ -66,6 +66,8 @@ Optional settings include:
 * ``CAS_ADMIN_PREFIX``: The URL prefix of the Django administration site.
   If undefined, the CAS middleware will check the view being rendered to
   see if it lives in ``django.contrib.admin.views``.
+* ``CAS_CREATE_USER``: Create a user when the CAS authentication is successful.
+  The default is ``True``.
 * ``CAS_EXTRA_LOGIN_PARAMS``: Extra URL parameters to add to the login URL
   when redirecting the user. Example::
 
