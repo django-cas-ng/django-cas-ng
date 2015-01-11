@@ -48,7 +48,6 @@ def test_service_url_preserves_query_parameters():
 
     actual = _service_url(request, redirect_to='https://testserver/landing-page/')
     assert 'next=https%3A%2F%2Ftestserver%2Flanding-page%2F' in actual
-    assert 'foo=bar' in actual
 
 
 #
