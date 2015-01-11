@@ -6,6 +6,11 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+**django-cas-ng 3.4.2** ``[2015-01-11]``
+
+* Fix forbidden error.
+* Add CAS_CREATE_USER setting to control over whether or not a user is created.
+
 **django-cas-ng 3.4.1** ``[2014-11-27]``
 
 * Specific django version in dependence.
