@@ -30,7 +30,7 @@ Install with `pip`_::
 Install the latest code::
 
     pip install https://github.com/mingchen/django-cas-ng/archive/master.zip
-    
+
 
 Install from source code::
 
@@ -41,7 +41,7 @@ Settings
 --------
 
 Now add it to the middleware and authentication backends in your settings.
-Make sure you also have the authentication middleware installed. 
+Make sure you also have the authentication middleware installed.
 Here's an example::
 
     MIDDLEWARE_CLASSES = (
