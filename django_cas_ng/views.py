@@ -30,7 +30,7 @@ def _service_url(request, redirect_to=None):
     protocol = get_protocol(request)
     host = request.get_host()
     service = urllib_parse.urlunparse(
-        (protocol, host, request.get_full_path(), '', '', ''),
+        (protocol, host, request.path, '', '', ''),
     )
     if redirect_to:
         if '?' in service:
