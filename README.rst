@@ -166,6 +166,8 @@ Credits
 * `Piper Merriam`_.
 * `Nathan Brown`_.
 * `Jason Brownbridge`_.
+* `bgroff`_.
+* `Jeffrey P Gill`_.
 
 
 References
@@ -188,3 +190,5 @@ References
 .. _Piper Merriam: https://github.com/pipermerriam
 .. _Nathan Brown: https://github.com/tsitra
 .. _Jason Brownbridge: https://github.com/jbrownbridge
+.. _bgroff: https://github.com/bgroff
+.. _Jeffrey P Gill: https://github.com/jpg18
