@@ -1,0 +1,18 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+			"folder_exclude_patterns": ["build", "dist", ".tox", ".idea", "*.egg-info", "__pycache__"]
+		}
+	],
+
+	"build_systems":
+    [
+        {
+            "name": "Run Tests",
+            "cmd": ["source ~/devenv/django/bin/activate && py.test"],
+            "shell": true
+        }
+    ]
+}
