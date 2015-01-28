@@ -1,6 +1,7 @@
 # Python garbage
 *.pyc
 *.egg-info
+*.sublime-workspace
 build/
 dist/
 _build/
