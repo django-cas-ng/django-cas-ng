@@ -242,7 +242,7 @@ class CASBackend(object):
         if not username:
             return None
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get(**{User.USERNAME_FIELD:username})
             created = False
         except User.DoesNotExist:
             # check if we want to create new users, if we don't fail auth
