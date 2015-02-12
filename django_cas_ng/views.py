@@ -93,7 +93,7 @@ def login(request, next_page=None, required=False):
     if not next_page:
         next_page = _redirect_url(request)
     if request.user.is_authenticated():
-        message = "You are logged in as %s." % getattr(request.user,request.user.USERNAME_FIELD)
+        message = "You are logged in as %s." % getattr(request.user, request.user.USERNAME_FIELD)
         messages.success(request, message)
         return HttpResponseRedirect(next_page)
     ticket = request.GET.get('ticket')
@@ -102,7 +102,7 @@ def login(request, next_page=None, required=False):
         user = authenticate(ticket=ticket, service=service, request=request)
         if user is not None:
             auth_login(request, user)
-            name = getattr(user,user.USERNAME_FIELD)
+            name = getattr(user, user.USERNAME_FIELD)
             message = "Login succeeded. Welcome, %s." % name
             messages.success(request, message)
             return HttpResponseRedirect(next_page)
