@@ -168,6 +168,7 @@ Credits
 * `Jason Brownbridge`_.
 * `Bryce Groff`_.
 * `Jeffrey P Gill`_.
+* `timkung1`_.
 
 
 References
@@ -192,3 +193,4 @@ References
 .. _Jason Brownbridge: https://github.com/jbrownbridge
 .. _Bryce Groff: https://github.com/bgroff
 .. _Jeffrey P Gill: https://github.com/jpg18
+.. _timkung1: https://github.com/timkung1
