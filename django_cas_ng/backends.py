@@ -204,14 +204,14 @@ def _verify_cas2_saml(ticket, service):
                 if 'uid' in list(at.attrib.values()):
                     user = at.find(SAML_1_0_ASSERTION_NS + 'AttributeValue').text
                     attributes['uid'] = user
-                    values = at.findall(SAML_1_0_ASSERTION_NS + 'AttributeValue')
-                    if len(values) > 1:
-                        values_array = []
-                        for v in values:
-                            values_array.append(v.text)
-                            attributes[at.attrib['AttributeName']] = values_array
-                    else:
-                        attributes[at.attrib['AttributeName']] = values[0].text
+                values = at.findall(SAML_1_0_ASSERTION_NS + 'AttributeValue')
+                if len(values) > 1:
+                    values_array = []
+                    for v in values:
+                        values_array.append(v.text)
+                        attributes[at.attrib['AttributeName']] = values_array
+                else:
+                    attributes[at.attrib['AttributeName']] = values[0].text
         return user, attributes
     finally:
         page.close()
