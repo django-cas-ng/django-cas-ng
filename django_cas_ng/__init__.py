@@ -16,6 +16,7 @@ _DEFAULTS = {
     'CAS_RETRY_LOGIN': False,
     'CAS_SERVER_URL': None,
     'CAS_VERSION': '2',
+    'CAS_USERNAME_ATTRIBUTE': 'uid',
 }
 
 for key, value in _DEFAULTS.items():
