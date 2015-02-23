@@ -201,9 +201,9 @@ def _verify_cas2_saml(ticket, service):
             # User is validated
             attrs = tree.findall('.//' + SAML_1_0_ASSERTION_NS + 'Attribute')
             for at in attrs:
-                if 'uid' in list(at.attrib.values()):
+                if settings.CAS_USERNAME_ATTRIBUTE in list(at.attrib.values()):
                     user = at.find(SAML_1_0_ASSERTION_NS + 'AttributeValue').text
-                    attributes['uid'] = user
+                    attributes[settings.CAS_USERNAME_ATTRIBUTE] = user
                     values = at.findall(SAML_1_0_ASSERTION_NS + 'AttributeValue')
                     if len(values) > 1:
                         values_array = []
