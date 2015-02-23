@@ -169,6 +169,7 @@ Credits
 * `Bryce Groff`_.
 * `Jeffrey P Gill`_.
 * `timkung1`_.
+* `Domingo Yeray Rodríguez Martín`_.
 
 
 References
@@ -194,3 +195,5 @@ References
 .. _Bryce Groff: https://github.com/bgroff
 .. _Jeffrey P Gill: https://github.com/jpg18
 .. _timkung1: https://github.com/timkung1
+.. _Domingo Yeray Rodríguez Martín: https://github.com/dyeray
+
