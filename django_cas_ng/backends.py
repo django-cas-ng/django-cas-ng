@@ -6,6 +6,7 @@ import datetime
 from django.utils.six.moves import urllib_parse
 from django.utils.six.moves.urllib_request import urlopen, Request
 from django.contrib.auth import get_user_model
+from django.contrib.auth.backends import ModelBackend
 from django.conf import settings
 
 from uuid import uuid4
@@ -232,7 +233,7 @@ if settings.CAS_VERSION not in _PROTOCOLS:
 _verify = _PROTOCOLS[settings.CAS_VERSION]
 
 
-class CASBackend(object):
+class CASBackend(ModelBackend, object):
     """CAS authentication backend"""
 
     def authenticate(self, ticket, service, request):
