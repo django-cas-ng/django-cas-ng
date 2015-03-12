@@ -71,7 +71,7 @@ Optional settings include:
 * ``CAS_EXTRA_LOGIN_PARAMS``: Extra URL parameters to add to the login URL
   when redirecting the user. Example::
 
-  CAS_EXTRA_LOGIN_PARAMS = {'renew': true}
+    CAS_EXTRA_LOGIN_PARAMS = {'renew': true}
 
 * ``CAS_RENEW``: whether pass ``renew`` parameter on login and verification
   of ticket to enforce that the login is made with a fresh username and password
@@ -86,6 +86,7 @@ Optional settings include:
   received, the user is redirected back to the login page.
 * ``CAS_VERSION``: The CAS protocol version to use. ``'1'`` and ``'2'`` are
   supported, with ``'2'`` being the default.
+* ``CAS_USERNAME_ATTRIBUTE``: The CAS user name attribute from response. The default is ``uid``.
 
 Make sure your project knows how to log users in and out by adding these to
 your URL mappings::
@@ -170,6 +171,7 @@ Credits
 * `Jeffrey P Gill`_.
 * `timkung1`_.
 * `Domingo Yeray Rodríguez Martín`_.
+* `Rayco Abad-Martíni`_.
 
 
 References
@@ -196,4 +198,5 @@ References
 .. _Jeffrey P Gill: https://github.com/jpg18
 .. _timkung1: https://github.com/timkung1
 .. _Domingo Yeray Rodríguez Martín: https://github.com/dyeray
+.. _Rayco Abad-Martín: https://github.com/Rayco
 
