@@ -233,7 +233,7 @@ if settings.CAS_VERSION not in _PROTOCOLS:
 _verify = _PROTOCOLS[settings.CAS_VERSION]
 
 
-class CASBackend(ModelBackend, object):
+class CASBackend(ModelBackend):
     """CAS authentication backend"""
 
     def authenticate(self, ticket, service, request):
