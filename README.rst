@@ -171,7 +171,7 @@ Credits
 * `Jeffrey P Gill`_.
 * `timkung1`_.
 * `Domingo Yeray Rodríguez Martín`_.
-* `Rayco Abad-Martíni`_.
+* `Rayco Abad-Martín`_.
 
 
 References
