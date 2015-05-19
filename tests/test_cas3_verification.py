@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from django_cas_ng.backends import (
     verify_cas3_response,
 )
