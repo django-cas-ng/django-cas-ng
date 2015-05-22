@@ -172,7 +172,8 @@ Credits
 * `timkung1`_.
 * `Domingo Yeray Rodríguez Martín`_.
 * `Rayco Abad-Martín`_.
-
+* `Édouard Lopez`_.
+* `Guillaume Vincent`_.
 
 References
 ----------
