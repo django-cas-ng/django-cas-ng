@@ -1,8 +1,11 @@
 from __future__ import absolute_import
-import pytest
 
+import sys
+
+import pytest
 from django.test import RequestFactory
-from django_cas_ng.backends import CASBackend
+
+from django_cas_ng import backends
 
 
 @pytest.mark.django_db
@@ -27,7 +30,7 @@ def test_backend_authentication_creating_a_user(monkeypatch, django_user_model):
         username='test@example.com',
     ).exists()
 
-    backend = CASBackend()
+    backend = backends.CASBackend()
     user = backend.authenticate(
         ticket='fake-ticket', service='fake-service', request=request,
     )
@@ -58,7 +61,7 @@ def test_backend_for_existing_user(monkeypatch, django_user_model):
 
     existing_user = django_user_model.objects.create_user('test@example.com', '')
 
-    backend = CASBackend()
+    backend = backends.CASBackend()
     user = backend.authenticate(
         ticket='fake-ticket', service='fake-service', request=request,
     )
@@ -89,7 +92,7 @@ def test_backend_for_failed_auth(monkeypatch, django_user_model):
         username='test@example.com',
     ).exists()
 
-    backend = CASBackend()
+    backend = backends.CASBackend()
     user = backend.authenticate(
         ticket='fake-ticket', service='fake-service', request=request,
     )
