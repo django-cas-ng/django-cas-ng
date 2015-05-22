@@ -148,7 +148,7 @@ def get_saml_assertion(ticket):
         request_id=request_id,
         timestamp=timestamp,
         ticket=ticket,
-    )
+    ).encode('utf8')
 
 
 SAML_1_0_NS = 'urn:oasis:names:tc:SAML:1.0:'
