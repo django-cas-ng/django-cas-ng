@@ -190,7 +190,8 @@ def _verify_cas2_saml(ticket, service):
         '',
         headers,
     )
-    page = urlopen(url, data=get_saml_assertion(ticket))
+    data = get_saml_assertion(ticket)
+    page = urlopen(url, data=data.encode('utf8'))
 
     try:
         user = None
