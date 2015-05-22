@@ -170,28 +170,7 @@ def _verify_cas2_saml(ticket, service):
     except ImportError:
         from elementtree import ElementTree
 
-    # We do the SAML validation
-    headers = {
-        'soapaction': 'http://www.oasis-open.org/committees/security',
-        'cache-control': 'no-cache',
-        'pragma': 'no-cache',
-        'accept': 'text/xml',
-        'connection': 'keep-alive',
-        'content-type': 'text/xml; charset=utf-8',
-    }
-    params = [('TARGET', service)]
-
-    saml_validat_url = urllib_parse.urljoin(
-        settings.CAS_SERVER_URL, 'samlValidate',
-    )
-
-    url = Request(
-        saml_validat_url + '?' + urllib_parse.urlencode(params),
-        '',
-        headers,
-    )
-    data = get_saml_assertion(ticket)
-    page = urlopen(url, data=data.encode('utf8'))
+    page = fetch_saml_validation(service, ticket)
 
     try:
         user = None
@@ -219,6 +198,30 @@ def _verify_cas2_saml(ticket, service):
         return user, attributes
     finally:
         page.close()
+
+
+def fetch_saml_validation(service, ticket):
+    # We do the SAML validation
+    headers = {
+        'soapaction': 'http://www.oasis-open.org/committees/security',
+        'cache-control': 'no-cache',
+        'pragma': 'no-cache',
+        'accept': 'text/xml',
+        'connection': 'keep-alive',
+        'content-type': 'text/xml; charset=utf-8',
+    }
+    params = [('TARGET', service)]
+    saml_validat_url = urllib_parse.urljoin(
+        settings.CAS_SERVER_URL, 'samlValidate',
+    )
+    url = Request(
+        saml_validat_url + '?' + urllib_parse.urlencode(params),
+        '',
+        headers,
+    )
+    page = urlopen(url, data=get_saml_assertion(ticket))
+
+    return page
 
 
 _PROTOCOLS = {
