@@ -1,8 +1,11 @@
 from __future__ import absolute_import
-import pytest
 
+import sys
+
+import pytest
 from django.test import RequestFactory
-from django_cas_ng.backends import CASBackend
+
+from django_cas_ng import backends
 
 
 @pytest.mark.django_db
@@ -27,7 +30,7 @@ def test_backend_authentication_creating_a_user(monkeypatch, django_user_model):
         username='test@example.com',
     ).exists()
 
-    backend = CASBackend()
+    backend = backends.CASBackend()
     user = backend.authenticate(
         ticket='fake-ticket', service='fake-service', request=request,
     )
@@ -58,7 +61,7 @@ def test_backend_for_existing_user(monkeypatch, django_user_model):
 
     existing_user = django_user_model.objects.create_user('test@example.com', '')
 
-    backend = CASBackend()
+    backend = backends.CASBackend()
     user = backend.authenticate(
         ticket='fake-ticket', service='fake-service', request=request,
     )
@@ -89,7 +92,7 @@ def test_backend_for_failed_auth(monkeypatch, django_user_model):
         username='test@example.com',
     ).exists()
 
-    backend = CASBackend()
+    backend = backends.CASBackend()
     user = backend.authenticate(
         ticket='fake-ticket', service='fake-service', request=request,
     )
@@ -98,3 +101,15 @@ def test_backend_for_failed_auth(monkeypatch, django_user_model):
     assert not django_user_model.objects.filter(
         username='test@example.com',
     ).exists()
+
+
+def test_can_saml_assertion_is_encoded():
+    ticket = 'test-ticket'
+
+    saml = backends.get_saml_assertion(ticket)
+
+    if sys.version_info > (3, 0):
+        assert type(saml) is bytes
+        assert ticket.encode('utf-8') in saml
+    else:
+        assert ticket in saml
