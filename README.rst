@@ -200,3 +200,5 @@ References
 .. _timkung1: https://github.com/timkung1
 .. _Domingo Yeray Rodríguez Martín: https://github.com/dyeray
 .. _Rayco Abad-Martín: https://github.com/Rayco
+.. _Édouard Lopez: https://github.com/edouard-lopez
+.. _Guillaume Vincent: https://github.com/guillaumevincent
