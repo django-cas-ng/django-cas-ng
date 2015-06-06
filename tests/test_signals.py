@@ -19,7 +19,7 @@ def test_signal_when_user_is_created(monkeypatch, django_user_model):
     request.session = {}
 
     def mock_verify(ticket, service):
-        return 'test@example.com', {'ticket': ticket, 'service': service}
+        return 'test@example.com', {'ticket': ticket, 'service': service}, None
 
     callback_values = {}
 
@@ -61,7 +61,7 @@ def test_signal_when_user_already_exists(monkeypatch, django_user_model):
     request.session = {}
 
     def mock_verify(ticket, service):
-        return 'test@example.com', {'ticket': ticket, 'service': service}
+        return 'test@example.com', {'ticket': ticket, 'service': service}, None
 
     callback_values = {}
 
@@ -103,7 +103,7 @@ def test_signal_not_fired_if_auth_fails(monkeypatch, django_user_model):
     request.session = {}
 
     def mock_verify(ticket, service):
-        return None, {}
+        return None, {}, None
 
     callback_values = {}
 

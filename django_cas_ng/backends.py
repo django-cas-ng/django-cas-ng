@@ -14,6 +14,8 @@ from uuid import uuid4
 
 from django_cas_ng.signals import cas_user_authenticated
 
+from .models import ProxyGrantingTicket
+
 User = get_user_model()
 
 __all__ = ['CASBackend']
@@ -32,9 +34,9 @@ def _verify_cas1(ticket, service):
     try:
         verified = page.readline().strip()
         if verified == 'yes':
-            return page.readline().strip(), None
+            return page.readline().strip(), None, None
         else:
-            return None, None
+            return None, None, None
     finally:
         page.close()
 
@@ -49,7 +51,12 @@ def _verify_cas2(ticket, service):
     except ImportError:
         from elementtree import ElementTree
 
+    user = None
+    pgtiou = None
+
     params = [('ticket', ticket), ('service', service)]
+    if settings.CAS_PROXY_CALLBACK:
+        params.append(('pgtUrl', settings.CAS_PROXY_CALLBACK))
     url = (urllib_parse.urljoin(settings.CAS_SERVER_URL, 'serviceValidate') + '?' +
            urllib_parse.urlencode(params))
     page = urlopen(url)
@@ -57,15 +64,22 @@ def _verify_cas2(ticket, service):
         response = page.read()
         tree = ElementTree.fromstring(response)
         if tree[0].tag.endswith('authenticationSuccess'):
-            return tree[0][0].text, None
+            for element in tree[0]:
+                if element.tag.endswith('user'):
+                    user = element.text
+                elif element.tag.endswith('proxyGrantingTicket'):
+                    pgtiou = element.text
+            return user, None, pgtiou
         else:
-            return None, None
+            return None, None, None
     finally:
         page.close()
 
 
 def get_cas3_verification_response(ticket, service):
     params = [('ticket', ticket), ('service', service)]
+    if settings.CAS_PROXY_CALLBACK:
+        params.append(('pgtUrl', settings.CAS_PROXY_CALLBACK))
     base_url = urllib_parse.urljoin(settings.CAS_SERVER_URL, 'proxyValidate')
     url = base_url + '?' + urllib_parse.urlencode(params)
     page = urlopen(url)
@@ -75,6 +89,7 @@ def get_cas3_verification_response(ticket, service):
 def verify_cas3_response(response):
     user = None
     attributes = {}
+    pgtiou = None
 
     try:
         from xml.etree import ElementTree
@@ -87,6 +102,8 @@ def verify_cas3_response(response):
         for element in tree[0]:
             if element.tag.endswith('user'):
                 user = element.text
+            elif element.tag.endswith('proxyGrantingTicket'):
+                pgtiou = element.text
             elif element.tag.endswith('attributes'):
                 for attribute in element:
                     tag = attribute.tag.split("}").pop()
@@ -99,7 +116,7 @@ def verify_cas3_response(response):
                     else:
                         attributes[tag] = attribute.text
 
-    return user, attributes
+    return user, attributes, pgtiou
 
 
 def _verify_cas3(ticket, service):
@@ -195,7 +212,7 @@ def _verify_cas2_saml(ticket, service):
                         attributes[at.attrib['AttributeName']] = values_array
                 else:
                     attributes[at.attrib['AttributeName']] = values[0].text
-        return user, attributes
+        return user, attributes, None
     finally:
         page.close()
 
@@ -235,6 +252,9 @@ _PROTOCOLS = {
 if settings.CAS_VERSION not in _PROTOCOLS:
     raise ValueError('Unsupported CAS_VERSION %r' % settings.CAS_VERSION)
 
+if settings.CAS_PROXY_CALLBACK and settings.CAS_VERSION not in ['2', '3']:
+    raise ValueError('proxy callback only supported by CAS_VERSION 2 and 3')
+
 _verify = _PROTOCOLS[settings.CAS_VERSION]
 
 
@@ -243,7 +263,7 @@ class CASBackend(ModelBackend):
 
     def authenticate(self, ticket, service, request):
         """Verifies CAS ticket and gets or creates User object"""
-        username, attributes = _verify(ticket, service)
+        username, attributes, pgtiou = _verify(ticket, service)
         if attributes:
             request.session['attributes'] = attributes
         if not username:
@@ -260,6 +280,19 @@ class CASBackend(ModelBackend):
             user = User.objects.create_user(username, '')
             user.save()
             created = True
+
+        if pgtiou and settings.CAS_PROXY_CALLBACK:
+            try:
+                pgt = ProxyGrantingTicket.objects.get(user=user)
+                pgt.delete()
+            except ProxyGrantingTicket.DoesNotExist:
+                pass
+            try:
+                pgt = ProxyGrantingTicket.objects.get(pgtiou=pgtiou)
+                pgt.user = user
+                pgt.save()
+            except ProxyGrantingTicket.DoesNotExist:
+                pass
 
         # send the `cas_user_authenticated` signal
         cas_user_authenticated.send(

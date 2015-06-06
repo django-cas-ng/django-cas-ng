@@ -87,12 +87,18 @@ Optional settings include:
 * ``CAS_VERSION``: The CAS protocol version to use. ``'1'`` and ``'2'`` are
   supported, with ``'2'`` being the default.
 * ``CAS_USERNAME_ATTRIBUTE``: The CAS user name attribute from response. The default is ``uid``.
+* ``CAS_PROXY_CALLBACK``: The full url to the callback view if you want to
+  retrive a Proxy Granting Ticket
 
 Make sure your project knows how to log users in and out by adding these to
 your URL mappings::
 
     (r'^accounts/login$', 'django_cas_ng.views.login'),
     (r'^accounts/logout$', 'django_cas_ng.views.logout'),
+
+You should also add an URL mapping for the ``CAS_PROXY_CALLBACK`` settings::
+
+    (r'^accounts/callback$', 'django_cas_ng.views.callback'),
 
 Users should now be able to log into your site using CAS.
 

@@ -18,7 +18,7 @@ def test_backend_authentication_creating_a_user(monkeypatch, django_user_model):
     request.session = {}
 
     def mock_verify(ticket, service):
-        return 'test@example.com', {'ticket': ticket, 'service': service}
+        return 'test@example.com', {'ticket': ticket, 'service': service}, None
 
     # we mock out the verify method so that we can bypass the external http
     # calls needed for real authentication since we are testing the logic
@@ -52,7 +52,7 @@ def test_backend_for_existing_user(monkeypatch, django_user_model):
     request.session = {}
 
     def mock_verify(ticket, service):
-        return 'test@example.com', {'ticket': ticket, 'service': service}
+        return 'test@example.com', {'ticket': ticket, 'service': service}, None
 
     # we mock out the verify method so that we can bypass the external http
     # calls needed for real authentication since we are testing the logic
@@ -81,7 +81,7 @@ def test_backend_for_failed_auth(monkeypatch, django_user_model):
     request.session = {}
 
     def mock_verify(ticket, service):
-        return None, {}
+        return None, {}, None
 
     # we mock out the verify method so that we can bypass the external http
     # calls needed for real authentication since we are testing the logic
