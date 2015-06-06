@@ -16,11 +16,12 @@ from django.contrib.auth import (
     authenticate,
 )
 from django.contrib import messages
+from django.contrib.sessions.models import Session
 
 
 from lxml import etree
 
-from .models import ProxyGrantingTicket
+from .models import ProxyGrantingTicket, SessionTicket
 
 __all__ = ['login', 'logout', 'callback']
 
@@ -97,9 +98,23 @@ def _logout_url(request, next_page=None):
     return url
 
 
+@csrf_exempt
 def login(request, next_page=None, required=False):
     """Forwards to CAS login URL or verifies CAS ticket"""
 
+    if request.method == 'POST' and request.POST.get('logoutRequest'):
+        try:
+            root = etree.fromstring(request.POST.get('logoutRequest'))
+            for slo in root.xpath(
+                    "//samlp:SessionIndex",
+                    namespaces={'samlp':"urn:oasis:names:tc:SAML:2.0:protocol"}
+            ):
+                try:
+                    SessionTicket.objects.get(ticket=slo.text).session.delete()
+                except SessionTicket.DoesNotExist:
+                    pass
+        except etree.XMLSyntaxError:
+            pass
     if not next_page:
         next_page = _redirect_url(request)
     if request.user.is_authenticated():
@@ -112,6 +127,14 @@ def login(request, next_page=None, required=False):
         user = authenticate(ticket=ticket, service=service, request=request)
         if user is not None:
             auth_login(request, user)
+            if not request.session.exists(request.session.session_key):
+                request.session.create()
+            SessionTicket.objects.create(
+                session=Session.objects.get(
+                    session_key=request.session.session_key
+                ),
+                ticket=ticket
+            )
             name = user.get_username()
             message = "Login succeeded. Welcome, %s." % name
             messages.success(request, message)
