@@ -18,7 +18,7 @@ _DEFAULTS = {
     'CAS_SERVER_URL': None,
     'CAS_VERSION': '2',
     'CAS_USERNAME_ATTRIBUTE': 'uid',
-    'CAS_PROXY_CALLBACK':None,
+    'CAS_PROXY_CALLBACK': None,
 }
 
 for key, value in list(_DEFAULTS.items()):
