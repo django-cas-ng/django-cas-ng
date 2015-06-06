@@ -4,7 +4,6 @@ from __future__ import absolute_import
 from __future__ import unicode_literals
 
 from django.utils.six.moves import urllib_parse
-from importlib import import_module
 from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.http import HttpResponse
@@ -24,8 +23,6 @@ from lxml import etree
 from .models import ProxyGrantingTicket, SessionTicket
 
 __all__ = ['login', 'logout', 'callback']
-
-
 
 
 def get_protocol(request):
@@ -107,7 +104,7 @@ def login(request, next_page=None, required=False):
             root = etree.fromstring(request.POST.get('logoutRequest'))
             for slo in root.xpath(
                     "//samlp:SessionIndex",
-                    namespaces={'samlp':"urn:oasis:names:tc:SAML:2.0:protocol"}
+                    namespaces={'samlp': "urn:oasis:names:tc:SAML:2.0:protocol"}
             ):
                 try:
                     SessionTicket.objects.get(ticket=slo.text).session.delete()
@@ -160,6 +157,7 @@ def logout(request, next_page=None):
         # simply be logged in again on next request requiring authorization.
         return HttpResponseRedirect(next_page)
 
+
 @csrf_exempt
 def callback(request):
     """Read PGT and PGTIOU send by CAS"""
@@ -169,7 +167,7 @@ def callback(request):
                 root = etree.fromstring(request.POST.get('logoutRequest'))
                 for slo in root.xpath(
                         "//samlp:SessionIndex",
-                        namespaces={'samlp':"urn:oasis:names:tc:SAML:2.0:protocol"}
+                        namespaces={'samlp': "urn:oasis:names:tc:SAML:2.0:protocol"}
                 ):
                     ProxyGrantingTicket.objects.filter(pgt=slo.text).delete()
             except etree.XMLSyntaxError:
