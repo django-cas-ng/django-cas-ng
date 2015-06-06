@@ -4,9 +4,11 @@ from __future__ import absolute_import
 from __future__ import unicode_literals
 
 from django.utils.six.moves import urllib_parse
-
-from django.http import HttpResponseRedirect, HttpResponseForbidden
+from importlib import import_module
 from django.conf import settings
+from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth import (
     logout as auth_logout,
@@ -15,7 +17,14 @@ from django.contrib.auth import (
 )
 from django.contrib import messages
 
-__all__ = ['login', 'logout']
+
+from lxml import etree
+
+from .models import ProxyGrantingTicket
+
+__all__ = ['login', 'logout', 'callback']
+
+
 
 
 def get_protocol(request):
@@ -127,3 +136,28 @@ def logout(request, next_page=None):
         # This is in most cases pointless if not CAS_RENEW is set. The user will
         # simply be logged in again on next request requiring authorization.
         return HttpResponseRedirect(next_page)
+
+@csrf_exempt
+def callback(request):
+    """Read PGT and PGTIOU send by CAS"""
+    if request.method == 'POST':
+        if request.POST.get('logoutRequest'):
+            try:
+                root = etree.fromstring(request.POST.get('logoutRequest'))
+                for slo in root.xpath(
+                        "//samlp:SessionIndex",
+                        namespaces={'samlp':"urn:oasis:names:tc:SAML:2.0:protocol"}
+                ):
+                    ProxyGrantingTicket.objects.filter(pgt=slo.text).delete()
+            except etree.XMLSyntaxError:
+                pass
+        return HttpResponse("ok\n", content_type="text/plain")
+    elif request.method == 'GET':
+        pgtid = request.GET.get('pgtId')
+        pgtiou = request.GET.get('pgtIou')
+        try:
+            pgt = ProxyGrantingTicket.objects.create(pgtiou=pgtiou, pgt=pgtid)
+            pgt.save()
+            return HttpResponse("ok\n", content_type="text/plain")
+        except ProxyGrantingTicket.DoesNotExist:
+            return HttpResponse("pgtIou not found\n", content_type="text/plain")
