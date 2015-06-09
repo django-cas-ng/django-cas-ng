@@ -5,8 +5,13 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
 
-import urllib
-import urllib2
+try:
+    from urllib import urlencode
+    from urllib2 import HTTPError, urlopen
+except ImportError:
+    from urllib.parse import urlencode
+    from urllib.request import urlopen
+    from urllib.error import HTTPError
 from lxml import etree
 
 
@@ -43,8 +48,8 @@ class ProxyGrantingTicket(models.Model):
         session = Session.objects.get(session_key=request.session.session_key)
         try:
             pgt = cls.objects.get(user=request.user, session=session).pgt
-            params = urllib.urlencode({'pgt': pgt, 'targetService': service})
-            response = urllib2.urlopen(
+            params = urlencode({'pgt': pgt, 'targetService': service})
+            response = urlopen(
                 "%s/proxy?%s" % (settings.CAS_SERVER_URL, params)
             )
             if response.code == 200:
@@ -62,7 +67,7 @@ class ProxyGrantingTicket(models.Model):
                 if len(errors) == 1:
                     raise ProxyError(errors[0].attrib['code'], errors[0].text)
             raise ProxyError("Bad http code %s" % response.code)
-        except urllib2.HTTPError as error:
+        except HTTPError as error:
             raise ProxyError(str(error))
         except cls.DoesNotExist:
             raise ProxyError(
