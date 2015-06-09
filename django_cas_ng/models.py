@@ -5,15 +5,24 @@ from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
 
 class ProxyGrantingTicket(models.Model):
+    class Meta:
+        unique_together = ('session', 'user')
+    session = models.ForeignKey(
+        Session,
+        related_name="+",
+        blank=True,
+        null=True
+    )
     user = models.ForeignKey(
         User,
         related_name="+",
-        unique=True,
         null=True,
         blank=True
     )
     pgtiou = models.CharField(max_length=255, null=True, blank=True)
     pgt = models.CharField(max_length=255, null=True, blank=True)
+    date = models.DateTimeField(auto_now_add=True, auto_now=True)
+
 
 class SessionTicket(models.Model):
     session = models.ForeignKey(Session, related_name="+", unique=True)
