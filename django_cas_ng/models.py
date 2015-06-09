@@ -43,7 +43,7 @@ class ProxyGrantingTicket(models.Model):
         session = Session.objects.get(session_key=request.session.session_key)
         try:
             pgt = cls.objects.get(user=request.user, session=session).pgt
-            params = urllib.urlencode({'pgt':pgt, 'targetService':service})
+            params = urllib.urlencode({'pgt': pgt, 'targetService': service})
             response = urllib2.urlopen(
                 "%s/proxy?%s" % (settings.CAS_SERVER_URL, params)
             )
@@ -51,13 +51,13 @@ class ProxyGrantingTicket(models.Model):
                 root = etree.fromstring(response.read())
                 tickets = root.xpath(
                     "//cas:proxyTicket",
-                    namespaces={"cas":"http://www.yale.edu/tp/cas"}
+                    namespaces={"cas": "http://www.yale.edu/tp/cas"}
                 )
                 if len(tickets) == 1:
                     return tickets[0].text
                 errors = root.xpath(
                     "//cas:authenticationFailure",
-                    namespaces={"cas":"http://www.yale.edu/tp/cas"}
+                    namespaces={"cas": "http://www.yale.edu/tp/cas"}
                 )
                 if len(errors) == 1:
                     raise ProxyError(errors[0].attrib['code'], errors[0].text)
