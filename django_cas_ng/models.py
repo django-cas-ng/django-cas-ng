@@ -9,8 +9,11 @@ import urllib
 import urllib2
 from lxml import etree
 
+
 class ProxyError(ValueError):
     pass
+
+
 class ProxyGrantingTicket(models.Model):
     class Meta:
         unique_together = ('session', 'user')
@@ -66,6 +69,7 @@ class ProxyGrantingTicket(models.Model):
                 "INVALID_TICKET",
                 "No proxy ticket found for this HttpRequest object"
             )
+
 
 class SessionTicket(models.Model):
     session = models.ForeignKey(Session, related_name="+", unique=True)
