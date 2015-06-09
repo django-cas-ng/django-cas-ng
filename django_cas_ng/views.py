@@ -7,6 +7,7 @@ from django.utils.six.moves import urllib_parse
 from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.http import HttpResponse
+from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth import (
@@ -19,6 +20,7 @@ from django.contrib.sessions.models import Session
 
 
 from lxml import etree
+from datetime import timedelta
 
 from .models import ProxyGrantingTicket, SessionTicket
 
@@ -122,16 +124,35 @@ def login(request, next_page=None, required=False):
     service = _service_url(request, next_page)
     if ticket:
         user = authenticate(ticket=ticket, service=service, request=request)
+        pgtiou = request.session.get("pgtiou")
         if user is not None:
             auth_login(request, user)
             if not request.session.exists(request.session.session_key):
                 request.session.create()
+            session = Session.objects.get(
+                session_key=request.session.session_key
+            )
             SessionTicket.objects.create(
-                session=Session.objects.get(
-                    session_key=request.session.session_key
-                ),
+                session=session,
                 ticket=ticket
             )
+
+            if pgtiou and settings.CAS_PROXY_CALLBACK:
+                # Delete old PGT
+                ProxyGrantingTicket.objects.filter(
+                    user=user,
+                    session=session
+                ).delete()
+                # Set new PGT ticket
+                try:
+                    pgt = ProxyGrantingTicket.objects.get(pgtiou=pgtiou)
+                    pgt.user = user
+                    pgt.session = session
+                    pgt.save()
+                except ProxyGrantingTicket.DoesNotExist:
+                    pass
+                del request.session["pgtiou"]
+
             name = user.get_username()
             message = "Login succeeded. Welcome, %s." % name
             messages.success(request, message)
@@ -176,9 +197,10 @@ def callback(request):
     elif request.method == 'GET':
         pgtid = request.GET.get('pgtId')
         pgtiou = request.GET.get('pgtIou')
-        try:
-            pgt = ProxyGrantingTicket.objects.create(pgtiou=pgtiou, pgt=pgtid)
-            pgt.save()
-            return HttpResponse("ok\n", content_type="text/plain")
-        except ProxyGrantingTicket.DoesNotExist:
-            return HttpResponse("pgtIou not found\n", content_type="text/plain")
+        pgt = ProxyGrantingTicket.objects.create(pgtiou=pgtiou, pgt=pgtid)
+        pgt.save()
+        ProxyGrantingTicket.objects.filter(
+            session=None,
+            date__lt=(timezone.now() - timedelta(seconds=60))
+        ).delete()
+        return HttpResponse("ok\n", content_type="text/plain")

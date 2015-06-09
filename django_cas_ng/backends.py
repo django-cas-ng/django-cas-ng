@@ -14,8 +14,6 @@ from uuid import uuid4
 
 from django_cas_ng.signals import cas_user_authenticated
 
-from .models import ProxyGrantingTicket
-
 User = get_user_model()
 
 __all__ = ['CASBackend']
@@ -282,17 +280,7 @@ class CASBackend(ModelBackend):
             created = True
 
         if pgtiou and settings.CAS_PROXY_CALLBACK:
-            try:
-                pgt = ProxyGrantingTicket.objects.get(user=user)
-                pgt.delete()
-            except ProxyGrantingTicket.DoesNotExist:
-                pass
-            try:
-                pgt = ProxyGrantingTicket.objects.get(pgtiou=pgtiou)
-                pgt.user = user
-                pgt.save()
-            except ProxyGrantingTicket.DoesNotExist:
-                pass
+            request.session['pgtiou'] = pgtiou
 
         # send the `cas_user_authenticated` signal
         cas_user_authenticated.send(
