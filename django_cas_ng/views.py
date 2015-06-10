@@ -93,7 +93,7 @@ def _logout_url(request, next_page=None):
         next_page_url = urllib_parse.urlunparse(
             (protocol, host, next_page, '', '', ''),
         )
-        url += '?' + urllib_parse.urlencode({'url': next_page_url})
+        url += '?' + urllib_parse.urlencode({'service': next_page_url})
     return url
 
 
@@ -160,8 +160,7 @@ def login(request, next_page=None, required=False):
         elif settings.CAS_RETRY_LOGIN or required:
             return HttpResponseRedirect(_login_url(service))
         else:
-            error = "<h1>Forbidden</h1><p>Login failed.</p>"
-            return HttpResponseForbidden(error)
+            return HttpResponseRedirect(next_page)
     else:
         return HttpResponseRedirect(_login_url(service))
 
