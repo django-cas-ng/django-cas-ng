@@ -4,20 +4,10 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
-
-try:
-    from urllib import urlencode
-    from urllib2 import HTTPError, urlopen
-except ImportError:
-    from urllib.parse import urlencode
-    from urllib.request import urlopen
-    from urllib.error import HTTPError
-from lxml import etree
-
+from .utils import (get_cas_client, get_service_url)
 
 class ProxyError(ValueError):
     pass
-
 
 class ProxyGrantingTicket(models.Model):
     class Meta:
@@ -39,7 +29,7 @@ class ProxyGrantingTicket(models.Model):
     date = models.DateTimeField(auto_now_add=True, auto_now=True)
 
     @classmethod
-    def retrieve_pt(cls, request, service):
+    def retrieve_pt(cls, request):
         """`request` should be the current HttpRequest object
         `service` a string representing the service for witch we want to
         retrieve a ticket.
@@ -48,32 +38,18 @@ class ProxyGrantingTicket(models.Model):
         session = Session.objects.get(session_key=request.session.session_key)
         try:
             pgt = cls.objects.get(user=request.user, session=session).pgt
-            params = urlencode({'pgt': pgt, 'targetService': service})
-            response = urlopen(
-                "%s/proxy?%s" % (settings.CAS_SERVER_URL, params)
-            )
-            if response.code == 200:
-                root = etree.fromstring(response.read())
-                tickets = root.xpath(
-                    "//cas:proxyTicket",
-                    namespaces={"cas": "http://www.yale.edu/tp/cas"}
-                )
-                if len(tickets) == 1:
-                    return tickets[0].text
-                errors = root.xpath(
-                    "//cas:authenticationFailure",
-                    namespaces={"cas": "http://www.yale.edu/tp/cas"}
-                )
-                if len(errors) == 1:
-                    raise ProxyError(errors[0].attrib['code'], errors[0].text)
-            raise ProxyError("Bad http code %s" % response.code)
-        except HTTPError as error:
-            raise ProxyError(str(error))
         except cls.DoesNotExist:
             raise ProxyError(
                 "INVALID_TICKET",
                 "No proxy ticket found for this HttpRequest object"
             )
+        else:
+            service_url = get_service_url(request)
+            client = get_cas_client(service_url=service_url)
+            try:
+                return client.get_proxy_ticket(pgt)
+            except Exception, e:
+                raise ProxyError(unicode(e))
 
 
 class SessionTicket(models.Model):

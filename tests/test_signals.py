@@ -30,7 +30,7 @@ def test_signal_when_user_is_created(monkeypatch, django_user_model):
     # we mock out the verify method so that we can bypass the external http
     # calls needed for real authentication since we are testing the logic
     # around authentication.
-    monkeypatch.setattr('django_cas_ng.backends._verify', mock_verify)
+    monkeypatch.setattr('django_cas_ng.cas.CASClientV2.verify_ticket', mock_verify)
 
     # sanity check
     assert not django_user_model.objects.filter(
@@ -72,7 +72,7 @@ def test_signal_when_user_already_exists(monkeypatch, django_user_model):
     # we mock out the verify method so that we can bypass the external http
     # calls needed for real authentication since we are testing the logic
     # around authentication.
-    monkeypatch.setattr('django_cas_ng.backends._verify', mock_verify)
+    monkeypatch.setattr('django_cas_ng.cas.CASClientV2.verify_ticket', mock_verify)
 
     # sanity check
     existing_user = django_user_model.objects.create_user(
@@ -114,7 +114,7 @@ def test_signal_not_fired_if_auth_fails(monkeypatch, django_user_model):
     # we mock out the verify method so that we can bypass the external http
     # calls needed for real authentication since we are testing the logic
     # around authentication.
-    monkeypatch.setattr('django_cas_ng.backends._verify', mock_verify)
+    monkeypatch.setattr('django_cas_ng.cas.CASClientV2.verify_ticket', mock_verify)
 
     # sanity check
     backend = CASBackend()

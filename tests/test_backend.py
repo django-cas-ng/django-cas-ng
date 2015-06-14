@@ -7,7 +7,6 @@ from django.test import RequestFactory
 
 from django_cas_ng import backends
 
-
 @pytest.mark.django_db
 def test_backend_authentication_creating_a_user(monkeypatch, django_user_model):
     """
@@ -23,7 +22,7 @@ def test_backend_authentication_creating_a_user(monkeypatch, django_user_model):
     # we mock out the verify method so that we can bypass the external http
     # calls needed for real authentication since we are testing the logic
     # around authentication.
-    monkeypatch.setattr('django_cas_ng.backends._verify', mock_verify)
+    monkeypatch.setattr('django_cas_ng.cas.CASClientV2.verify_ticket', mock_verify)
 
     # sanity check
     assert not django_user_model.objects.filter(
@@ -57,7 +56,7 @@ def test_backend_for_existing_user(monkeypatch, django_user_model):
     # we mock out the verify method so that we can bypass the external http
     # calls needed for real authentication since we are testing the logic
     # around authentication.
-    monkeypatch.setattr('django_cas_ng.backends._verify', mock_verify)
+    monkeypatch.setattr('django_cas_ng.cas.CASClientV2.verify_ticket', mock_verify)
 
     existing_user = django_user_model.objects.create_user('test@example.com', '')
 
@@ -86,7 +85,7 @@ def test_backend_for_failed_auth(monkeypatch, django_user_model):
     # we mock out the verify method so that we can bypass the external http
     # calls needed for real authentication since we are testing the logic
     # around authentication.
-    monkeypatch.setattr('django_cas_ng.backends._verify', mock_verify)
+    monkeypatch.setattr('django_cas_ng.cas.CASClientV2.verify_ticket', mock_verify)
 
     assert not django_user_model.objects.filter(
         username='test@example.com',
@@ -101,15 +100,3 @@ def test_backend_for_failed_auth(monkeypatch, django_user_model):
     assert not django_user_model.objects.filter(
         username='test@example.com',
     ).exists()
-
-
-def test_can_saml_assertion_is_encoded():
-    ticket = 'test-ticket'
-
-    saml = backends.get_saml_assertion(ticket)
-
-    if sys.version_info > (3, 0):
-        assert type(saml) is bytes
-        assert ticket.encode('utf-8') in saml
-    else:
-        assert ticket in saml
