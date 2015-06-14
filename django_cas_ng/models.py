@@ -49,7 +49,7 @@ class ProxyGrantingTicket(models.Model):
             client = get_cas_client(service_url=service_url)
             try:
                 return client.get_proxy_ticket(pgt)
-            except Exception, e:
+            except Exception as e:
                 raise ProxyError(unicode(e))
 
 
