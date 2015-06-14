@@ -11,8 +11,10 @@ if settings.CAS_PROXY_CALLBACK and settings.CAS_VERSION not in ['2', '3']:
     raise ValueError('proxy callback only supported by CAS_VERSION 2 and 3')
 """
 
+
 class CASError(ValueError):
     pass
+
 
 class CASClient(object):
     def __new__(self, *args, **kwargs):
@@ -27,11 +29,11 @@ class CASClient(object):
             return CASClientWithSAMLV1(*args, **kwargs)
         raise ValueError('Unsupported CAS_VERSION %r' % version)
 
+
 class CASClientBase(object):
     def __init__(self, service_url=None, server_url=None,
-            extra_login_params=None, renew=False, 
-            username_attribute=None
-        ):
+                 extra_login_params=None, renew=False,
+                 username_attribute=None):
 
         self.service_url = service_url
         self.server_url = server_url
@@ -40,11 +42,9 @@ class CASClientBase(object):
         self.username_attribute = username_attribute
         pass
 
-
     def verify_ticket(self, ticket):
         """must return a triple"""
         raise NotImplementedError()
-
 
     def get_login_url(self):
         """Generates CAS login URL"""
@@ -57,7 +57,6 @@ class CASClientBase(object):
         query = urllib_parse.urlencode(params)
         return url + '?' + query
 
-
     def get_logout_url(self, redirect_url=None):
         """Generates CAS logout URL"""
         url = urllib_parse.urljoin(self.server_url, 'logout')
@@ -65,12 +64,10 @@ class CASClientBase(object):
             url += '?' + urllib_parse.urlencode({'url': redirect_url})
         return url
 
-
     def get_proxy_url(self, pgt):
         """Returns proxy url, given the proxy granting ticket"""
         params = urllib_parse.urlencode({'pgt': pgt, 'targetService': self.get_service_url()})
         return "%s/proxy?%s" % (self.server_url, params)
-
 
     def get_proxy_ticket(self, pgt):
         """Returns proxy ticket given the proxy granting ticket"""
@@ -92,16 +89,14 @@ class CASClientBase(object):
                 raise CASError(errors[0].attrib['code'], errors[0].text)
         raise CASError("Bad http code %s" % response.code)
 
-
     def get_saml_slos(self, logout_request):
         """returns saml logout ticket info"""
         from lxml import etree
         try:
             root = etree.fromstring(logout_request)
             return root.xpath(
-                    "//samlp:SessionIndex",
-                    namespaces={'samlp': "urn:oasis:names:tc:SAML:2.0:protocol"}
-            )
+                "//samlp:SessionIndex",
+                namespaces={'samlp': "urn:oasis:names:tc:SAML:2.0:protocol"})
         except etree.XMLSyntaxError:
             pass
 
@@ -132,11 +127,9 @@ class CASClientV2(CASClientBase):
     """CAS Client Version 2"""
 
     def __init__(self, proxy_callback=None, *args, **kwargs):
-        #proxy_callback is for V2 and V3
-        #so V3 is subclass of V2
+        """proxy_callback is for V2 and V3 so V3 is subclass of V2"""
         self.proxy_callback = proxy_callback
         super(CASClientV2, self).__init__(*args, **kwargs)
-
 
     def verify_ticket(self, ticket):
         """Verifies CAS 2.0+ XML-based authentication ticket.
@@ -185,7 +178,6 @@ class CASClientV3(CASClientV2):
         response = self.get_verification_response(ticket)
         return self.verify_response(response)
 
-
     def get_verification_response(self, ticket):
         params = [('ticket', ticket), ('service', self.service_url)]
         if self.proxy_callback:
@@ -194,7 +186,6 @@ class CASClientV3(CASClientV2):
         url = base_url + '?' + urllib_parse.urlencode(params)
         page = urlopen(url)
         return page.read()
-
 
     @classmethod
     def verify_response(cls, response):
@@ -246,6 +237,7 @@ IssueInstant="{timestamp}">
 </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>"""
 
+
 class CASClientWithSAMLV1(CASClientBase):
     """CASClient 3.0+ with SAML"""
 
@@ -292,7 +284,6 @@ class CASClientWithSAMLV1(CASClientBase):
         finally:
             page.close()
 
-
     def fetch_saml_validation(self, ticket):
         # We do the SAML validation
         headers = {
@@ -315,7 +306,6 @@ class CASClientWithSAMLV1(CASClientBase):
         page = urlopen(url, data=self.get_saml_assertion(ticket))
 
         return page
-
 
     @classmethod
     def get_saml_assertion(cls, ticket):

@@ -20,10 +20,11 @@ from django.contrib.sessions.models import Session
 from datetime import timedelta
 
 from .models import ProxyGrantingTicket, SessionTicket
-from .utils import (get_cas_client, get_service_url, 
-    get_protocol, get_redirect_url)
+from .utils import (get_cas_client, get_service_url,
+                    get_protocol, get_redirect_url)
 
 __all__ = ['login', 'logout', 'callback']
+
 
 @csrf_exempt
 def login(request, next_page=None, required=False):
@@ -46,11 +47,9 @@ def login(request, next_page=None, required=False):
 
     ticket = request.GET.get('ticket')
     if ticket:
-        user = authenticate(
-                    ticket=ticket, 
-                    service=service_url,
-                    request=request
-                )
+        user = authenticate(ticket=ticket,
+                            service=service_url,
+                            request=request)
         pgtiou = request.session.get("pgtiou")
         if user is not None:
             auth_login(request, user)

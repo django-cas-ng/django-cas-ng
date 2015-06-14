@@ -3,6 +3,7 @@ from django.conf import settings as django_settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.utils.six.moves import urllib_parse
 
+
 def get_protocol(request):
     """Returns 'http' or 'https' for the request protocol"""
     if request.is_secure():

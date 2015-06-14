@@ -2,8 +2,6 @@
 from __future__ import absolute_import
 from __future__ import unicode_literals
 
-import datetime
-
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
 from django.conf import settings
@@ -14,6 +12,7 @@ from .utils import get_cas_client
 User = get_user_model()
 
 __all__ = ['CASBackend']
+
 
 class CASBackend(ModelBackend):
     """CAS authentication backend"""
