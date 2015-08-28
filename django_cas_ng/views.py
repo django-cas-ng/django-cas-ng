@@ -41,8 +41,9 @@ def login(request, next_page=None, required=False):
     if not next_page:
         next_page = get_redirect_url(request)
     if request.user.is_authenticated():
-        message = "You are logged in as %s." % request.user.get_username()
-        messages.success(request, message)
+        if getattr(settings, 'CAS_DISPLAY_WELCOME_MESSAGE', True):
+            message = "You are logged in as %s." % request.user.get_username()
+            messages.success(request, message)
         return HttpResponseRedirect(next_page)
 
     ticket = request.GET.get('ticket')
@@ -79,9 +80,10 @@ def login(request, next_page=None, required=False):
                     pass
                 del request.session["pgtiou"]
 
-            name = user.get_username()
-            message = "Login succeeded. Welcome, %s." % name
-            messages.success(request, message)
+            if getattr(settings, 'CAS_DISPLAY_WELCOME_MESSAGE', True):
+                name = user.get_username()
+                message = "Login succeeded. Welcome, %s." % name
+                messages.success(request, message)
             return HttpResponseRedirect(next_page)
         elif settings.CAS_RETRY_LOGIN or required:
             return HttpResponseRedirect(client.get_login_url())

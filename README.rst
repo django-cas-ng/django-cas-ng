@@ -68,6 +68,8 @@ Optional settings include:
   see if it lives in ``django.contrib.admin.views``.
 * ``CAS_CREATE_USER``: Create a user when the CAS authentication is successful.
   The default is ``True``.
+* ``CAS_DISPLAY_WELCOME_MESSAGE``: Displays a welcome message via the messages framework
+  to users upon successful authentication. The default is ``True``.
 * ``CAS_EXTRA_LOGIN_PARAMS``: Extra URL parameters to add to the login URL
   when redirecting the user. Example::
 
