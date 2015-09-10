@@ -63,11 +63,19 @@ class CASClientBase(object):
         query = urllib_parse.urlencode(params)
         return url + '?' + query
 
+    def _get_logout_redirect_parameter_name(self):
+        """Return the parameter name to be used for passing the redirect_url
+        to the CAS logout page."""
+        # This parameter was named 'url' in CAS 2.0, but was renamed to
+        # service in later CAS versions.
+        return 'service'
+
     def get_logout_url(self, redirect_url=None):
         """Generates CAS logout URL"""
         url = urllib_parse.urljoin(self.server_url, 'logout')
         if redirect_url:
-            url += '?' + urllib_parse.urlencode({'url': redirect_url})
+            param_name = self._get_logout_redirect_parameter_name()
+            url += '?' + urllib_parse.urlencode({param_name: redirect_url})
         return url
 
     def get_proxy_url(self, pgt):
@@ -114,6 +122,9 @@ class CASClientV1(CASClientBase):
         finally:
             page.close()
 
+    def _get_logout_redirect_parameter_name(self):
+        return 'url'
+
 
 class CASClientV2(CASClientBase):
     """CAS Client Version 2"""
@@ -154,6 +165,9 @@ class CASClientV2(CASClientBase):
                 return None, None, None
         finally:
             page.close()
+
+    def _get_logout_redirect_parameter_name(self):
+        return 'url'
 
 
 class CASClientV3(CASClientV2):
@@ -205,6 +219,9 @@ class CASClientV3(CASClientV2):
                             attributes[tag] = attribute.text
 
         return user, attributes, pgtiou
+
+    def _get_logout_redirect_parameter_name(self):
+        return 'service'
 
 
 SAML_1_0_NS = 'urn:oasis:names:tc:SAML:1.0:'
@@ -328,3 +345,6 @@ class CASClientWithSAMLV1(CASClientBase):
                 namespaces={'samlp': "urn:oasis:names:tc:SAML:2.0:protocol"})
         except etree.XMLSyntaxError:
             pass
+
+    def _get_logout_redirect_parameter_name(self):
+        return 'url'

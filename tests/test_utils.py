@@ -10,7 +10,7 @@ def test_service_url_helper():
     request = factory.get('/login/')
 
     actual = get_service_url(request)
-    expected = 'http://testserver/login/'
+    expected = 'http://testserver/login/?next=%2F'
 
     assert actual == expected
 
@@ -21,7 +21,7 @@ def test_service_url_helper_as_https():
     request = factory.get('/login/', **kwargs)
 
     actual = get_service_url(request)
-    expected = 'https://testserver/login/'
+    expected = 'https://testserver/login/?next=%2F'
 
     assert actual == expected
 

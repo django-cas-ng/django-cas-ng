@@ -37,12 +37,13 @@ def get_service_url(request, redirect_to=None):
     service = urllib_parse.urlunparse(
         (protocol, host, request.path, '', '', ''),
     )
-    if redirect_to:
-        if '?' in service:
-            service += '&'
-        else:
-            service += '?'
-        service += urllib_parse.urlencode({REDIRECT_FIELD_NAME: redirect_to})
+    if '?' in service:
+        service += '&'
+    else:
+        service += '?'
+    service += urllib_parse.urlencode({
+        REDIRECT_FIELD_NAME: redirect_to or get_redirect_url(request)
+    })
     return service
 
 
