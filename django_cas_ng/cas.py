@@ -33,8 +33,10 @@ class CASClient(object):
 class CASClientBase(object):
     def __init__(self, service_url=None, server_url=None,
                  extra_login_params=None, renew=False,
-                 username_attribute=None):
+                 username_attribute=None, proxy_callback=None):
 
+        if proxy_callback:
+            raise ValueError('Proxy callback not supported by this CASClient')
         self.service_url = service_url
         self.server_url = server_url
         self.extra_login_params = extra_login_params or {}
@@ -43,7 +45,11 @@ class CASClientBase(object):
         pass
 
     def verify_ticket(self, ticket):
-        """must return a triple"""
+        """Verify the given ticket.
+
+        Return (username, attributes, pgtiou) on success, or (None, None, None)
+        on failure.
+        """
         raise NotImplementedError()
 
     def get_login_url(self):
@@ -57,11 +63,19 @@ class CASClientBase(object):
         query = urllib_parse.urlencode(params)
         return url + '?' + query
 
+    def _get_logout_redirect_parameter_name(self):
+        """Return the parameter name to be used for passing the redirect_url
+        to the CAS logout page."""
+        # This parameter was named 'url' in CAS 2.0, but was renamed to
+        # service in later CAS versions.
+        return 'service'
+
     def get_logout_url(self, redirect_url=None):
         """Generates CAS logout URL"""
         url = urllib_parse.urljoin(self.server_url, 'logout')
         if redirect_url:
-            url += '?' + urllib_parse.urlencode({'url': redirect_url})
+            param_name = self._get_logout_redirect_parameter_name()
+            url += '?' + urllib_parse.urlencode({param_name: redirect_url})
         return url
 
     def get_proxy_url(self, pgt):
@@ -94,10 +108,7 @@ class CASClientV1(CASClientBase):
     """CAS Client Version 1"""
 
     def verify_ticket(self, ticket):
-        """Verifies CAS 1.0 authentication ticket.
-
-        Returns username on success and None on failure.
-        """
+        """Verifies CAS 1.0 authentication ticket."""
         params = [('ticket', ticket), ('service', self.service)]
         url = (urllib_parse.urljoin(self.server_url, 'validate') + '?' +
                urllib_parse.urlencode(params))
@@ -111,6 +122,9 @@ class CASClientV1(CASClientBase):
         finally:
             page.close()
 
+    def _get_logout_redirect_parameter_name(self):
+        return 'url'
+
 
 class CASClientV2(CASClientBase):
     """CAS Client Version 2"""
@@ -121,10 +135,7 @@ class CASClientV2(CASClientBase):
         super(CASClientV2, self).__init__(*args, **kwargs)
 
     def verify_ticket(self, ticket):
-        """Verifies CAS 2.0+ XML-based authentication ticket.
-
-        Returns username on success and None on failure.
-        """
+        """Verifies CAS 2.0+ XML-based authentication ticket."""
         try:
             from xml.etree import ElementTree
         except ImportError:
@@ -155,15 +166,15 @@ class CASClientV2(CASClientBase):
         finally:
             page.close()
 
+    def _get_logout_redirect_parameter_name(self):
+        return 'url'
+
 
 class CASClientV3(CASClientV2):
     """CAS Client Version 3"""
 
     def verify_ticket(self, ticket):
-        """Verifies CAS 3.0+ XML-based authentication ticket and returns extended attributes.
-
-        Returns username on success and None on failure.
-        """
+        """Verifies CAS 3.0+ XML-based authentication ticket and returns extended attributes."""
         response = self.get_verification_response(ticket)
         return self.verify_response(response)
 
@@ -209,6 +220,9 @@ class CASClientV3(CASClientV2):
 
         return user, attributes, pgtiou
 
+    def _get_logout_redirect_parameter_name(self):
+        return 'service'
+
 
 SAML_1_0_NS = 'urn:oasis:names:tc:SAML:1.0:'
 SAML_1_0_PROTOCOL_NS = '{' + SAML_1_0_NS + 'protocol' + '}'
@@ -235,8 +249,6 @@ class CASClientWithSAMLV1(CASClientBase):
 
         @date: 2011-11-30
         @author: Carlos Gonzalez Vila <carlewis@gmail.com>
-
-        Returns username and attributes on success and None,None on failure.
         """
 
         try:
@@ -287,12 +299,12 @@ class CASClientWithSAMLV1(CASClientBase):
         saml_validate_url = urllib_parse.urljoin(
             self.server_url, 'samlValidate',
         )
-        url = Request(
+        request = Request(
             saml_validate_url + '?' + urllib_parse.urlencode(params),
-            '',
+            self.get_saml_assertion(ticket),
             headers,
         )
-        page = urlopen(url, data=self.get_saml_assertion(ticket))
+        page = urlopen(request)
 
         return page
 
@@ -333,3 +345,6 @@ class CASClientWithSAMLV1(CASClientBase):
                 namespaces={'samlp': "urn:oasis:names:tc:SAML:2.0:protocol"})
         except etree.XMLSyntaxError:
             pass
+
+    def _get_logout_redirect_parameter_name(self):
+        return 'url'
