@@ -33,8 +33,10 @@ class CASClient(object):
 class CASClientBase(object):
     def __init__(self, service_url=None, server_url=None,
                  extra_login_params=None, renew=False,
-                 username_attribute=None):
+                 username_attribute=None, proxy_callback=None):
 
+        if proxy_callback:
+            raise ValueError('Proxy callback not supported by this CASClient')
         self.service_url = service_url
         self.server_url = server_url
         self.extra_login_params = extra_login_params or {}
@@ -287,12 +289,12 @@ class CASClientWithSAMLV1(CASClientBase):
         saml_validate_url = urllib_parse.urljoin(
             self.server_url, 'samlValidate',
         )
-        url = Request(
+        request = Request(
             saml_validate_url + '?' + urllib_parse.urlencode(params),
-            '',
+            self.get_saml_assertion(ticket),
             headers,
         )
-        page = urlopen(url, data=self.get_saml_assertion(ticket))
+        page = urlopen(request)
 
         return page
 
