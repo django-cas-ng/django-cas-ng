@@ -45,7 +45,11 @@ class CASClientBase(object):
         pass
 
     def verify_ticket(self, ticket):
-        """must return a triple"""
+        """Verify the given ticket.
+
+        Return (username, attributes, pgtiou) on success, or (None, None, None)
+        on failure.
+        """
         raise NotImplementedError()
 
     def get_login_url(self):
@@ -96,10 +100,7 @@ class CASClientV1(CASClientBase):
     """CAS Client Version 1"""
 
     def verify_ticket(self, ticket):
-        """Verifies CAS 1.0 authentication ticket.
-
-        Returns username on success and None on failure.
-        """
+        """Verifies CAS 1.0 authentication ticket."""
         params = [('ticket', ticket), ('service', self.service)]
         url = (urllib_parse.urljoin(self.server_url, 'validate') + '?' +
                urllib_parse.urlencode(params))
@@ -123,10 +124,7 @@ class CASClientV2(CASClientBase):
         super(CASClientV2, self).__init__(*args, **kwargs)
 
     def verify_ticket(self, ticket):
-        """Verifies CAS 2.0+ XML-based authentication ticket.
-
-        Returns username on success and None on failure.
-        """
+        """Verifies CAS 2.0+ XML-based authentication ticket."""
         try:
             from xml.etree import ElementTree
         except ImportError:
@@ -162,10 +160,7 @@ class CASClientV3(CASClientV2):
     """CAS Client Version 3"""
 
     def verify_ticket(self, ticket):
-        """Verifies CAS 3.0+ XML-based authentication ticket and returns extended attributes.
-
-        Returns username on success and None on failure.
-        """
+        """Verifies CAS 3.0+ XML-based authentication ticket and returns extended attributes."""
         response = self.get_verification_response(ticket)
         return self.verify_response(response)
 
@@ -237,8 +232,6 @@ class CASClientWithSAMLV1(CASClientBase):
 
         @date: 2011-11-30
         @author: Carlos Gonzalez Vila <carlewis@gmail.com>
-
-        Returns username and attributes on success and None,None on failure.
         """
 
         try:
