@@ -5,18 +5,20 @@ Django CAS NG
     :target: https://travis-ci.org/mingchen/django-cas-ng
 
 
-``django-cas-ng`` is CAS (Central Authentication Service) client implementation.
-This project inherit from `django-cas`_.
-`django-cas`_ is not updated since 2013-4-1. This project will include new bugfix
-and new feature development.
+``django-cas-ng`` is Central Authentication Service (CAS) client implementation.
+This project inherits from `django-cas`_ (which has not been updated since
+April 2013). The NG stands for "next generation". Our fork will include
+bugfixes and new features contributed by the community.
 
 
 Features
 --------
 
-- Support CAS_ version 1.0, 2.0 and 3.0.
-- Support Django 1.5, 1.6, 1.7 with `User custom model`_
-- Support Python 2.7, 3.x
+- Supports CAS_ versions 1.0, 2.0 and 3.0.
+- Supports Django 1.5, 1.6, 1.7 with `User custom model`_
+- Most probably it will work with Django 1.8 too (some of our developers use it
+  with this version), but we don't run automated tests to confirm that (yet).
+- Supports Python 2.7, 3.x
 
 
 Installation
@@ -75,6 +77,10 @@ Optional settings include:
 
     CAS_EXTRA_LOGIN_PARAMS = {'renew': true}
 
+  If you need these parameters to be dynamic, then we recommend to implement
+  a wrapper for our default login view (the same can be done in case of the
+  logout view). See an example in the section below.
+
 * ``CAS_RENEW``: whether pass ``renew`` parameter on login and verification
   of ticket to enforce that the login is made with a fresh username and password
   verification in the CAS server. Default is ``False``.
@@ -103,6 +109,46 @@ You should also add an URL mapping for the ``CAS_PROXY_CALLBACK`` settings::
     (r'^accounts/callback$', 'django_cas_ng.views.callback'),
 
 Users should now be able to log into your site using CAS.
+
+View-wrappers example
+---------------------
+
+The ``settings.CAS_EXTRA_LOGIN_PARAMS`` allows you to define a static
+dictionary of extra parameters to be passed on to the CAS login page. But what
+if you want this dictionary to be dynamic (e.g. based on user session)?
+
+Our current advice is to implement simple wrappers for our default views, like
+these ones:
+
+..  code-block:: python
+
+    from django_cas_ng import views as baseviews
+
+    @csrf_exempt
+    def login(request, **kwargs):
+        return _add_locale(request, baseviews.login(request, **kwargs))
+
+
+    def logout(request, **kwargs):
+        return _add_locale(request, baseviews.logout(request, **kwargs))
+
+
+    def _add_locale(request, response):
+        """If the given HttpResponse is a redirect to CAS, then add the proper
+        `locale` parameter to it (and return the modified response). If not, simply
+        return the original response."""
+
+        if (
+            isinstance(response, HttpResponseRedirect)
+            and response['Location'].startswith(settings.CAS_SERVER_URL)
+        ):
+            from ourapp.some_module import get_currently_used_language
+            url = response['Location']
+            url += '&' if '?' in url else '&'
+            url += "locale=%s" % get_currently_used_language(request)
+            response['Location'] = url
+        return response
+
 
 Signals
 -------
@@ -169,19 +215,20 @@ New code should follow both `PEP8`_ and the `Django coding style`_.
 Credits
 -------
 
-* `django-cas`_.
-* `Stefan Horomnea`_.
-* `Piotr Buliński`_.
-* `Piper Merriam`_.
-* `Nathan Brown`_.
-* `Jason Brownbridge`_.
-* `Bryce Groff`_.
-* `Jeffrey P Gill`_.
-* `timkung1`_.
-* `Domingo Yeray Rodríguez Martín`_.
-* `Rayco Abad-Martín`_.
-* `Édouard Lopez`_.
-* `Guillaume Vincent`_.
+* `django-cas`_
+* `Stefan Horomnea`_
+* `Piotr Buliński`_
+* `Piper Merriam`_
+* `Nathan Brown`_
+* `Jason Brownbridge`_
+* `Bryce Groff`_
+* `Jeffrey P Gill`_
+* `timkung1`_
+* `Domingo Yeray Rodríguez Martín`_
+* `Rayco Abad-Martín`_
+* `Édouard Lopez`_
+* `Guillaume Vincent`_
+* `Wojciech Rygielski`_
 
 References
 ----------
@@ -210,3 +257,4 @@ References
 .. _Rayco Abad-Martín: https://github.com/Rayco
 .. _Édouard Lopez: https://github.com/edouard-lopez
 .. _Guillaume Vincent: https://github.com/guillaumevincent
+.. _Wojciech Rygielski: https://github.com/wrygiel
