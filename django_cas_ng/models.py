@@ -27,7 +27,7 @@ class ProxyGrantingTicket(models.Model):
     )
     pgtiou = models.CharField(max_length=255, null=True, blank=True)
     pgt = models.CharField(max_length=255, null=True, blank=True)
-    date = models.DateTimeField(auto_now_add=True, auto_now=True)
+    date = models.DateTimeField(auto_now=True)
 
     @classmethod
     def retrieve_pt(cls, request):
@@ -54,5 +54,5 @@ class ProxyGrantingTicket(models.Model):
 
 
 class SessionTicket(models.Model):
-    session = models.ForeignKey(Session, related_name="+", unique=True)
+    session = models.OneToOneField(Session, related_name="+")
     ticket = models.CharField(max_length=255)
