@@ -347,4 +347,4 @@ class CASClientWithSAMLV1(CASClientBase):
             pass
 
     def _get_logout_redirect_parameter_name(self):
-        return 'url'
+        return 'service'
