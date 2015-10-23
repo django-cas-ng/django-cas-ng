@@ -30,7 +30,7 @@ class ProxyGrantingTicket(models.Model):
     date = models.DateTimeField(auto_now=True)
 
     @classmethod
-    def retrieve_pt(cls, request):
+    def retrieve_pt(cls, request, service):
         """`request` should be the current HttpRequest object
         `service` a string representing the service for witch we want to
         retrieve a ticket.
