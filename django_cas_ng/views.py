@@ -15,13 +15,16 @@ from django.contrib.auth import (
     authenticate
 )
 from django.contrib import messages
-from django.contrib.sessions.models import Session
+
+from importlib import import_module
+
+SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
 from datetime import timedelta
 
 from .models import ProxyGrantingTicket, SessionTicket
 from .utils import (get_cas_client, get_service_url,
-                    get_protocol, get_redirect_url)
+                    get_protocol, get_redirect_url, get_user_from_session)
 
 __all__ = ['login', 'logout', 'callback']
 
@@ -35,7 +38,12 @@ def login(request, next_page=None, required=False):
     if request.method == 'POST' and request.POST.get('logoutRequest'):
         for slo in client.get_saml_slos(request.POST.get('logoutRequest')):
             try:
-                SessionTicket.objects.get(ticket=slo.text).session.delete()
+                st = SessionTicket.objects.get(ticket=slo.text)
+                session = SessionStore(session_key=st.session_key)
+                session.flush()
+                # clean logout session ProxyGrantingTicket and SessionTicket
+                ProxyGrantingTicket.objects.filter(session_key=st.session_key).delete()
+                SessionTicket.objects.filter(session_key=st.session_key).delete()
             except SessionTicket.DoesNotExist:
                 pass
     if not next_page:
@@ -56,11 +64,8 @@ def login(request, next_page=None, required=False):
             auth_login(request, user)
             if not request.session.exists(request.session.session_key):
                 request.session.create()
-            session = Session.objects.get(
-                session_key=request.session.session_key
-            )
             SessionTicket.objects.create(
-                session=session,
+                session_key=request.session.session_key,
                 ticket=ticket
             )
 
@@ -68,17 +73,16 @@ def login(request, next_page=None, required=False):
                 # Delete old PGT
                 ProxyGrantingTicket.objects.filter(
                     user=user,
-                    session=session
+                    session_key=request.session.session_key
                 ).delete()
                 # Set new PGT ticket
                 try:
                     pgt = ProxyGrantingTicket.objects.get(pgtiou=pgtiou)
                     pgt.user = user
-                    pgt.session = session
+                    pgt.session_key = request.session.session_key
                     pgt.save()
                 except ProxyGrantingTicket.DoesNotExist:
                     pass
-                del request.session["pgtiou"]
 
             if getattr(settings, 'CAS_DISPLAY_WELCOME_MESSAGE', True):
                 name = user.get_username()
@@ -97,6 +101,9 @@ def login(request, next_page=None, required=False):
 def logout(request, next_page=None):
     """Redirects to CAS logout page"""
     auth_logout(request)
+    # clean current session ProxyGrantingTicket and SessionTicket
+    ProxyGrantingTicket.objects.filter(session_key=request.session.session_key).delete()
+    SessionTicket.objects.filter(session_key=request.session.session_key).delete()
     next_page = next_page or get_redirect_url(request)
     if settings.CAS_LOGOUT_COMPLETELY:
         protocol = get_protocol(request)
@@ -119,7 +126,15 @@ def callback(request):
         if request.POST.get('logoutRequest'):
             client = get_cas_client()
             slos = client.get_saml_slos(request.POST.get('logoutRequest'))
-            ProxyGrantingTicket.objects.filter(pgt__in=slos).delete()
+            try:
+                pgt = ProxyGrantingTicket.objects.get(pgt__in=slos)
+                session = SessionStore(session_key=pgt.session_key)
+                session.flush()
+                # clean logout session ProxyGrantingTicket and SessionTicket
+                ProxyGrantingTicket.objects.filter(session_key=pgt.session_key).delete()
+                SessionTicket.objects.filter(session_key=pgt.session_key).delete()
+            except ProxyGrantingTicket.DoesNotExist:
+                pass
         return HttpResponse("ok\n", content_type="text/plain")
     elif request.method == 'GET':
         pgtid = request.GET.get('pgtId')
@@ -127,7 +142,7 @@ def callback(request):
         pgt = ProxyGrantingTicket.objects.create(pgtiou=pgtiou, pgt=pgtid)
         pgt.save()
         ProxyGrantingTicket.objects.filter(
-            session=None,
+            session_key=None,
             date__lt=(timezone.now() - timedelta(seconds=60))
         ).delete()
         return HttpResponse("ok\n", content_type="text/plain")

@@ -28,11 +28,12 @@ setup(
     license='BSD',
     long_description=readme,
     name='django-cas-ng',
-    packages=['django_cas_ng'],
+    packages=['django_cas_ng', 'django_cas_ng.management', 'django_cas_ng.management.commands'],
     url='https://github.com/mingchen/django-cas-ng',
     #bugtrack_url='https://github.com/mingchen/django-cas-ng/issues',  # not support this key
     download_url ='https://github.com/mingchen/django-cas-ng/releases',
     version='3.4.2',
     install_requires=['Django >= 1.5'],
+    zip_safe=False,  # dot not package as egg or django will not found management commands
 )
 
