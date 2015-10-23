@@ -75,6 +75,10 @@ def test_logout_url_with_redirect(logout_client):
     assert actual == expected
 
 
+@fixture
+def client_v2():
+    return cas.CASClientV2()
+
 #cas3 responses
 @fixture
 def client_v3():
@@ -135,3 +139,15 @@ def test_can_saml_assertion_is_encoded():
         assert ticket.encode('utf-8') in saml
     else:
         assert ticket in saml
+
+SUCCESS_RESPONSE_WITH_JASIG_ATTRIBUTES = """<?xml version='1.0' encoding='UTF-8'?>
+<cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas"><cas:authenticationSuccess><cas:user>someuser</cas:user><cas:attributes><cas:attraStyle>Jasig</cas:attraStyle><cas:nombroj>unu</cas:nombroj><cas:nombroj>du</cas:nombroj><cas:nombroj>tri</cas:nombroj><cas:nombroj>kvar</cas:nombroj><cas:email>someuser@example.com</cas:email></cas:attributes></cas:authenticationSuccess></cas:serviceResponse>
+"""
+def test_cas2_jasig_attributes(client_v2):
+    user, attributes, pgtiou = client_v2.verify_response(SUCCESS_RESPONSE_WITH_JASIG_ATTRIBUTES)
+    assert user == 'someuser'
+    expected_attributes = {
+        'email': 'someuser@example.com',
+        'nombroj': ['unu', 'du', 'tri', 'kvar'],
+    }
+    assert attributes == expected_attributes
