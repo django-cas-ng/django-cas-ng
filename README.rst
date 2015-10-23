@@ -126,7 +126,7 @@ Run ``./manage.py syncdb`` to create Single Sign On and Proxy Granting Ticket ta
 On update you can just delete the ``django_cas_ng_sessionticket`` table and the
 ``django_cas_ng_proxygrantingticket`` before calling ``./manage.py syncdb``.
 
-Think to run the command ``./manage.py django_cas_ng_clean_sessions`` on a regular basis
+Consider running the command ``./manage.py django_cas_ng_clean_sessions`` on a regular basis
 right after the command ``./manage.py clearsessions`` cf `clearsessions`_.
 It could be a good idea to put it in the crontab.
 
@@ -203,7 +203,7 @@ Sent on successful authentication, the ``CASBackend`` will fire the ``cas_user_a
 Proxy Granting Ticket
 ---------------------
 
-If you want your application to be able to issue Proxy Ticket to authenticate agains some other CAS application,
+If you want your application to be able to issue Proxy Ticket to authenticate against some other CAS application,
 setup the CAS_PROXY_CALLBACK parameter.
 Allow on the CAS config django_cas_ng to act as a Proxy application.
 Then after a user has logged in using the CAS, you can retrieve a Proxy Ticket as follow:
