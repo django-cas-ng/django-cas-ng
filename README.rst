@@ -44,7 +44,7 @@ Install from source code::
 Settings
 --------
 
-Now add it to the middleware, authentication backends and installed add in your settings.
+Now add it to the middleware, authentication backends and installed apps in your settings.
 Make sure you also have the authentication middleware installed.
 Here's an example::
 
