@@ -129,42 +129,65 @@ class CASClientV1(CASClientBase):
 class CASClientV2(CASClientBase):
     """CAS Client Version 2"""
 
+    URL_SUFFIX = 'serviceValidate'
+
     def __init__(self, proxy_callback=None, *args, **kwargs):
         """proxy_callback is for V2 and V3 so V3 is subclass of V2"""
         self.proxy_callback = proxy_callback
         super(CASClientV2, self).__init__(*args, **kwargs)
 
     def verify_ticket(self, ticket):
-        """Verifies CAS 2.0+ XML-based authentication ticket."""
+        """Verifies CAS 2.0+/3.0+ XML-based authentication ticket and returns extended attributes"""
+        response = self.get_verification_response(ticket)
+        return self.verify_response(response)
+
+    def get_verification_response(self, ticket):
+        params = [('ticket', ticket), ('service', self.service_url)]
+        if self.proxy_callback:
+            params.append(('pgtUrl', self.proxy_callback))
+        base_url = urllib_parse.urljoin(self.server_url, self.URL_SUFFIX)
+        url = base_url + '?' + urllib_parse.urlencode(params)
+        page = urlopen(url)
+        try:
+            return page.read()
+        finally:
+            page.close()
+
+    @classmethod
+    def verify_response(cls, response):
         try:
             from xml.etree import ElementTree
         except ImportError:
             from elementtree import ElementTree
 
         user = None
+        attributes = {}
         pgtiou = None
 
-        params = [('ticket', ticket), ('service', self.service_url)]
-        if self.proxy_callback:
-            params.append(('pgtUrl', self.proxy_callback))
-
-        url = (urllib_parse.urljoin(self.server_url, 'serviceValidate') + '?' +
-               urllib_parse.urlencode(params))
-        page = urlopen(url)
-        try:
-            response = page.read()
-            tree = ElementTree.fromstring(response)
-            if tree[0].tag.endswith('authenticationSuccess'):
-                for element in tree[0]:
-                    if element.tag.endswith('user'):
-                        user = element.text
-                    elif element.tag.endswith('proxyGrantingTicket'):
-                        pgtiou = element.text
-                return user, None, pgtiou
-            else:
-                return None, None, None
-        finally:
-            page.close()
+        tree = ElementTree.fromstring(response)
+        if tree[0].tag.endswith('authenticationSuccess'):
+            for element in tree[0]:
+                if element.tag.endswith('user'):
+                    user = element.text
+                elif element.tag.endswith('proxyGrantingTicket'):
+                    pgtiou = element.text
+                elif element.tag.endswith('attributes'):
+                    for attribute in element:
+                        tag = attribute.tag.split("}").pop()
+                        if tag in attributes:
+                            if isinstance(attributes[tag], list):
+                                attributes[tag].append(attribute.text)
+                            else:
+                                attributes[tag] = [attributes[tag]]
+                                attributes[tag].append(attribute.text)
+                        else:
+                            if tag == 'attraStyle':
+                                pass
+                            else:
+                                attributes[tag] = attribute.text
+            return user, attributes, pgtiou
+        else:
+            return None, None, None
 
     def _get_logout_redirect_parameter_name(self):
         return 'url'
@@ -173,19 +196,7 @@ class CASClientV2(CASClientBase):
 class CASClientV3(CASClientV2):
     """CAS Client Version 3"""
 
-    def verify_ticket(self, ticket):
-        """Verifies CAS 3.0+ XML-based authentication ticket and returns extended attributes."""
-        response = self.get_verification_response(ticket)
-        return self.verify_response(response)
-
-    def get_verification_response(self, ticket):
-        params = [('ticket', ticket), ('service', self.service_url)]
-        if self.proxy_callback:
-            params.append(('pgtUrl', self.proxy_callback))
-        base_url = urllib_parse.urljoin(self.server_url, 'proxyValidate')
-        url = base_url + '?' + urllib_parse.urlencode(params)
-        page = urlopen(url)
-        return page.read()
+    URL_SUFFIX = 'proxyValidate'
 
     @classmethod
     def verify_response(cls, response):
