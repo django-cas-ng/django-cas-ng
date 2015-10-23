@@ -24,7 +24,7 @@ from datetime import timedelta
 
 from .models import ProxyGrantingTicket, SessionTicket
 from .utils import (get_cas_client, get_service_url,
-                    get_protocol, get_redirect_url, get_user_from_session)
+                    get_protocol, get_redirect_url)
 
 __all__ = ['login', 'logout', 'callback']
 
