@@ -15,6 +15,8 @@ Features
 --------
 
 - Supports CAS_ versions 1.0, 2.0 and 3.0.
+- `Support Single Sign Out`_
+- Can fetch Proxy Granting Ticket
 - Supports Django 1.5, 1.6, 1.7 with `User custom model`_
 - Most probably it will work with Django 1.8 too (some of our developers use it
   with this version), but we don't run automated tests to confirm that (yet).
@@ -42,9 +44,20 @@ Install from source code::
 Settings
 --------
 
-Now add it to the middleware and authentication backends in your settings.
+Now add it to the middleware, authentication backends and installed apps in your settings.
 Make sure you also have the authentication middleware installed.
 Here's an example::
+
+    INSTALLED_APPS = (
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'django_cas_ng',
+        ...
+    )
 
     MIDDLEWARE_CLASSES = (
         'django.middleware.common.CommonMiddleware',
@@ -107,6 +120,15 @@ your URL mappings::
 You should also add an URL mapping for the ``CAS_PROXY_CALLBACK`` settings::
 
     (r'^accounts/callback$', 'django_cas_ng.views.callback'),
+
+
+Run ``./manage.py syncdb`` to create Single Sign On and Proxy Granting Ticket tables.
+On update you can just delete the ``django_cas_ng_sessionticket`` table and the
+``django_cas_ng_proxygrantingticket`` before calling ``./manage.py syncdb``.
+
+Consider running the command ``./manage.py django_cas_ng_clean_sessions`` on a regular basis
+right after the command ``./manage.py clearsessions`` cf `clearsessions`_.
+It could be a good idea to put it in the crontab.
 
 Users should now be able to log into your site using CAS.
 
@@ -178,6 +200,22 @@ Sent on successful authentication, the ``CASBackend`` will fire the ``cas_user_a
   The service used to authenticate the user with the CAS.
 
 
+Proxy Granting Ticket
+---------------------
+
+If you want your application to be able to issue Proxy Ticket to authenticate against some other CAS application,
+setup the CAS_PROXY_CALLBACK parameter.
+Allow on the CAS config django_cas_ng to act as a Proxy application.
+Then after a user has logged in using the CAS, you can retrieve a Proxy Ticket as follow:
+
+    from django_cas_ng.models import ProxyGrantingTicket
+
+    def my_pretty_view(request, ...):
+        proxy_ticket = ProxyGrantingTicket.retrieve_pt(request, service)
+
+where ``service`` is the service url for which you want a proxy ticket.
+
+
 Testing
 -------
 
@@ -229,6 +267,7 @@ Credits
 * `Édouard Lopez`_
 * `Guillaume Vincent`_
 * `Wojciech Rygielski`_
+* `Valentin Samir`_
 
 References
 ----------
@@ -239,7 +278,9 @@ References
 
 .. _CAS: https://www.apereo.org/cas
 .. _CAS protocol: https://www.apereo.org/cas/protocol
+.. _Support Single Sign Out: https://wiki.jasig.org/display/casum/single+sign+out
 .. _django-cas: https://bitbucket.org/cpcc/django-cas
+.. _clearsessions: https://docs.djangoproject.com/en/1.8/topics/http/sessions/#clearing-the-session-store
 .. _pip: http://www.pip-installer.org/
 .. _PEP8: http://www.python.org/dev/peps/pep-0008
 .. _Django coding style: https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style
@@ -258,3 +299,4 @@ References
 .. _Édouard Lopez: https://github.com/edouard-lopez
 .. _Guillaume Vincent: https://github.com/guillaumevincent
 .. _Wojciech Rygielski: https://github.com/wrygiel
+.. _Valentin Samir: https://github.com/nitmir

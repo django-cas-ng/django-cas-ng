@@ -1,6 +1,7 @@
 from .cas import CASClient
 from django.conf import settings as django_settings
-from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth import REDIRECT_FIELD_NAME, SESSION_KEY, BACKEND_SESSION_KEY, load_backend
+from django.contrib.auth.models import AnonymousUser
 from django.utils.six.moves import urllib_parse
 
 
@@ -61,3 +62,13 @@ def get_cas_client(service_url=None):
         username_attribute=django_settings.CAS_USERNAME_ATTRIBUTE,
         proxy_callback=django_settings.CAS_PROXY_CALLBACK
     )
+
+
+def get_user_from_session(session):
+    try:
+        user_id = session[SESSION_KEY]
+        backend_path = session[BACKEND_SESSION_KEY]
+        backend = load_backend(backend_path)
+        return backend.get_user(user_id) or AnonymousUser()
+    except KeyError:
+        return AnonymousUser()
