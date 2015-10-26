@@ -49,8 +49,8 @@ def login(request, next_page=None, required=False):
     if not next_page:
         next_page = get_redirect_url(request)
     if request.user.is_authenticated():
-        if getattr(settings, 'CAS_DISPLAY_WELCOME_MESSAGE', True):
-            message = "You are logged in as %s." % request.user.get_username()
+        if settings.CAS_LOGGED_MSG is not None:
+            message = settings.CAS_LOGGED_MSG % request.user.get_username()
             messages.success(request, message)
         return HttpResponseRedirect(next_page)
 
@@ -84,9 +84,9 @@ def login(request, next_page=None, required=False):
                 except ProxyGrantingTicket.DoesNotExist:
                     pass
 
-            if getattr(settings, 'CAS_DISPLAY_WELCOME_MESSAGE', True):
+            if settings.CAS_LOGIN_MSG is not None:
                 name = user.get_username()
-                message = "Login succeeded. Welcome, %s." % name
+                message = settings.CAS_LOGIN_MSG % name
                 messages.success(request, message)
             return HttpResponseRedirect(next_page)
         elif settings.CAS_RETRY_LOGIN or required:

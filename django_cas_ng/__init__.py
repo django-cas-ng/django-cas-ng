@@ -4,6 +4,7 @@ from __future__ import absolute_import
 from __future__ import unicode_literals
 
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 
 __all__ = []
 
@@ -19,6 +20,8 @@ _DEFAULTS = {
     'CAS_VERSION': '2',
     'CAS_USERNAME_ATTRIBUTE': 'uid',
     'CAS_PROXY_CALLBACK': None,
+    'CAS_LOGIN_MSG': _("Login succeeded. Welcome, %s."),
+    'CAS_LOGGED_MSG': _("You are logged in as %s."),
 }
 
 for key, value in list(_DEFAULTS.items()):
