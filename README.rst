@@ -83,8 +83,17 @@ Optional settings include:
   see if it lives in ``django.contrib.admin.views``.
 * ``CAS_CREATE_USER``: Create a user when the CAS authentication is successful.
   The default is ``True``.
-* ``CAS_DISPLAY_WELCOME_MESSAGE``: Displays a welcome message via the messages framework
-  to users upon successful authentication. The default is ``True``.
+* ``CAS_LOGIN_MSG``: Welcome message send via the messages framework upon
+  successful authentication. Take the user login as formatting argument.
+  The default is ``"Login succeeded. Welcome, %s."`` or some translation of it
+  if you have enabled django internationalization (``USE_I18N = True``)
+  You cas disable it by setting this parametter to ``None``
+* ``CAS_LOGGED_MSG``: Welcome message send via the messages framework upon
+  authentication attempt if the user is already authenticated.
+  Take the user login as formatting argument.
+  The default is ``"You are logged in as %s."`` or some translation of it
+  if you have enabled django internationalization (``USE_I18N = True``)
+  You cas disable it by setting this parametter to ``None``
 * ``CAS_EXTRA_LOGIN_PARAMS``: Extra URL parameters to add to the login URL
   when redirecting the user. Example::
 
@@ -215,6 +224,16 @@ Then after a user has logged in using the CAS, you can retrieve a Proxy Ticket a
 
 where ``service`` is the service url for which you want a proxy ticket.
 
+
+Internationalization
+--------------------
+
+You can contribute to the translation of welcome messages by running ``django-admin makemessages -l lang_code``
+inside of the django_cas_ng directory. Where ``lang_code`` is the language code for which you want to submit a
+translation. Then open the file ``django_cas_ng/locale/lang_code/LC_MESSAGES/django.po`` with a gettex translations
+editor (for example https://poedit.net/). Translate and save the file.
+Think to add ``django_cas_ng/locale/lang_code/LC_MESSAGES/django.po`` and ``django_cas_ng/locale/lang_code/LC_MESSAGES/django.mo``
+to your commit.
 
 Testing
 -------
