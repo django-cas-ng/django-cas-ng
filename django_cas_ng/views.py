@@ -42,16 +42,7 @@ def login(request, next_page=None, required=False):
         next_page = get_redirect_url(request)
 
     if request.method == 'POST' and request.POST.get('logoutRequest'):
-        for slo in client.get_saml_slos(request.POST.get('logoutRequest')):
-            try:
-                st = SessionTicket.objects.get(ticket=slo.text)
-                session = SessionStore(session_key=st.session_key)
-                session.flush()
-                # clean logout session ProxyGrantingTicket and SessionTicket
-                ProxyGrantingTicket.objects.filter(session_key=st.session_key).delete()
-                SessionTicket.objects.filter(session_key=st.session_key).delete()
-            except SessionTicket.DoesNotExist:
-                pass
+        clean_sessions(client, request)
         return HttpResponseRedirect(next_page)
 
     if request.user.is_authenticated():
@@ -130,19 +121,8 @@ def logout(request, next_page=None):
 @require_http_methods(["GET", "POST"])
 def callback(request):
     """Read PGT and PGTIOU sent by CAS"""
-    if request.method == 'POST':
-        if request.POST.get('logoutRequest'):
-            client = get_cas_client()
-            for slo in client.get_saml_slos(request.POST.get('logoutRequest')):
-                try:
-                    pgt = ProxyGrantingTicket.objects.get(pgt=slo.text)
-                    session = SessionStore(session_key=pgt.session_key)
-                    session.flush()
-                    # clean logout session ProxyGrantingTicket and SessionTicket
-                    ProxyGrantingTicket.objects.filter(session_key=pgt.session_key).delete()
-                    SessionTicket.objects.filter(session_key=pgt.session_key).delete()
-                except ProxyGrantingTicket.DoesNotExist:
-                    pass
+    if request.method == 'POST' and request.POST.get('logoutRequest'):
+        clean_sessions(get_cas_client(), request)
         return HttpResponse("{0}\n".format(_('ok')), content_type="text/plain")
     elif request.method == 'GET':
         pgtid = request.GET.get('pgtId')
@@ -154,3 +134,16 @@ def callback(request):
             date__lt=(timezone.now() - timedelta(seconds=60))
         ).delete()
         return HttpResponse("{0}\n".format(_('ok')), content_type="text/plain")
+
+
+def clean_sessions(client, request):
+    for slo in client.get_saml_slos(request.POST.get('logoutRequest')):
+        try:
+            st = SessionTicket.objects.get(ticket=slo.text)
+            session = SessionStore(session_key=st.session_key)
+            session.flush()
+            # clean logout session ProxyGrantingTicket and SessionTicket
+            ProxyGrantingTicket.objects.filter(session_key=st.session_key).delete()
+            SessionTicket.objects.filter(session_key=st.session_key).delete()
+        except SessionTicket.DoesNotExist:
+            pass
