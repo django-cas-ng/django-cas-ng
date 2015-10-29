@@ -15,6 +15,8 @@ from django.contrib.auth import (
     authenticate
 )
 from django.contrib import messages
+from django.utils.translation import ugettext_lazy as _
+from django.views.decorators.http import require_http_methods
 
 from importlib import import_module
 
@@ -30,10 +32,14 @@ __all__ = ['login', 'logout', 'callback']
 
 
 @csrf_exempt
+@require_http_methods(["GET", "POST"])
 def login(request, next_page=None, required=False):
     """Forwards to CAS login URL or verifies CAS ticket"""
     service_url = get_service_url(request, next_page)
     client = get_cas_client(service_url=service_url)
+
+    if not next_page:
+        next_page = get_redirect_url(request)
 
     if request.method == 'POST' and request.POST.get('logoutRequest'):
         for slo in client.get_saml_slos(request.POST.get('logoutRequest')):
@@ -46,8 +52,8 @@ def login(request, next_page=None, required=False):
                 SessionTicket.objects.filter(session_key=st.session_key).delete()
             except SessionTicket.DoesNotExist:
                 pass
-    if not next_page:
-        next_page = get_redirect_url(request)
+        return HttpResponseRedirect(next_page)
+
     if request.user.is_authenticated():
         if settings.CAS_LOGGED_MSG is not None:
             message = settings.CAS_LOGGED_MSG % request.user.get_username()
@@ -92,12 +98,13 @@ def login(request, next_page=None, required=False):
         elif settings.CAS_RETRY_LOGIN or required:
             return HttpResponseRedirect(client.get_login_url())
         else:
-            error = "<h1>Forbidden</h1><p>Login failed.</p>"
+            error = "<h1>{0}</h1><p>{1}</p>".format(_('Forbidden'), _('Login failed.'))
             return HttpResponseForbidden(error)
     else:
         return HttpResponseRedirect(client.get_login_url())
 
 
+@require_http_methods(["GET"])
 def logout(request, next_page=None):
     """Redirects to CAS logout page"""
     auth_logout(request)
@@ -120,22 +127,23 @@ def logout(request, next_page=None):
 
 
 @csrf_exempt
+@require_http_methods(["GET", "POST"])
 def callback(request):
-    """Read PGT and PGTIOU send by CAS"""
+    """Read PGT and PGTIOU sent by CAS"""
     if request.method == 'POST':
         if request.POST.get('logoutRequest'):
             client = get_cas_client()
-            slos = client.get_saml_slos(request.POST.get('logoutRequest'))
-            try:
-                pgt = ProxyGrantingTicket.objects.get(pgt__in=slos)
-                session = SessionStore(session_key=pgt.session_key)
-                session.flush()
-                # clean logout session ProxyGrantingTicket and SessionTicket
-                ProxyGrantingTicket.objects.filter(session_key=pgt.session_key).delete()
-                SessionTicket.objects.filter(session_key=pgt.session_key).delete()
-            except ProxyGrantingTicket.DoesNotExist:
-                pass
-        return HttpResponse("ok\n", content_type="text/plain")
+            for slo in client.get_saml_slos(request.POST.get('logoutRequest')):
+                try:
+                    pgt = ProxyGrantingTicket.objects.get(pgt=slo.text)
+                    session = SessionStore(session_key=pgt.session_key)
+                    session.flush()
+                    # clean logout session ProxyGrantingTicket and SessionTicket
+                    ProxyGrantingTicket.objects.filter(session_key=pgt.session_key).delete()
+                    SessionTicket.objects.filter(session_key=pgt.session_key).delete()
+                except ProxyGrantingTicket.DoesNotExist:
+                    pass
+        return HttpResponse("{0}\n".format(_('ok')), content_type="text/plain")
     elif request.method == 'GET':
         pgtid = request.GET.get('pgtId')
         pgtiou = request.GET.get('pgtIou')
@@ -145,4 +153,4 @@ def callback(request):
             session_key=None,
             date__lt=(timezone.now() - timedelta(seconds=60))
         ).delete()
-        return HttpResponse("ok\n", content_type="text/plain")
+        return HttpResponse("{0}\n".format(_('ok')), content_type="text/plain")
