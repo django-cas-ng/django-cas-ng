@@ -1,5 +1,6 @@
-tox==1.8.1
-pytest==2.6.4
-pytest-django==2.7.0
-pytest-pythonpath==0.3
+tox==2.1.1
+pytest==2.8.2
+pytest-cov==2.2.0
+pytest-django==2.9.1
+pytest-pythonpath==0.7
 lxml>=3.4
