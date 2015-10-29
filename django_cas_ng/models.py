@@ -57,8 +57,7 @@ class ProxyGrantingTicket(models.Model):
             try:
                 return client.get_proxy_ticket(pgt, service)
             except Exception as e:
-                raise
-                raise ProxyError(unicode(e))
+                raise ProxyError(str(e, 'utf-8'))
 
 
 class SessionTicket(models.Model):
