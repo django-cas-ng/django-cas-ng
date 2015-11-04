@@ -7,6 +7,7 @@ Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
 **django-cas-ng 3.5.0** ``[2015-11-09]``
+
 * Add support for Proxy Granting Ticket.
 * Add Single Logout support.
 
