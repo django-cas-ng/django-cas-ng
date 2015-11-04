@@ -6,6 +6,18 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+**django-cas-ng 3.5.0** ``[2015-11-09]``
+* Add support for Proxy Granting Ticket.
+* Add Single Logout support.
+
+* Add Python3 support.
+* Add Django 1.8 support.
+* Add support for custom user model.
+
+* Add CAS_USERNAME_ATTRIBUTE which allows picking an alternative variable to store the username in the cas attributes.
+* Add CAS_DISPLAY_LOGIN_MESSAGE setting to control whether show welcome message, default is true.
+* Fix redirecting with the "?next" parameter.
+
 **django-cas-ng 3.4.2** ``[2015-01-11]``
 
 * Fix forbidden error.
