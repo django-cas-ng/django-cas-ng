@@ -1,6 +1,6 @@
 """Tests for the cas protocol-related code"""
 from __future__ import absolute_import
-from django_cas_ng import cas
+import cas
 from pytest import fixture
 import sys
 

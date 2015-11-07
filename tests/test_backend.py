@@ -22,7 +22,7 @@ def test_backend_authentication_creating_a_user(monkeypatch, django_user_model):
     # we mock out the verify method so that we can bypass the external http
     # calls needed for real authentication since we are testing the logic
     # around authentication.
-    monkeypatch.setattr('django_cas_ng.cas.CASClientV2.verify_ticket', mock_verify)
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
 
     # sanity check
     assert not django_user_model.objects.filter(
@@ -55,7 +55,7 @@ def test_backend_authentication_do_not_create_user(monkeypatch, django_user_mode
     # we mock out the verify method so that we can bypass the external http
     # calls needed for real authentication since we are testing the logic
     # around authentication.
-    monkeypatch.setattr('django_cas_ng.cas.CASClientV2.verify_ticket', mock_verify)
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
 
     # sanity check
     assert not django_user_model.objects.filter(
@@ -89,7 +89,7 @@ def test_backend_for_existing_user(monkeypatch, django_user_model):
     # we mock out the verify method so that we can bypass the external http
     # calls needed for real authentication since we are testing the logic
     # around authentication.
-    monkeypatch.setattr('django_cas_ng.cas.CASClientV2.verify_ticket', mock_verify)
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
 
     existing_user = django_user_model.objects.create_user('test@example.com', '')
 
@@ -118,7 +118,7 @@ def test_backend_for_failed_auth(monkeypatch, django_user_model):
     # we mock out the verify method so that we can bypass the external http
     # calls needed for real authentication since we are testing the logic
     # around authentication.
-    monkeypatch.setattr('django_cas_ng.cas.CASClientV2.verify_ticket', mock_verify)
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
 
     assert not django_user_model.objects.filter(
         username='test@example.com',
