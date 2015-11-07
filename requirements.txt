@@ -1,2 +1,4 @@
 Django>=1.5
 lxml>=3.4
+-e git+https://github.com/python-cas/python-cas.git#egg=python_cas
+#python-cas
