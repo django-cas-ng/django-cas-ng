@@ -1,4 +1,4 @@
-from .cas import CASClient
+from cas import CASClient
 from django.conf import settings as django_settings
 from django.contrib.auth import REDIRECT_FIELD_NAME, SESSION_KEY, BACKEND_SESSION_KEY, load_backend
 from django.contrib.auth.models import AnonymousUser

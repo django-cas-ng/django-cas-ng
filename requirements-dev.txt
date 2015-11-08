@@ -4,3 +4,5 @@ pytest-cov==2.2.0
 pytest-django==2.9.1
 pytest-pythonpath==0.7
 lxml>=3.4
+-e git+https://github.com/python-cas/python-cas.git#egg=python_cas
+#python-cas

@@ -86,7 +86,7 @@ def test_login_authenticate_and_create_user(monkeypatch, django_user_model, sett
 
     def mock_verify(ticket, service):
         return 'test@example.com', {'ticket': ticket, 'service': service}, None
-    monkeypatch.setattr('django_cas_ng.cas.CASClientV2.verify_ticket', mock_verify)
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
 
     factory = RequestFactory()
     request = factory.get('/login/', {'ticket': 'fake-ticket',
@@ -119,7 +119,7 @@ def test_login_authenticate_do_not_create_user(monkeypatch, django_user_model, s
 
     def mock_verify(ticket, service):
         return 'test@example.com', {'ticket': ticket, 'service': service}, None
-    monkeypatch.setattr('django_cas_ng.cas.CASClientV2.verify_ticket', mock_verify)
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
 
     factory = RequestFactory()
     request = factory.get('/login/', {'ticket': 'fake-ticket',
@@ -151,7 +151,7 @@ def test_login_proxy_callback(monkeypatch, django_user_model, settings):
 
     def mock_verify(ticket, service):
         return 'test@example.com', {'ticket': ticket, 'service': service}, None
-    monkeypatch.setattr('django_cas_ng.cas.CASClientV2.verify_ticket', mock_verify)
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
 
     factory = RequestFactory()
     request = factory.get('/login/', {'ticket': 'fake-ticket',
