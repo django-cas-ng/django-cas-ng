@@ -287,6 +287,7 @@ Credits
 * `Guillaume Vincent`_
 * `Wojciech Rygielski`_
 * `Valentin Samir`_
+* `Alexander Kavanaugh`_
 
 References
 ----------
@@ -319,3 +320,4 @@ References
 .. _Guillaume Vincent: https://github.com/guillaumevincent
 .. _Wojciech Rygielski: https://github.com/wrygiel
 .. _Valentin Samir: https://github.com/nitmir
+.. _Alexander Kavanaugh: https://github.com/kavdev
