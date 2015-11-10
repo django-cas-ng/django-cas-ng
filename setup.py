@@ -22,6 +22,8 @@ setup(
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Topic :: Internet :: WWW/HTTP',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3',
     ],
     description='CAS 1.0/2.0 client authentication backend for Django (inherited from django-cas)',
     keywords=['django', 'cas', 'cas2', 'cas3', 'client', 'sso', 'single sign-on', 'authentication', 'auth'],
