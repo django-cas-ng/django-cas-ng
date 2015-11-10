@@ -1,4 +1,3 @@
-# Stub for pre django 1.7 apps.
 # ⁻*- coding: utf-8 -*-
 from django.db import models
 from django.conf import settings
@@ -27,7 +26,7 @@ class ProxyGrantingTicket(models.Model):
     )
     pgtiou = models.CharField(max_length=255, null=True, blank=True)
     pgt = models.CharField(max_length=255, null=True, blank=True)
-    date = models.DateTimeField(auto_now=True, auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True)
 
     @classmethod
     def clean_deleted_sessions(cls):
