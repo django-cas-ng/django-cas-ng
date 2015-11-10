@@ -17,9 +17,7 @@ Features
 - Supports CAS_ versions 1.0, 2.0 and 3.0.
 - `Support Single Sign Out`_
 - Can fetch Proxy Granting Ticket
-- Supports Django 1.5, 1.6, 1.7 with `User custom model`_
-- Most probably it will work with Django 1.8 too (some of our developers use it
-  with this version), but we don't run automated tests to confirm that (yet).
+- Supports Django 1.5, 1.6, 1.7 and 1.8 with `User custom model`_
 - Supports Python 2.7, 3.x
 
 
