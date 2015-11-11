@@ -6,6 +6,12 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+
+**django-cas-ng 3.5.1** ``[2015-11-10]``
+
+* Remove the auto_now and keep the auto_now_add per the documentation.
+
+
 **django-cas-ng 3.5.0** ``[2015-11-08]``
 
 * Add support for Proxy Granting Ticket.
