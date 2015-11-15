@@ -24,9 +24,11 @@ SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
 from datetime import timedelta
 
+from .signals import cas_user_logout
 from .models import ProxyGrantingTicket, SessionTicket
 from .utils import (get_cas_client, get_service_url,
-                    get_protocol, get_redirect_url)
+                    get_protocol, get_redirect_url,
+                    get_user_from_session)
 
 __all__ = ['login', 'logout', 'callback']
 
@@ -98,6 +100,19 @@ def login(request, next_page=None, required=False):
 @require_http_methods(["GET"])
 def logout(request, next_page=None):
     """Redirects to CAS logout page"""
+    # try to find the ticket matching current session for logout signal
+    try:
+        st = SessionTicket.objects.get(session_key=request.session.session_key)
+        ticket = st.ticket
+    except SessionTicket.DoesNotExist:
+        ticket = None
+    # send logout signal
+    cas_user_logout.send(
+        sender="manual",
+        user=request.user,
+        session=request.session,
+        ticket=ticket,
+    )
     auth_logout(request)
     # clean current session ProxyGrantingTicket and SessionTicket
     ProxyGrantingTicket.objects.filter(session_key=request.session.session_key).delete()
@@ -141,6 +156,13 @@ def clean_sessions(client, request):
         try:
             st = SessionTicket.objects.get(ticket=slo.text)
             session = SessionStore(session_key=st.session_key)
+            # send logout signal
+            cas_user_logout.send(
+                sender="slo",
+                user=get_user_from_session(session),
+                session=session,
+                ticket=slo.text,
+            )
             session.flush()
             # clean logout session ProxyGrantingTicket and SessionTicket
             ProxyGrantingTicket.objects.filter(session_key=st.session_key).delete()

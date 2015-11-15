@@ -5,7 +5,7 @@ from .utils import (get_cas_client, get_service_url, get_user_from_session)
 
 
 from importlib import import_module
-
+from cas import CASError
 
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
@@ -55,8 +55,12 @@ class ProxyGrantingTicket(models.Model):
             client = get_cas_client(service_url=service_url)
             try:
                 return client.get_proxy_ticket(pgt, service)
+            # change CASError to ProxyError nicely
+            except CASError as error:
+                raise ProxyError(*error.args)
+            # juste embed other errors
             except Exception as e:
-                raise ProxyError(str(e, 'utf-8'))
+                raise ProxyError(e)
 
 
 class SessionTicket(models.Model):
