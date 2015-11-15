@@ -182,7 +182,8 @@ these ones:
 Signals
 -------
 
-``django_cas_ng.signals.cas_user_authenticated``
+django_cas_ng.signals.cas_user_authenticated
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Sent on successful authentication, the ``CASBackend`` will fire the ``cas_user_authenticated`` signal.
 
@@ -207,7 +208,8 @@ Sent on successful authentication, the ``CASBackend`` will fire the ``cas_user_a
   The service used to authenticate the user with the CAS.
 
 
-``django_cas_ng.signals.cas_user_logout``
+django_cas_ng.signals.cas_user_logout
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Sent on user logout. Will be fire over manual logout or logout via CAS SingleLogOut query.
 
