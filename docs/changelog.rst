@@ -6,6 +6,10 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+**django-cas-ng 3.5.2** ``[2015-11-19]``
+
+* Add python-cas to install_requires.
+
 
 **django-cas-ng 3.5.1** ``[2015-11-10]``
 
