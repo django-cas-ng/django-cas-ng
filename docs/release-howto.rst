@@ -14,8 +14,12 @@ How To Make A Release
     git push
     git push --tags
 
-6. Upload release to pypi.python.org
+6. Build project. This will generate translated language files.
+
+    make build
+
+7. Upload release to pypi.python.org
 
     python setup.py sdist upload    
 
-7. Create a new release on https://github.com/mingchen/django-cas-ng/releases
+8. Create a new release on https://github.com/mingchen/django-cas-ng/releases
