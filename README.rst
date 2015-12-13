@@ -121,12 +121,14 @@ Optional settings include:
 Make sure your project knows how to log users in and out by adding these to
 your URL mappings::
 
-    (r'^accounts/login$', 'django_cas_ng.views.login'),
-    (r'^accounts/logout$', 'django_cas_ng.views.logout'),
+    import django_cas_ng
+
+    url(r'^accounts/login$', django_cas_ng.views.login, name='cas_ng_login'),
+    url(r'^accounts/logout$', django_cas_ng.views.logout, name='cas_ng_logout'),
 
 You should also add an URL mapping for the ``CAS_PROXY_CALLBACK`` settings::
 
-    (r'^accounts/callback$', 'django_cas_ng.views.callback'),
+    url(r'^accounts/callback$', django_cas_ng.views.callback, name='cas_ng_proxy_callback'),
 
 
 Run ``./manage.py syncdb`` to create Single Sign On and Proxy Granting Ticket tables.
