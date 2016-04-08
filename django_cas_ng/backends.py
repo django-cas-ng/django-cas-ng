@@ -25,6 +25,8 @@ class CASBackend(ModelBackend):
             request.session['attributes'] = attributes
         if not username:
             return None
+        if settings.CAS_FORCE_LOWERCASE:
+            username = username.lower()
         try:
             user = User.objects.get(**{User.USERNAME_FIELD: username})
             created = False
