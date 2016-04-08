@@ -15,7 +15,7 @@ _DEFAULTS = {
     'CAS_RENEW': False,
     'CAS_IGNORE_REFERER': False,
     'CAS_LOGOUT_COMPLETELY': True,
-    'CAS_FORCE_LOWERCASE': False,
+    'CAS_FORCE_CHANGE_USERNAME_CASE': False,
     'CAS_REDIRECT_URL': '/',
     'CAS_RETRY_LOGIN': False,
     'CAS_SERVER_URL': None,
