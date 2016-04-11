@@ -39,6 +39,9 @@ class CASMiddleware(object):
         elif view_func == logout:
             return cas_logout(request, *view_args, **view_kwargs)
 
+        if view_func in (cas_login, cas_logout):
+            return None
+
         if settings.CAS_ADMIN_PREFIX:
             if not request.path.startswith(settings.CAS_ADMIN_PREFIX):
                 return None
