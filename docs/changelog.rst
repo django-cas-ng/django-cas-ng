@@ -6,6 +6,16 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+**django-cas-ng 3.5.4** ``[2016-04-27]``
+
+* Support for string view arguments to url() is deprecated and will be removed in Django 1.10.
+* Add migrations.
+* Add initial migrations file.
+* Add CAS_FORCE_CHANGE_USERNAME_CASE option to convert username case to lower or upper. This prevent duplicate account
+creation in some case.
+* Bugfix for loop redirect when CAS_ADMIN_PREFIX is set as root.
+
+
 **django-cas-ng 3.5.3** ``[2015-11-20]``
 
 * Add translation mo files into release build.
