@@ -1,4 +1,4 @@
-from cas import CASClient
+from .cas import CASClient
 from django.conf import settings as django_settings
 from django.contrib.auth import REDIRECT_FIELD_NAME, SESSION_KEY, BACKEND_SESSION_KEY, load_backend
 from django.contrib.auth.models import AnonymousUser
@@ -30,6 +30,15 @@ def get_redirect_url(request):
             next_ = next_[len(prefix):]
     return next_
 
+
+def get_service_url_for_path(request, path):
+    """Generates application django service URL for CAS"""
+    protocol = get_protocol(request)
+    host = request.get_host()
+    service = urllib_parse.urlunparse(
+        (protocol, host, path, '', '', ''),
+    )
+    return service
 
 def get_service_url(request, redirect_to=None):
     """Generates application django service URL for CAS"""

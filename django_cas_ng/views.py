@@ -4,6 +4,7 @@ from __future__ import absolute_import
 from __future__ import unicode_literals
 
 from django.utils.six.moves import urllib_parse
+from urllib.parse import parse_qs, urlparse
 from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.http import HttpResponse
@@ -28,16 +29,33 @@ from .signals import cas_user_logout
 from .models import ProxyGrantingTicket, SessionTicket
 from .utils import (get_cas_client, get_service_url,
                     get_protocol, get_redirect_url,
-                    get_user_from_session)
+                    get_user_from_session, get_service_url_for_path)
 
 __all__ = ['login', 'logout', 'callback']
 
+
+def _get_attrs(lst):
+    attrs = {}
+    for k in lst:
+        v = lst[k]
+        if k[-2:] == "[]":
+            attrs[k[:-2]] = v
+        else:
+            attrs[k] = v[0]
+    return attrs
 
 @csrf_exempt
 @require_http_methods(["GET", "POST"])
 def login(request, next_page=None, required=False):
     """Forwards to CAS login URL or verifies CAS ticket"""
-    service_url = get_service_url(request, next_page)
+
+    next = request.GET.get('next')
+    if not next_page and next:
+        path = next.split("?")[0]
+        service_url = get_service_url_for_path(request, path)
+    else:
+        service_url = get_service_url(request, next_page)
+
     client = get_cas_client(service_url=service_url)
 
     if not next_page:
@@ -54,6 +72,11 @@ def login(request, next_page=None, required=False):
         return HttpResponseRedirect(next_page)
 
     ticket = request.GET.get('ticket')
+    if not ticket:
+        url = request.GET.get('next')
+        attrs = _get_attrs(dict(parse_qs(urlparse(url).query)))
+        if 'ticket' in attrs:
+            ticket=attrs['ticket']
     if ticket:
         user = authenticate(ticket=ticket,
                             service=service_url,
