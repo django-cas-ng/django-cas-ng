@@ -5,11 +5,13 @@ from __future__ import unicode_literals
 
 from django.utils.six.moves import urllib_parse
 
-from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.http import HttpResponseRedirect
+from django.core.exceptions import PermissionDenied
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.views import login, logout
 from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext_lazy as _
 
 from .views import login as cas_login, logout as cas_logout
 
@@ -52,8 +54,6 @@ class CASMiddleware(object):
             if request.user.is_staff:
                 return None
             else:
-                error = ('<h1>Forbidden</h1><p>You do not have staff '
-                         'privileges.</p>')
-                return HttpResponseForbidden(error)
+                raise PermissionDenied(_('You do not have staff privileges.'))
         params = urllib_parse.urlencode({REDIRECT_FIELD_NAME: request.get_full_path()})
         return HttpResponseRedirect(reverse(cas_login) + '?' + params)
