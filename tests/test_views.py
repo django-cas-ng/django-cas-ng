@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.exceptions import PermissionDenied
 from django.contrib.auth.middleware import AuthenticationMiddleware
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.test import RequestFactory
@@ -130,8 +131,8 @@ def test_login_authenticate_do_not_create_user(monkeypatch, django_user_model, s
     # Create a user object from middleware
     process_request_for_middleware(request, AuthenticationMiddleware)
 
-    response = login(request)
-    assert response.status_code == 403
+    with pytest.raises(PermissionDenied):
+        login(request)
     assert django_user_model.objects.filter(username='test@example.com').exists() is False
 
 

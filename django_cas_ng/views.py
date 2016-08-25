@@ -5,7 +5,8 @@ from __future__ import unicode_literals
 
 from django.utils.six.moves import urllib_parse
 from django.conf import settings
-from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.http import HttpResponseRedirect
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
@@ -91,8 +92,7 @@ def login(request, next_page=None, required=False):
         elif settings.CAS_RETRY_LOGIN or required:
             return HttpResponseRedirect(client.get_login_url())
         else:
-            error = "<h1>{0}</h1><p>{1}</p>".format(_('Forbidden'), _('Login failed.'))
-            return HttpResponseForbidden(error)
+            raise PermissionDenied(_('Login failed.'))
     else:
         return HttpResponseRedirect(client.get_login_url())
 
