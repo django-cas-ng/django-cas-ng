@@ -184,6 +184,25 @@ these ones:
             response['Location'] = url
         return response
 
+Additional Permissions
+----------------------
+
+The ``CASBackend`` object allows you to subclass and extend the user permissions
+check. This may be useful if you need to check if a user belongs to an
+organization that has permission to use your application. To use this feature
+you can create your own ``app.backends.py`` file, and within that file create
+your own backend class.
+
+..  code-block:: python
+
+    from django_cas_ng.backends import CASBackend
+
+    MyCASBackend(CASBackend):
+
+        def check_additional_permissions(self, user):
+            if user.groups.filter(name='my_organization').exists():
+                return True
+            return False
 
 Signals
 -------

@@ -44,6 +44,9 @@ class CASBackend(ModelBackend):
             user.save()
             created = True
 
+        if not self.check_additional_permissions(user):
+            return False
+
         if pgtiou and settings.CAS_PROXY_CALLBACK:
             request.session['pgtiou'] = pgtiou
 
@@ -57,6 +60,9 @@ class CASBackend(ModelBackend):
             service=service,
         )
         return user
+
+    def check_additional_permissions(self, user):
+        return True
 
     def get_user(self, user_id):
         """Retrieve the user's entry in the User model if it exists"""
