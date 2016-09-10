@@ -45,7 +45,7 @@ class CASBackend(ModelBackend):
             created = True
 
         if not self.check_additional_permissions(user):
-            return False
+            return None
 
         if pgtiou and settings.CAS_PROXY_CALLBACK:
             request.session['pgtiou'] = pgtiou
