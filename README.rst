@@ -200,7 +200,7 @@ your own backend class.
     MyCASBackend(CASBackend):
 
         def check_additional_permissions(self, user):
-            if user.groups.filter(name='my_organization').exists():
+            if return user.has_permission('can_cas_login'):
                 return True
             return False
 
