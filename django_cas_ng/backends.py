@@ -44,7 +44,7 @@ class CASBackend(ModelBackend):
             user.save()
             created = True
 
-        if not self.check_additional_permissions(user):
+        if not self.user_can_authenticate(user):
             return None
 
         if pgtiou and settings.CAS_PROXY_CALLBACK:
@@ -61,7 +61,7 @@ class CASBackend(ModelBackend):
         )
         return user
 
-    def check_additional_permissions(self, user):
+    def user_can_authenticate(self, user):
         return True
 
     def get_user(self, user_id):
