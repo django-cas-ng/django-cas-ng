@@ -197,7 +197,7 @@ your own backend class.
 
     from django_cas_ng.backends import CASBackend
 
-    MyCASBackend(CASBackend):
+    class MyCASBackend(CASBackend):
 
         def user_can_authenticate(self, user):
             if return user.has_permission('can_cas_login'):
