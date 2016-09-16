@@ -200,7 +200,7 @@ your own backend class.
     class MyCASBackend(CASBackend):
 
         def user_can_authenticate(self, user):
-            if return user.has_permission('can_cas_login'):
+            if user.has_permission('can_cas_login'):
                 return True
             return False
 
