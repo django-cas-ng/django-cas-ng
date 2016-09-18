@@ -44,6 +44,9 @@ class CASBackend(ModelBackend):
             user.save()
             created = True
 
+        if not self.user_can_authenticate(user):
+            return None
+
         if pgtiou and settings.CAS_PROXY_CALLBACK:
             request.session['pgtiou'] = pgtiou
 
@@ -57,6 +60,9 @@ class CASBackend(ModelBackend):
             service=service,
         )
         return user
+
+    def user_can_authenticate(self, user):
+        return True
 
     def get_user(self, user_id):
         """Retrieve the user's entry in the User model if it exists"""
