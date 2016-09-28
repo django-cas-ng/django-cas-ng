@@ -6,6 +6,16 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+**django-cas-ng 3.5.5** ``[2016-09-28]``
+
+* Login after the session is created, fix the need for double login (such as #83, might fix it but seems slightly
+different)
+* Fix #96 Login after the session is created, fix the need for double login
+* Fix #95 by delete django requirement from setup.py
+* Fix #91 - raise PermissionDenied rather than return HttpResponseForbidden
+* Add check_additional_permissions to the backend. This allows one to subclass the backend and add arbitrary user permissions checks when authenticating.
+
+
 **django-cas-ng 3.5.4** ``[2016-04-27]``
 
 * Support for string view arguments to url() is deprecated and will be removed in Django 1.10.
