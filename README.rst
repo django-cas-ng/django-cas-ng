@@ -109,7 +109,8 @@ Optional settings include:
 * ``CAS_LOGOUT_COMPLETELY``: If ``False``, logging out of the application
   won't log the user out of CAS as well.
 * ``CAS_REDIRECT_URL``: Where to send a user after logging in or out if
-  there is no referrer and no next page set. Default is ``/``.
+  there is no referrer and no next page set. This setting also accepts named
+  URL patterns. Default is ``/``.
 * ``CAS_RETRY_LOGIN``: If ``True`` and an unknown or invalid ticket is
   received, the user is redirected back to the login page.
 * ``CAS_VERSION``: The CAS protocol version to use. ``'1'`` ``'2'`` ``'3'`` and ``'CAS_2_SAML_1_0'`` are
