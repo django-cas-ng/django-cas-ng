@@ -133,3 +133,47 @@ def test_backend_for_failed_auth(monkeypatch, django_user_model):
     assert not django_user_model.objects.filter(
         username='test@example.com',
     ).exists()
+
+
+@pytest.mark.django_db
+def test_backend_username_normalization(monkeypatch, django_user_model, settings):
+    """
+    Test CAS_USERNAME_NORMALIZATIONS setting
+    """
+    factory = RequestFactory()
+    request = factory.get('/login/')
+    request.session = {}
+
+    def mock_verify(ticket, service):
+        return ' tEsT ', {'ticket': ticket, 'service': service}, None
+
+    # we mock out the verify method so that we can bypass the external http
+    # calls needed for real authentication since we are testing the logic
+    # around authentication.
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
+
+    backend = backends.CASBackend()
+
+    normalizations = [
+        ([], ' tEsT '),
+        (['lower'], ' test '),
+        (['upper'], ' TEST '),
+        (['strip'], 'tEsT'),
+        (['lower', 'strip'], 'test'),
+        (['strip', 'lower'], 'test'),
+        (['upper', 'strip'], 'TEST'),
+        (['strip', 'upper'], 'TEST'),
+        ([lambda x: x.strip().lower()], 'test'),
+    ]
+
+    for normalization, expected in normalizations:
+        settings.CAS_USERNAME_NORMALIZATIONS = normalization
+        user = backend.authenticate(
+            ticket='fake-ticket', service='fake-service', request=request,
+        )
+
+        assert user is not None
+        assert user.username == expected
+        assert django_user_model.objects.filter(
+            username=expected,
+        ).exists()
