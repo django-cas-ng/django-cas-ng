@@ -6,6 +6,12 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+
+**django-cas-ng 3.5.6** ``[2016-11-06]``
+
+* Depends python_cas>=1.2.0
+
+
 **django-cas-ng 3.5.5** ``[2016-09-28]``
 
 * Login after the session is created, fix the need for double login (such as #83, might fix it but seems slightly
