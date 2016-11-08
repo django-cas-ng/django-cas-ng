@@ -185,25 +185,48 @@ these ones:
             response['Location'] = url
         return response
 
-Additional Permissions
-----------------------
+Custom backends
+---------------
 
-The ``CASBackend`` object allows you to subclass and extend the user permissions
-check. This may be useful if you need to check if a user belongs to an
-organization that has permission to use your application. To use this feature
-you can create your own ``app/backends.py`` file, and within that file create
-your own backend class.
+The ``CASBackend`` class is heavily inspired from Django's own
+``RemoteUserBackend`` and allows for some configurability through subclassing
+if you need more control than django-cas-ng's settings provide. For instance,
+here is an example backend that only allows some users to login through CAS:
 
 ..  code-block:: python
 
     from django_cas_ng.backends import CASBackend
 
     class MyCASBackend(CASBackend):
-
         def user_can_authenticate(self, user):
             if user.has_permission('can_cas_login'):
                 return True
             return False
+
+If you need more control over the authentication mechanism of your project than
+django-cas-ng's settings provide, you can create your own authentication
+backend that inherits from ``django_cas_ng.backends.CASBackend`` and override
+these attributes or methods:
+
+**CASBackend.clean_username(username)**
+
+Performs any cleaning on the ``username`` prior to using it to get or create a
+``User`` object. Returns the cleaned username. The default implementations
+changes the case according to the value of ``CAS_FORCE_CHANGE_USERNAME_CASE``.
+
+**CASBackend.user_can_authenticate(user)**
+
+Returns whether the user is allowed to authenticate. For consistency with
+Django's own behavior, django-cas-ng will allow all users to authenticate
+through CAS on Django versions lower than 1.10; starting with Django 1.10
+however, django-cas-ng will prevent users with ``is_active=False`` from
+authenticating.
+
+**CASBackend.configure_user(user)**
+
+Configures a newly created user. This method is called immediately after a new
+user is created, and can be used to perform custom setup actions. Returns the
+user object.
 
 Signals
 -------
