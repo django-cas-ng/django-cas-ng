@@ -16,6 +16,7 @@ _DEFAULTS = {
     'CAS_IGNORE_REFERER': False,
     'CAS_LOGOUT_COMPLETELY': True,
     'CAS_FORCE_CHANGE_USERNAME_CASE': None,
+    'CAS_USERNAME_NORMALIZATIONS': [],
     'CAS_REDIRECT_URL': '/',
     'CAS_RETRY_LOGIN': False,
     'CAS_SERVER_URL': None,
@@ -34,3 +35,7 @@ for key, value in list(_DEFAULTS.items()):
     # Suppress errors from DJANGO_SETTINGS_MODULE not being set
     except ImportError:
         pass
+
+# Legacy setting
+if settings.CAS_FORCE_CHANGE_USERNAME_CASE in ['lower', 'upper']:
+    settings.CAS_USERNAME_NORMALIZATIONS.append(settings.CAS_FORCE_CHANGE_USERNAME_CASE)

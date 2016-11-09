@@ -118,10 +118,14 @@ Optional settings include:
 * ``CAS_USERNAME_ATTRIBUTE``: The CAS user name attribute from response. The default is ``uid``.
 * ``CAS_PROXY_CALLBACK``: The full url to the callback view if you want to
   retrive a Proxy Granting Ticket
-* ``CAS_FORCE_CHANGE_USERNAME_CASE``: If ``lower``, usernames returned from CAS are lowercased before
-  we check whether their account already exists. Allows user `Joe` to log in to CAS either as
-  `joe` or `JOE` without duplicate accounts being created by Django (since Django allows
-  case-sensitive duplicates). If ``upper``, the submitted username will be uppercased. Default is ``False``.
+* ``CAS_USERNAME_NORMALIZATIONS``: a list of normalization functions to apply
+  (in order) to usernames returned from CAS before we check whether their
+  account already exists. Valid normalizations are ``lower`` (lowercases the
+  username), ``upper`` (uppercases the usernames), ``strip`` (strips
+  whitespaces before and after the username) and any callable object.
+  Default is ``[]`` (no normalization is applied).
+* ``CAS_FORCE_CHANGE_USERNAME_CASE``: This setting is deprecated. Use
+  ``CAS_USERNAME_NORMALIZATIONS`` instead.
 
 Make sure your project knows how to log users in and out by adding these to
 your URL mappings::

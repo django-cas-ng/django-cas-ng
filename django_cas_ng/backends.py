@@ -26,11 +26,15 @@ class CASBackend(ModelBackend):
         if not username:
             return None
 
-        username_case = settings.CAS_FORCE_CHANGE_USERNAME_CASE
-        if username_case == 'lower':
-            username = username.lower()
-        elif username_case == 'upper':
-            username = username.upper()
+        for func in settings.CAS_USERNAME_NORMALIZATIONS:
+            if callable(func):
+                username = func(username)
+            elif func == 'lower':
+                username = username.lower()
+            elif func == 'upper':
+                username = username.upper()
+            elif func == 'strip':
+                username = username.strip()
 
         try:
             user = User.objects.get(**{User.USERNAME_FIELD: username})
