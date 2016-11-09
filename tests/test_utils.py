@@ -108,3 +108,54 @@ def test_redirect_url_strips_domain_prefix(settings):
 
     assert actual == expected
 
+
+def test_redirect_url_named_pattern(settings):
+    settings.CAS_IGNORE_REFERER = False
+    settings.CAS_REDIRECT_URL = 'home'
+
+    factory = RequestFactory()
+    request = factory.get('/login/')
+
+    actual = get_redirect_url(request)
+    expected = '/'
+
+    assert actual == expected
+
+
+def test_redirect_url_named_pattern_without_referrer(settings):
+    settings.CAS_IGNORE_REFERER = True
+    settings.CAS_REDIRECT_URL = 'home'
+
+    factory = RequestFactory()
+    request = factory.get('/login/', HTTP_REFERER='/landing-page/')
+
+    actual = get_redirect_url(request)
+    expected = '/'
+
+    assert actual == expected
+
+
+def test_redirect_url_referrer_no_named_pattern(settings):
+    settings.CAS_IGNORE_REFERER = False
+    settings.CAS_REDIRECT_URL = '/wrong-landing-page/'
+
+    factory = RequestFactory()
+    request = factory.get('/login/', HTTP_REFERER='home')
+
+    actual = get_redirect_url(request)
+    expected = 'home'
+
+    assert actual == expected
+
+
+def test_redirect_url_next_no_named_pattern(settings):
+    settings.CAS_IGNORE_REFERER = False
+    settings.CAS_REDIRECT_URL = '/wrong-landing-page/'
+
+    factory = RequestFactory()
+    request = factory.get('/login/', data={'next': 'home'})
+
+    actual = get_redirect_url(request)
+    expected = 'home'
+
+    assert actual == expected

@@ -3,6 +3,7 @@ from django.conf import settings as django_settings
 from django.contrib.auth import REDIRECT_FIELD_NAME, SESSION_KEY, BACKEND_SESSION_KEY, load_backend
 from django.contrib.auth.models import AnonymousUser
 from django.utils.six.moves import urllib_parse
+from django.shortcuts import resolve_url
 
 
 def get_protocol(request):
@@ -19,10 +20,11 @@ def get_redirect_url(request):
 
     next_ = request.GET.get(REDIRECT_FIELD_NAME)
     if not next_:
+        redirect_url = resolve_url(django_settings.CAS_REDIRECT_URL)
         if django_settings.CAS_IGNORE_REFERER:
-            next_ = django_settings.CAS_REDIRECT_URL
+            next_ = redirect_url
         else:
-            next_ = request.META.get('HTTP_REFERER', django_settings.CAS_REDIRECT_URL)
+            next_ = request.META.get('HTTP_REFERER', redirect_url)
         prefix = urllib_parse.urlunparse(
             (get_protocol(request), request.get_host(), '', '', '', ''),
         )
