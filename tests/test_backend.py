@@ -133,3 +133,37 @@ def test_backend_for_failed_auth(monkeypatch, django_user_model):
     assert not django_user_model.objects.filter(
         username='test@example.com',
     ).exists()
+
+
+@pytest.mark.django_db
+def test_backend_user_can_authenticate(monkeypatch, django_user_model):
+    """
+    Test CAS authentication failure.
+    """
+    factory = RequestFactory()
+    request = factory.get('/login/')
+    request.session = {}
+
+    def mock_verify(ticket, service):
+        return 'test@example.com', {'ticket': ticket, 'service': service}, None
+
+    # we mock out the verify method so that we can bypass the external http
+    # calls needed for real authentication since we are testing the logic
+    # around authentication.
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
+
+    user = backends.CASBackend().authenticate(
+        ticket='fake-ticket', service='fake-service', request=request,
+    )
+
+    assert user is not None
+
+    class AllowNoneBackend(backends.CASBackend):
+        def user_can_authenticate(self, user):
+            return False
+
+    user = AllowNoneBackend().authenticate(
+        ticket='fake-ticket', service='fake-service', request=request,
+    )
+
+    assert user is None
