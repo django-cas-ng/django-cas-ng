@@ -260,7 +260,7 @@ Sent on successful authentication, the ``CASBackend`` will fire the ``cas_user_a
 django_cas_ng.signals.cas_user_logout
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Sent on user logout. Will be fire over manual logout or logout via CAS SingleLogOut query.
+Sent on user logout. Will be fired over manual logout or logout via CAS SingleLogOut query.
 
 **Arguments sent with this signal**
 
@@ -274,7 +274,7 @@ Sent on user logout. Will be fire over manual logout or logout via CAS SingleLog
   The current session we are loging out.
 
 **ticket**
-  The ticket used to authenticate the user with the CAS. (if found, else valeu if set to ``None``)
+  The ticket used to authenticate the user with the CAS. (if found, else value if set to ``None``)
 
 
 Proxy Granting Ticket
