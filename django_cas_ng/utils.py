@@ -66,6 +66,7 @@ def get_cas_client(service_url=None):
         proxy_callback=django_settings.CAS_PROXY_CALLBACK
     )
 
+
 def get_user_from_session(session):
     try:
         user_id = session[SESSION_KEY]
