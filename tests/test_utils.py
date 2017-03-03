@@ -44,6 +44,17 @@ def test_service_url_preserves_query_parameters():
     assert 'next=https%3A%2F%2Ftestserver%2Flanding-page%2F' in actual
 
 
+def test_service_url_avoids_next(settings):
+    settings.CAS_STORE_NEXT = True
+
+    factory = RequestFactory()
+    request = factory.get('/login/')
+
+    actual = get_service_url(request, redirect_to='/admin/')
+    expected = 'http://testserver/login/'
+    assert actual == expected
+
+
 #
 # get_redirect_url tests
 #

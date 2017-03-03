@@ -113,6 +113,8 @@ Optional settings include:
   URL patterns. Default is ``/``.
 * ``CAS_RETRY_LOGIN``: If ``True`` and an unknown or invalid ticket is
   received, the user is redirected back to the login page.
+* ``CAS_STORE_NEXT``: If ``True``, the page to redirect to following login will be stored
+  as a session variable, which can avoid encoding errors depending on the CAS implementation.
 * ``CAS_VERSION``: The CAS protocol version to use. ``'1'`` ``'2'`` ``'3'`` and ``'CAS_2_SAML_1_0'`` are
   supported, with ``'2'`` being the default.
 * ``CAS_USERNAME_ATTRIBUTE``: The CAS user name attribute from response. The default is ``uid``.
@@ -389,3 +391,5 @@ References
 .. _Wojciech Rygielski: https://github.com/wrygiel
 .. _Valentin Samir: https://github.com/nitmir
 .. _Alexander Kavanaugh: https://github.com/kavdev
+.. _Daniel Davis: https://github.com/danizen
+
