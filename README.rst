@@ -358,6 +358,7 @@ Credits
 * `Wojciech Rygielski`_
 * `Valentin Samir`_
 * `Alexander Kavanaugh`_
+* `Daniel Davis`_
 
 References
 ----------
