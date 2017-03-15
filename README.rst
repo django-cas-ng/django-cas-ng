@@ -5,7 +5,7 @@ Django CAS NG
     :target: https://travis-ci.org/mingchen/django-cas-ng
 
 
-``django-cas-ng`` is Central Authentication Service (CAS) client implementation.
+``django-cas-ng`` is a Central Authentication Service (CAS) client implementation.
 This project inherits from `django-cas`_ (which has not been updated since
 April 2013). The NG stands for "next generation". Our fork will include
 bugfixes and new features contributed by the community.
