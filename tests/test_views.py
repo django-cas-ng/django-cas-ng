@@ -100,6 +100,7 @@ def test_login_authenticate_and_create_user(monkeypatch, django_user_model, sett
 
     response = login(request)
     assert response.status_code == 302
+    assert response['Location'] == '/'
     assert django_user_model.objects.get(username='test@example.com').is_authenticated() is True
 
 
@@ -180,6 +181,43 @@ def test_login_proxy_callback(monkeypatch, django_user_model, settings):
 
 
 @pytest.mark.django_db
+def test_login_redirect_based_on_cookie(monkeypatch, django_user_model, settings):
+    """
+    Test the case where the login view authenticates a new user and redirects them based on cookie.
+    """
+    # No need to test the message framework
+    settings.CAS_LOGIN_MSG = None
+    # Make sure we use our backend
+    settings.AUTHENTICATION_BACKENDS = ['django_cas_ng.backends.CASBackend']
+    # Json serializer was havinga  hard time
+    settings.SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+    # Store next as cookie
+    settings.CAS_STORE_NEXT = True
+
+    def mock_verify(ticket, service):
+        return 'test@example.com', {'ticket': ticket, 'service': service}, None
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
+
+    factory = RequestFactory()
+    request = factory.get('/login/', {'ticket': 'fake-ticket',
+                                      'service': 'fake-service'})
+
+    # Create a session object from the middleware
+    process_request_for_middleware(request, SessionMiddleware)
+    # Create a user object from middleware
+    process_request_for_middleware(request, AuthenticationMiddleware)
+    # Add the next pointer
+    request.session['CASNEXT'] = '/admin/'
+
+    response = login(request)
+    assert response.status_code == 302
+    assert response['Location'] == '/admin/'
+
+    assert 'CASNEXT' not in request.session
+    assert django_user_model.objects.get(username='test@example.com').is_authenticated() is True
+
+
+@pytest.mark.django_db
 def test_login_no_ticket():
     """
     Test the case where we try to login with no ticket
@@ -194,6 +232,50 @@ def test_login_no_ticket():
 
     response = login(request)
     assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_login_no_ticket_stores_default_next(settings):
+    """
+    When there is no explicit next pointer, it gets stored in a cookie
+    """
+    settings.CAS_STORE_NEXT = True
+
+    factory = RequestFactory()
+    request = factory.get('/login/')
+
+    # Create a session object from the middleware
+    process_request_for_middleware(request, SessionMiddleware)
+    # Create a user object from middleware
+    process_request_for_middleware(request, AuthenticationMiddleware)
+
+    response = login(request)
+    assert response.status_code == 302
+
+    assert 'CASNEXT' in request.session
+    assert request.session['CASNEXT'] == '/'
+
+
+@pytest.mark.django_db
+def test_login_no_ticket_stores_explicit_next(settings):
+    """
+    When there is an explicit next pointer, it gets stored in the cookie
+    """
+    settings.CAS_STORE_NEXT = True
+
+    factory = RequestFactory()
+    request = factory.get('/login/', {'next': '/admin/'})
+
+    # Create a session object from the middleware
+    process_request_for_middleware(request, SessionMiddleware)
+    # Create a user object from middleware
+    process_request_for_middleware(request, AuthenticationMiddleware)
+
+    response = login(request)
+    assert response.status_code == 302
+
+    assert 'CASNEXT' in request.session
+    assert request.session['CASNEXT'] == '/admin/'
 
 
 def test_login_put_not_allowed():

@@ -41,6 +41,10 @@ def login(request, next_page=None, required=False):
     service_url = get_service_url(request, next_page)
     client = get_cas_client(service_url=service_url)
 
+    if not next_page and settings.CAS_STORE_NEXT and 'CASNEXT' in request.session:
+        next_page = request.session['CASNEXT']
+        del request.session['CASNEXT']
+
     if not next_page:
         next_page = get_redirect_url(request)
 
@@ -94,6 +98,8 @@ def login(request, next_page=None, required=False):
         else:
             raise PermissionDenied(_('Login failed.'))
     else:
+        if settings.CAS_STORE_NEXT:
+            request.session['CASNEXT'] = next_page
         return HttpResponseRedirect(client.get_login_url())
 
 
