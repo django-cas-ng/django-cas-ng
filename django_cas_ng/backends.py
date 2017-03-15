@@ -16,11 +16,11 @@ __all__ = ['CASBackend']
 class CASBackend(ModelBackend):
     """CAS authentication backend"""
 
-    def authenticate(self, ticket, service, request):
+    def authenticate(self, request, ticket, service):
         """Verifies CAS ticket and gets or creates User object"""
         client = get_cas_client(service_url=service)
         username, attributes, pgtiou = client.verify_ticket(ticket)
-        if attributes:
+        if attributes and request:
             request.session['attributes'] = attributes
 
         if not username:
@@ -49,7 +49,7 @@ class CASBackend(ModelBackend):
         if not self.user_can_authenticate(user):
             return None
 
-        if pgtiou and settings.CAS_PROXY_CALLBACK:
+        if pgtiou and settings.CAS_PROXY_CALLBACK and request:
             request.session['pgtiou'] = pgtiou
 
         # send the `cas_user_authenticated` signal
