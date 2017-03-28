@@ -257,6 +257,9 @@ Sent on successful authentication, the ``CASBackend`` will fire the ``cas_user_a
 
 **service**
   The service used to authenticate the user with the CAS.
+  
+**request**
+  The request that was used to login.
 
 
 django_cas_ng.signals.cas_user_logout
