@@ -60,6 +60,7 @@ class CASBackend(ModelBackend):
             attributes=attributes,
             ticket=ticket,
             service=service,
+            request=request
         )
         return user
 
