@@ -7,6 +7,15 @@ Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
 
+**django-cas-ng 3.5.7** ``[2016-11-06]``
+
+  * Added the request to the signals
+  * Address #114 by providing a setting `CAS_STORE_NEXT`
+  * Change authenticate() argument order for changes in Django 1.11
+  * CAS_REDIRECT_URL should accept named URL patterns
+  * Add requests to requirements
+
+
 **django-cas-ng 3.5.6** ``[2016-11-06]``
 
 * Depends python_cas>=1.2.0
