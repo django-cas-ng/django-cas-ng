@@ -124,6 +124,10 @@ Optional settings include:
   we check whether their account already exists. Allows user `Joe` to log in to CAS either as
   `joe` or `JOE` without duplicate accounts being created by Django (since Django allows
   case-sensitive duplicates). If ``upper``, the submitted username will be uppercased. Default is ``False``.
+* ``CAS_APPLY_ATTRIBUTES_TO_USER``: If ``True`` any attributes returned by the CAS provider
+  included in the ticket will be applied to the User model returned by authentication. This is
+  useful if your provider is including details about the User which should be reflected in your model.
+  The default is ``False``.
 
 Make sure your project knows how to log users in and out by adding these to
 your URL mappings::
@@ -362,6 +366,7 @@ Credits
 * `Valentin Samir`_
 * `Alexander Kavanaugh`_
 * `Daniel Davis`_
+* `Peter Baehr`_
 
 References
 ----------
