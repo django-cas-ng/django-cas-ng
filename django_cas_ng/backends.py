@@ -52,6 +52,30 @@ class CASBackend(ModelBackend):
         if pgtiou and settings.CAS_PROXY_CALLBACK and request:
             request.session['pgtiou'] = pgtiou
 
+        if settings.CAS_APPLY_ATTRIBUTES_TO_USER and attributes:
+            # If we are receiving None for any values which cannot be NULL
+            # in the User model, set them to an empty string instead.
+            # Possibly it would be desirable to let these throw an error
+            # and push the responsibility to the CAS provider or remove
+            # them from the dictionary entirely instead. Handling these
+            # is a little ambiguous.
+            user_model_fields = UserModel._meta.fields
+            for field in user_model_fields:
+                if not field.null:
+                    try:
+                        if attributes[field.name] is None:
+                            attributes[field.name] = ''
+                    except KeyError:
+                        continue
+
+            user.__dict__.update(attributes)
+
+            # If we are keeping a local copy of the user model we
+            # should save these attributes which have a corresponding
+            # instance in the DB.
+            if settings.CAS_CREATE_USER:
+                user.save()
+
         # send the `cas_user_authenticated` signal
         cas_user_authenticated.send(
             sender=self,

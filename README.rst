@@ -396,4 +396,5 @@ References
 .. _Valentin Samir: https://github.com/nitmir
 .. _Alexander Kavanaugh: https://github.com/kavdev
 .. _Daniel Davis: https://github.com/danizen
+.. _Peter Baehr: https://github.com/pbaehr
 

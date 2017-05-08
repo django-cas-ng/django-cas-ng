@@ -25,6 +25,7 @@ _DEFAULTS = {
     'CAS_LOGIN_MSG': _("Login succeeded. Welcome, %s."),
     'CAS_LOGGED_MSG': _("You are logged in as %s."),
     'CAS_STORE_NEXT': False,
+    'CAS_APPLY_ATTRIBUTES_TO_USER': False,
 }
 
 for key, value in list(_DEFAULTS.items()):
