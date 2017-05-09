@@ -192,3 +192,50 @@ def test_backend_user_can_authenticate(monkeypatch, django_user_model):
     )
 
     assert user is None
+
+
+@pytest.mark.django_db
+def test_backend_does_not_apply_attributes_by_default(monkeypatch):
+    """
+    Test to make sure attributes returned from the provider are not assigned to
+    the User model by default.
+    """
+    factory = RequestFactory()
+    request = factory.get('/login/')
+    request.session = {}
+
+    def mock_verify(ticket, service):
+        return 'test@example.com', {'is_staff': True, 'is_superuser': False}, None
+
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
+
+    backend = backends.CASBackend()
+    user = backend.authenticate(request, ticket='fake-ticket',
+                                service='fake-service')
+
+    assert user is not None
+    assert not user.is_staff
+
+
+@pytest.mark.django_db
+def test_backend_applies_attributes_when_set(monkeypatch, settings):
+    """
+    If CAS_APPLY_ATTRIBUTES_TO_USER is set, make sure the attributes returned
+    with the ticket are added to the User model.
+    """
+    factory = RequestFactory()
+    request = factory.get('/login/')
+    request.session = {}
+
+    def mock_verify(ticket, service):
+        return 'test@example.com', {'is_staff': True, 'is_superuser': False}, None
+
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
+
+    settings.CAS_APPLY_ATTRIBUTES_TO_USER = True
+    backend = backends.CASBackend()
+    user = backend.authenticate(request, ticket='fake-ticket',
+                                service='fake-service')
+
+    assert user is not None
+    assert user.is_staff
