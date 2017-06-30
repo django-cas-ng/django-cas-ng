@@ -7,6 +7,15 @@ Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
 
+**django-cas-ng 3.5.8** ``[2017-06-30]``
+
+  * Upgrade django-cas to 1.2.0
+  * Fix: Coerce boolean strings in attributes to actual boolean values
+  * Update middleware for consistency with new-style django middleware
+  * Add CAS_APPLY_ATTRIBUTES_TO_USER  new settings option to apply attributes to User model.
+  * Add support for applying attributes returned from ticket to User model
+
+
 **django-cas-ng 3.5.7** ``[2016-11-06]``
 
   * Added the request to the signals
