@@ -205,7 +205,7 @@ def test_backend_does_not_apply_attributes_by_default(monkeypatch):
     request.session = {}
 
     def mock_verify(ticket, service):
-        return 'test@example.com', {'is_staff': True, 'is_superuser': False}, None
+        return 'test@example.com', {'is_staff': 'True', 'is_superuser': 'False'}, None
 
     monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
 
@@ -228,7 +228,7 @@ def test_backend_applies_attributes_when_set(monkeypatch, settings):
     request.session = {}
 
     def mock_verify(ticket, service):
-        return 'test@example.com', {'is_staff': True, 'is_superuser': False}, None
+        return 'test@example.com', {'is_staff': 'True', 'is_superuser': 'False'}, None
 
     monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
 
@@ -239,3 +239,24 @@ def test_backend_applies_attributes_when_set(monkeypatch, settings):
 
     assert user is not None
     assert user.is_staff
+
+
+@pytest.mark.django_db
+def test_boolean_attributes_applied_as_booleans(monkeypatch, settings):
+    factory = RequestFactory()
+    request = factory.get('/login/')
+    request.session = {}
+
+    def mock_verify(ticket, service):
+        return 'test@example.com', {'is_staff': 'True', 'is_superuser': 'False'}, None
+
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
+
+    settings.CAS_APPLY_ATTRIBUTES_TO_USER = True
+    backend = backends.CASBackend()
+    user = backend.authenticate(request, ticket='fake-ticket',
+                                service='fake-service')
+
+    assert user is not None
+    assert user.is_superuser is False
+    assert user.is_staff is True

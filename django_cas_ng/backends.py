@@ -61,10 +61,18 @@ class CASBackend(ModelBackend):
             # is a little ambiguous.
             user_model_fields = UserModel._meta.fields
             for field in user_model_fields:
+                # Handle null -> '' conversions mentioned above
                 if not field.null:
                     try:
                         if attributes[field.name] is None:
                             attributes[field.name] = ''
+                    except KeyError:
+                        continue
+                # Coerce boolean strings into true booleans
+                if field.get_internal_type() == 'BooleanField':
+                    try:
+                        boolean_value = attributes[field.name] == 'True'
+                        attributes[field.name] = boolean_value
                     except KeyError:
                         continue
 
