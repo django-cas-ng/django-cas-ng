@@ -81,6 +81,10 @@ Optional settings include:
   see if it lives in ``django.contrib.admin.views``.
 * ``CAS_CREATE_USER``: Create a user when the CAS authentication is successful.
   The default is ``True``.
+* ``CAS_CREATE_USER_WITH_ID``: Create a user using the ``id`` field provided by
+  the attributes returned by the CAS provider. Default is ``False``. Raises
+  ``ImproperlyConfigured`` exception if attributes are not provided or do not
+  contain the field ``id``.
 * ``CAS_LOGIN_MSG``: Welcome message send via the messages framework upon
   successful authentication. Take the user login as formatting argument.
   The default is ``"Login succeeded. Welcome, %s."`` or some translation of it

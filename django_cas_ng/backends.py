@@ -34,9 +34,13 @@ class CASBackend(ModelBackend):
         # instead we use get_or_create when creating unknown users since it has
         # built-in safeguards for multiple threads.
         if settings.CAS_CREATE_USER:
-            user, created = UserModel._default_manager.get_or_create(**{
+            user_kwargs = {
                 UserModel.USERNAME_FIELD: username
-            })
+            }
+            if settings.CAS_CREATE_USER_WITH_ID:
+                user_kwargs['id'] = self.get_user_id(attributes)
+
+            user, created = UserModel._default_manager.get_or_create(**user_kwargs)
             if created:
                 user = self.configure_user(user)
         else:
@@ -102,6 +106,25 @@ class CASBackend(ModelBackend):
     if not hasattr(ModelBackend, 'user_can_authenticate'):
         def user_can_authenticate(self, user):
             return True
+
+    def get_user_id(self, attributes):
+        """
+        For use when CAS_CREATE_USER_WITH_ID is True. Will raise ImproperlyConfigured
+        exceptions when a user_id cannot be accessed. This is important because we
+        shouldn't create Users with automatically assigned ids if we are trying to
+        keep User primary key's in sync.
+        """
+        if not attributes:
+            raise ImproperlyConfigured("CAS_CREATE_USER_WITH_ID is True, but "
+                                       "no attributes were provided")
+
+        user_id = attributes.get('id')
+
+        if not user_id:
+            raise ImproperlyConfigured("CAS_CREATE_USER_WITH_ID is True, but "
+                                       "`'id'` is not part of attributes.")
+
+        return user_id
 
     def clean_username(self, username):
         """
