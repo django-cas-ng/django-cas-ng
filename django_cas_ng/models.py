@@ -1,7 +1,7 @@
 # ⁻*- coding: utf-8 -*-
 from django.db import models
 from django.conf import settings
-from .utils import (get_cas_client, get_service_url, get_user_from_session)
+from .utils import (get_cas_client, get_user_from_session)
 
 
 from importlib import import_module
@@ -51,10 +51,9 @@ class ProxyGrantingTicket(models.Model):
                 "No proxy ticket found for this HttpRequest object"
             )
         else:
-            service_url = get_service_url(request)
-            client = get_cas_client(service_url=service_url)
+            client = get_cas_client(service_url=service)
             try:
-                return client.get_proxy_ticket(pgt, service)
+                return client.get_proxy_ticket(pgt)
             # change CASError to ProxyError nicely
             except CASError as error:
                 raise ProxyError(*error.args)
