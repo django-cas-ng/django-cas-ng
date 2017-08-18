@@ -18,7 +18,7 @@ class CASBackend(ModelBackend):
 
     def authenticate(self, request, ticket, service):
         """Verifies CAS ticket and gets or creates User object"""
-        client = get_cas_client(service_url=service)
+        client = get_cas_client(service_url=service, request=request)
         username, attributes, pgtiou = client.verify_ticket(ticket)
         if attributes and request:
             request.session['attributes'] = attributes
