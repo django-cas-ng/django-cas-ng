@@ -58,7 +58,7 @@ def get_cas_client(service_url=None, request=None):
     """
     # Handle CAS_SERVER_URL without protocol and hostname
     server_url = django_settings.CAS_SERVER_URL
-    if request and server_url.startswith('/'):
+    if server_url and request and server_url.startswith('/'):
         scheme = request.META.get("X-Forwarded-Proto", request.scheme)
         server_url = scheme + "://" + request.META['HTTP_HOST'] + server_url
     assert server_url.startswith('http'), "settings.CAS_SERVER_URL invalid"
