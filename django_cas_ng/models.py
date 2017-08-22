@@ -51,7 +51,7 @@ class ProxyGrantingTicket(models.Model):
                 "No proxy ticket found for this HttpRequest object"
             )
         else:
-            client = get_cas_client(service_url=service)
+            client = get_cas_client(service_url=service, request=request)
             try:
                 return client.get_proxy_ticket(pgt)
             # change CASError to ProxyError nicely
