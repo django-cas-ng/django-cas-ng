@@ -136,7 +136,7 @@ Optional settings include:
 Make sure your project knows how to log users in and out by adding these to
 your URL mappings::
 
-    import django_cas_ng
+    import django_cas_ng.views
 
     url(r'^accounts/login$', django_cas_ng.views.login, name='cas_ng_login'),
     url(r'^accounts/logout$', django_cas_ng.views.logout, name='cas_ng_logout'),
