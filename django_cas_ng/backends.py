@@ -161,7 +161,6 @@ class CASBackend(ModelBackend):
         UserModel = get_user_model()
         try:
             user = UserModel._default_manager.get(pk=user_id)
-            user = rewrite_user(user)
         except UserModel.DoesNotExist:
             pass
 
