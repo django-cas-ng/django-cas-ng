@@ -68,7 +68,6 @@ def login(request, next_page=None, required=False):
     else:
         is_user_authenticated = request.user.is_authenticated()
 
-
     if is_user_authenticated:
         if settings.CAS_LOGGED_MSG is not None:
             message = settings.CAS_LOGGED_MSG % request.user.get_username()
