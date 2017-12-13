@@ -3,6 +3,9 @@
 from __future__ import absolute_import
 from __future__ import unicode_literals
 
+import sys
+import types
+
 from django.utils.six.moves import urllib_parse
 from django.conf import settings
 from django.http import HttpResponseRedirect
@@ -52,7 +55,20 @@ def login(request, next_page=None, required=False):
         clean_sessions(client, request)
         return HttpResponseRedirect(next_page)
 
-    if request.user.is_authenticated():
+    # backward compability for django < 2.0
+    is_user_authenticated = False
+
+    if sys.version_info >= (3, 0):
+        bool_type = bool
+    else:
+        bool_type = types.BooleanType
+
+    if isinstance(request.user.is_authenticated, bool_type):
+        is_user_authenticated = request.user.is_authenticated
+    else:
+        is_user_authenticated = request.user.is_authenticated()
+
+    if is_user_authenticated:
         if settings.CAS_LOGGED_MSG is not None:
             message = settings.CAS_LOGGED_MSG % request.user.get_username()
             messages.success(request, message)
