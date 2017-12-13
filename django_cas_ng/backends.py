@@ -152,3 +152,16 @@ class CASBackend(ModelBackend):
         By default, returns the user unmodified.
         """
         return user
+
+    def get_user(self, user_id):
+        """
+        Retrieve the user's entry in the User model if it exists
+        """
+        user = None
+        UserModel = get_user_model()
+        try:
+            user = UserModel._default_manager.get(pk=user_id)
+        except UserModel.DoesNotExist:
+            pass
+
+        return user
