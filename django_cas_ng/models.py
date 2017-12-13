@@ -22,7 +22,8 @@ class ProxyGrantingTicket(models.Model):
         settings.AUTH_USER_MODEL,
         related_name="+",
         null=True,
-        blank=True
+        blank=True,
+        on_delete=models.CASCADE
     )
     pgtiou = models.CharField(max_length=255, null=True, blank=True)
     pgt = models.CharField(max_length=255, null=True, blank=True)
