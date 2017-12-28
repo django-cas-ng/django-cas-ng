@@ -28,6 +28,11 @@ class CASBackend(ModelBackend):
         user = None
         username = self.clean_username(username)
 
+        if attributes:
+            reject = self.bad_attributes_reject(request, username, attributes)
+            if reject:
+                return None
+
         UserModel = get_user_model()
 
         # Note that this could be accomplished in one try-except clause, but
@@ -152,3 +157,6 @@ class CASBackend(ModelBackend):
         By default, returns the user unmodified.
         """
         return user
+
+    def bad_attributes_reject(self, request, username, attributes):
+        return False
