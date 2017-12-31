@@ -9,7 +9,6 @@ from cas import CASError
 
 import django
 
-
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
 
@@ -65,7 +64,7 @@ class ProxyGrantingTicket(models.Model):
             # change CASError to ProxyError nicely
             except CASError as error:
                 raise ProxyError(*error.args)
-            # juste embed other errors
+            # just embed other errors
             except Exception as e:
                 raise ProxyError(e)
 
