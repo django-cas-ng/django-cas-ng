@@ -6,6 +6,12 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+**django-cas-ng 3.5.9** ``[2018-01-02]``
+
+  * Add the optional setting CAS_CREATE_USER_WITH_ID. (PR #129)
+  * Fix get_proxy_ticket method usage. (PR #131)
+  * Add django 2.0 compability. (PR #143 #146)
+  * Added bad_attributes_reject to check SAML key/value attributes. (PR #145)
 
 **django-cas-ng 3.5.8** ``[2017-06-30]``
 
