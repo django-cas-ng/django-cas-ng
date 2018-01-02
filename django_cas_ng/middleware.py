@@ -10,7 +10,11 @@ from django.core.exceptions import PermissionDenied
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.views import login, logout
-from django.core.urlresolvers import reverse
+try:
+    # Django > 1.10 deprecates django.core.urlresolvers
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 
 try:

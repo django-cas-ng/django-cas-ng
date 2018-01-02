@@ -11,6 +11,7 @@ from django_cas_ng.backends import CASBackend
 from django_cas_ng.signals import cas_user_authenticated, cas_user_logout
 from django_cas_ng.views import login, logout
 
+import django
 
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
@@ -44,7 +45,10 @@ def test_signal_when_user_logout_manual(monkeypatch, django_user_model):
         callback_values['session'] = dict(session)
 
     response = logout(request)
-    assert request.user.is_anonymous() is True
+    if django.VERSION[0] < 2:
+        assert request.user.is_anonymous() is True
+    else:
+        assert request.user.is_anonymous is True
     assert 'user' in callback_values
     assert callback_values['user'] == user
     assert 'session' in callback_values
