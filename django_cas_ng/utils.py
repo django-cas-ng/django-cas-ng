@@ -35,7 +35,7 @@ def get_redirect_url(request):
 
 def get_service_url(request, redirect_to=None):
     """Generates application django service URL for CAS"""
-    if django_settings.CAS_ROOT_PROXIED_AS:
+    if 'CAS_ROOT_PROXIED_AS' in django_settings:
         service = django_settings.CAS_ROOT_PROXIED_AS + '/' + request.path
     else:
         protocol = get_protocol(request)
