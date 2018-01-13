@@ -125,6 +125,8 @@ Optional settings include:
 * ``CAS_USERNAME_ATTRIBUTE``: The CAS user name attribute from response. The default is ``uid``.
 * ``CAS_PROXY_CALLBACK``: The full url to the callback view if you want to
   retrive a Proxy Granting Ticket
+* ``CAS_ROOT_PROXIED_AS``: Useful if behind a proxy server.  If host is listening on http://foo.bar:8080 but request
+  is https://foo.bar:8443.  Add CAS_ROOT_PROXIED_AS = 'https://foo.bar:8443' to your settings.
 * ``CAS_FORCE_CHANGE_USERNAME_CASE``: If ``lower``, usernames returned from CAS are lowercased before
   we check whether their account already exists. Allows user `Joe` to log in to CAS either as
   `joe` or `JOE` without duplicate accounts being created by Django (since Django allows
