@@ -23,6 +23,8 @@ try:
 except ImportError:
     MiddlewareMixin = object
 
+import django
+
 from .views import login as cas_login, logout as cas_logout
 
 __all__ = ['CASMiddleware']
@@ -60,7 +62,12 @@ class CASMiddleware(MiddlewareMixin):
         elif not view_func.__module__.startswith('django.contrib.admin.'):
             return None
 
-        if request.user.is_authenticated():
+        if django.VERSION[0] < 2:
+            is_user_authenticated = request.user.is_authenticated()
+        else:
+            is_user_authenticated = request.user.is_authenticated
+
+        if is_user_authenticated:
             if request.user.is_staff:
                 return None
             else:
