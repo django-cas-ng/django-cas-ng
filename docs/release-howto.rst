@@ -19,7 +19,15 @@ How To Make A Release
     make build
 
 7. Upload release to pypi.python.org
+    
+    # update setuptools if needed.
+    #pip install -U pip setuptools twine
 
     python setup.py sdist upload    
+
+    or 
+
+    python setup.py sdist
+    twine upload dist/django-cas-ng-3.5.9.tar.gz
 
 8. Create a new release on https://github.com/mingchen/django-cas-ng/releases
