@@ -26,7 +26,7 @@ _DEFAULTS = {
     'CAS_LOGGED_MSG': _("You are logged in as %s."),
     'CAS_STORE_NEXT': False,
     'CAS_APPLY_ATTRIBUTES_TO_USER': False,
-    'CAS_RENAME_ATTRIBUTES':{},
+    'CAS_RENAME_ATTRIBUTES': {},
     'CAS_CREATE_USER_WITH_ID': False
 }
 
