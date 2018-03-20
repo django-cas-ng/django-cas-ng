@@ -40,7 +40,6 @@ class CASBackend(ModelBackend):
                     attributes[req_attr_name] = attributes[cas_attr_name]
                     attributes.pop(cas_attr_name)
 
-
         UserModel = get_user_model()
 
         # Note that this could be accomplished in one try-except clause, but
