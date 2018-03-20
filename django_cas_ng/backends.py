@@ -33,6 +33,14 @@ class CASBackend(ModelBackend):
             if reject:
                 return None
 
+            # If we can, we rename the attributes as described in the settings file
+            # Existing attributes will be overwritten
+            for cas_attr_name, req_attr_name in settings.CAS_RENAME_ATTRIBUTES.items():
+                if cas_attr_name in attributes:
+                    attributes[req_attr_name] = attributes[cas_attr_name]
+                    attributes.pop(cas_attr_name)
+
+
         UserModel = get_user_model()
 
         # Note that this could be accomplished in one try-except clause, but
