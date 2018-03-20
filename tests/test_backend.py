@@ -242,6 +242,42 @@ def test_backend_applies_attributes_when_set(monkeypatch, settings):
 
 
 @pytest.mark.django_db
+def test_cas_attributes_renaming_working(monkeypatch, settings):
+    """
+    Test to make sure attributes are renamed according to the setting file
+    """
+    factory = RequestFactory()
+    request = factory.get('/login/')
+    request.session = {}
+
+    def mock_verify(ticket, service):
+        return 'test@example.com', \
+            {'ln': 'MyLastName','fn':'MyFirstName','unkownAttr':'knownAttr'}, \
+            None
+
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
+
+    settings.CAS_RENAME_ATTRIBUTES = {'ln':'last_name'}
+    settings.CAS_APPLY_ATTRIBUTES_TO_USER = True
+
+    backend = backends.CASBackend()
+    user = backend.authenticate(request, ticket='fake-ticket',
+                                service='fake-service')
+
+    # Checking user data
+    assert user is not None
+    assert user.last_name == 'MyLastName'
+    assert user.first_name == ''
+
+    # checking session data
+    session_attr = request.session['attributes']
+    assert session_attr['fn'] == 'MyFirstName'
+    assert session_attr['last_name'] == 'MyLastName'
+    with pytest.raises(KeyError):
+        session_attr['ln']  
+
+
+@pytest.mark.django_db
 def test_boolean_attributes_applied_as_booleans(monkeypatch, settings):
     """
     If CAS_CREATE_USER_WITH_ID is True and 'id' is in the attributes, use this
