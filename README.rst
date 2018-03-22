@@ -135,6 +135,10 @@ Optional settings include:
   included in the ticket will be applied to the User model returned by authentication. This is
   useful if your provider is including details about the User which should be reflected in your model.
   The default is ``False``.
+* ``CAS_RENAME_ATTRIBUTES``: a dict used to rename the (key of the) attributes that the CAS server may retrun.
+  For example, if ``CAS_RENAME_ATTRIBUTES = {'ln':'last_name'}`` the ``ln`` attribute returned by the cas server
+  will be renamed as ``last_name``. Used with ``CAS_APPLY_ATTRIBUTES_TO_USER = True``, this provides an easy way 
+  to fill in Django Users' info independtly from the attributes' keys returned by the CAS server. 
 
 Make sure your project knows how to log users in and out by adding these to
 your URL mappings::
