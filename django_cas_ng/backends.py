@@ -7,7 +7,7 @@ from django.contrib.auth.backends import ModelBackend
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
-from django_cas_ng.signals import cas_user_authenticated
+from django_cas_ng.signals import cas_user_authenticated, cas_user_cannot_authenticate
 from .utils import get_cas_client
 
 __all__ = ['CASBackend']
@@ -63,6 +63,14 @@ class CASBackend(ModelBackend):
                 pass
 
         if not self.user_can_authenticate(user):
+            cas_user_cannot_authenticate.send(
+                sender=self,
+                username=username,
+                user=user,
+                created=created,
+                ticket=ticket,
+                request=request,
+            )
             return None
 
         if pgtiou and settings.CAS_PROXY_CALLBACK and request:
@@ -112,12 +120,15 @@ class CASBackend(ModelBackend):
         )
         return user
 
-    # ModelBackend has a `user_can_authenticate` method starting from Django
-    # 1.10, that only allows active user to log in. For consistency,
-    # django-cas-ng will have the same behavior as Django's ModelBackend.
-    if not hasattr(ModelBackend, 'user_can_authenticate'):
-        def user_can_authenticate(self, user):
-            return True
+    def user_can_authenticate(self, user):
+        if hasattr(ModelBackend, 'user_can_authenticate'):
+            # ModelBackend has a `user_can_authenticate` method starting from Django
+            # 1.10, that only allows active user to log in. For consistency,
+            # django-cas-ng will have the same behavior as Django's ModelBackend.
+            can_authenticate = super().user_can_authenticate(user)
+        else:
+            can_authenticate = True
+        return can_authenticate and user is not None
 
     def get_user_id(self, attributes):
         """

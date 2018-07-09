@@ -137,8 +137,8 @@ Optional settings include:
   The default is ``False``.
 * ``CAS_RENAME_ATTRIBUTES``: a dict used to rename the (key of the) attributes that the CAS server may retrun.
   For example, if ``CAS_RENAME_ATTRIBUTES = {'ln':'last_name'}`` the ``ln`` attribute returned by the cas server
-  will be renamed as ``last_name``. Used with ``CAS_APPLY_ATTRIBUTES_TO_USER = True``, this provides an easy way 
-  to fill in Django Users' info independtly from the attributes' keys returned by the CAS server. 
+  will be renamed as ``last_name``. Used with ``CAS_APPLY_ATTRIBUTES_TO_USER = True``, this provides an easy way
+  to fill in Django Users' info independtly from the attributes' keys returned by the CAS server.
 
 Make sure your project knows how to log users in and out by adding these to
 your URL mappings::
@@ -269,11 +269,11 @@ and create a file ``mysite/backends.py`` containing::
     class MyCASBackend(CASBackend):
         def user_can_authenticate(self, user):
             return True
-    
+
     def bad_attributes_reject(self, request, username, attributes):
         attribute = settings.MY_SAML_CONTROL[0]
         value = settings.MY_SAML_CONTROL[1]
-        
+
         if attribute not in attributes:
 	    message = 'No \''+ attribute + '\' in SAML attributes'
 	    messages.add_message(request, messages.ERROR, message)
@@ -314,10 +314,36 @@ Sent on successful authentication, the ``CASBackend`` will fire the ``cas_user_a
 
 **service**
   The service used to authenticate the user with the CAS.
-  
+
 **request**
   The request that was used to login.
 
+
+django_cas_ng.signals.cas_user_cannot_authenticate
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Sent when CAS has verified the user, but the user cannot login.  Either the user does not exist and
+will not be created, or the user is not active.
+
+**Arguments sent with this signal**
+
+**sender**
+  The authentication backend instance that authenticated the user.
+
+**username**
+  The name of the user that cannot login
+
+**user**
+  The user instance that was found, but not authenticated.  Note that the user may be ``None``.
+
+**created**
+  Boolean as to whether the user was just created.
+
+**ticket**
+  The ticket used to authenticate the user with the CAS.
+
+**request**
+  The request that was used to login.
 
 django_cas_ng.signals.cas_user_logout
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -337,6 +363,9 @@ Sent on user logout. Will be fired over manual logout or logout via CAS SingleLo
 
 **ticket**
   The ticket used to authenticate the user with the CAS. (if found, else value if set to ``None``)
+
+**request**
+  The request that was used to logout.  Note that this may be ``None``.
 
 
 Proxy Granting Ticket

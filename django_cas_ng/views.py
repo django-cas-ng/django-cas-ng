@@ -134,6 +134,7 @@ def logout(request, next_page=None):
         user=request.user,
         session=request.session,
         ticket=ticket,
+        request=request,
     )
     auth_logout(request)
     # clean current session ProxyGrantingTicket and SessionTicket
@@ -184,6 +185,7 @@ def clean_sessions(client, request):
                 user=get_user_from_session(session),
                 session=session,
                 ticket=slo.text,
+                request=request,
             )
             session.flush()
             # clean logout session ProxyGrantingTicket and SessionTicket

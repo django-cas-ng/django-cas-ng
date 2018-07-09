@@ -8,7 +8,7 @@ from importlib import import_module
 
 from django_cas_ng.models import SessionTicket
 from django_cas_ng.backends import CASBackend
-from django_cas_ng.signals import cas_user_authenticated, cas_user_logout
+from django_cas_ng.signals import cas_user_authenticated, cas_user_logout, cas_user_cannot_authenticate
 from django_cas_ng.views import login, logout
 
 import django
@@ -55,6 +55,8 @@ def test_signal_when_user_logout_manual(monkeypatch, django_user_model):
     assert callback_values['session'].get('fake_session_key') == 'fake-session_value'
     assert 'ticket' in callback_values
     assert callback_values['ticket'] == 'fake-ticket'
+    assert 'request' in callback_values
+    assert callback_values['request'] == request
 
 
 @pytest.mark.django_db
@@ -160,10 +162,15 @@ def test_signal_when_user_already_exists(monkeypatch, django_user_model):
         return 'test@example.com', {'ticket': ticket, 'service': service}, None
 
     callback_values = {}
+    fail_callback_values = {}
 
     @receiver(cas_user_authenticated)
     def callback(sender, **kwargs):
         callback_values.update(kwargs)
+
+    @receiver(cas_user_cannot_authenticate)
+    def fail_callback(sender, **kwargs):
+        fail_callback_values.update(kwargs)
 
     # we mock out the verify method so that we can bypass the external http
     # calls needed for real authentication since we are testing the logic
@@ -187,6 +194,8 @@ def test_signal_when_user_already_exists(monkeypatch, django_user_model):
     assert 'ticket' in callback_values
     assert 'service' in callback_values
 
+    assert fail_callback_values == {}
+
 
 @pytest.mark.django_db
 def test_signal_not_fired_if_auth_fails(monkeypatch, django_user_model):
@@ -202,10 +211,16 @@ def test_signal_not_fired_if_auth_fails(monkeypatch, django_user_model):
         return None, {}, None
 
     callback_values = {}
+    fail_callback_values = {}
 
     @receiver(cas_user_authenticated)
     def callback(sender, **kwargs):
         callback_values.update(kwargs)
+
+    @receiver(cas_user_cannot_authenticate)
+    def failure_callback(sender, **kwargs):
+        fail_callback_values.update(kwargs)
+
 
     # we mock out the verify method so that we can bypass the external http
     # calls needed for real authentication since we are testing the logic
@@ -220,3 +235,54 @@ def test_signal_not_fired_if_auth_fails(monkeypatch, django_user_model):
 
     assert user is None
     assert callback_values == {}
+    assert fail_callback_values == {}
+
+
+@pytest.mark.django_db
+def test_signal_fired_if_django_auth_fails(monkeypatch, django_user_model, settings):
+    """
+    Test that the cas_user_cannot_authenticate signal is fired when CAS
+    authentication fails because CAS verified the signal but the user cannot login
+    """
+    settings.CAS_CREATE_USER = False
+
+    factory = RequestFactory()
+    request = factory.get('/login/')
+    request.session = {}
+
+    def mock_verify(ticket, service):
+        return 'test@example.com', {'ticket': ticket, 'service': service}, None
+
+    callback_values = {}
+    fail_callback_values = {}
+
+    @receiver(cas_user_authenticated)
+    def callback(sender, **kwargs):
+        callback_values.update(kwargs)
+
+    @receiver(cas_user_cannot_authenticate)
+    def fail_callback(sender, **kwargs):
+        fail_callback_values.update(kwargs)
+
+
+    # we mock out the verify method so that we can bypass the external http
+    # calls needed for real authentication since we are testing the logic
+    # around authentication.
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
+
+    # sanity check
+    django_user_model.objects.filter(username='test@example.com').delete()
+
+    backend = CASBackend()
+    user = backend.authenticate(
+        ticket='fake-ticket', service='fake-service', request=request,
+    )
+    assert user is None
+
+    assert callback_values == {}
+
+    assert 'user' in fail_callback_values
+    assert fail_callback_values.get('user') == None
+    assert 'ticket' in fail_callback_values
+    assert 'request' in fail_callback_values
+    assert fail_callback_values.get('created') == False
