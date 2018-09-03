@@ -1,7 +1,6 @@
 from __future__ import absolute_import
 from django_cas_ng.models import *
 from django_cas_ng.backends import *
-from django_cas_ng.middleware import *
 from django_cas_ng.views import *
 from django_cas_ng.decorators import *
 

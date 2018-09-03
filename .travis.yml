@@ -5,12 +5,14 @@ env:
   global:
     - PIP_DOWNLOAD_CACHE=$HOME/.pip_cache
   matrix:
-    - TOX_ENV=py27-django15
-    - TOX_ENV=py27-django16
-    - TOX_ENV=py27-django17
-    - TOX_ENV=py34-django15
-    - TOX_ENV=py34-django16
-    - TOX_ENV=py34-django17
+    - TOX_ENV=py27-django111
+    - TOX_ENV=py27-django20
+    - TOX_ENV=py27-django21
+    - TOX_ENV=py35-django111
+    - TOX_ENV=py35-django20
+    - TOX_ENV=py35-django21
+    - TOX_ENV=py37-django111
+    - TOX_ENV=py37-django21
     - TOX_ENV=flake8
 cache:
   directories:
