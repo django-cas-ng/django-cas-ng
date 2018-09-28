@@ -55,6 +55,16 @@ def test_service_url_avoids_next(settings):
     assert actual == expected
 
 
+def test_service_url_root_proxied_as(settings):
+    settings.CAS_ROOT_PROXIED_AS = 'https://foo.bar:8443'
+
+    factory = RequestFactory()
+    request = factory.get('/login/')
+
+    actual = get_service_url(request)
+    expected = 'https://foo.bar:8443/login/?next=%2F'
+    assert actual == expected
+
 #
 # get_redirect_url tests
 #
