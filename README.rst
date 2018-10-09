@@ -429,8 +429,6 @@ References
 * `Jasig CAS server`_
 
 .. _CAS: https://www.apereo.org/cas
-.. _CAS protocol: https://www.apereo.org/cas/protocol
-.. _Support Single Sign Out: https://wiki.jasig.org/display/casum/single+sign+out
 .. _django-cas: https://bitbucket.org/cpcc/django-cas
 .. _clearsessions: https://docs.djangoproject.com/en/1.8/topics/http/sessions/#clearing-the-session-store
 .. _pip: http://www.pip-installer.org/
