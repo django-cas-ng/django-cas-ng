@@ -15,7 +15,7 @@ Features
 --------
 
 - Supports CAS_ versions 1.0, 2.0 and 3.0.
-- `Support Single Sign Out`_
+- Support Single Sign Out
 - Can fetch Proxy Granting Ticket
 - Supports Django 1.5, 1.6, 1.7, 1.8, 1.9, 1.10, 1.11 and 2.0
 - Supports using a `User custom model`_
@@ -45,7 +45,9 @@ Settings
 
 Now add it to the middleware, authentication backends and installed apps in your settings.
 Make sure you also have the authentication middleware installed.
-Here's an example::
+Here's an example:
+
+..  code-block:: python
 
     INSTALLED_APPS = (
         'django.contrib.admin',
@@ -141,14 +143,18 @@ Optional settings include:
   to fill in Django Users' info independtly from the attributes' keys returned by the CAS server. 
 
 Make sure your project knows how to log users in and out by adding these to
-your URL mappings::
+your URL mappings:
+
+..  code-block:: python
 
     import django_cas_ng.views
 
     url(r'^accounts/login$', django_cas_ng.views.login, name='cas_ng_login'),
     url(r'^accounts/logout$', django_cas_ng.views.logout, name='cas_ng_logout'),
 
-You should also add an URL mapping for the ``CAS_PROXY_CALLBACK`` settings::
+You should also add an URL mapping for the ``CAS_PROXY_CALLBACK`` settings:
+
+..  code-block:: python
 
     url(r'^accounts/callback$', django_cas_ng.views.callback, name='cas_ng_proxy_callback'),
 
@@ -247,19 +253,26 @@ user object.
 
 **CASBackend.bad_attributes_reject(request, username, attributes)**
 
-Rejects a user if SAML username/attributes are not OK. For example, to accept a user belonging
-to departmentNumber 421 only, define in ``mysite/settings.py`` the key-value constant::
+Rejects a user if the returned username/attributes are not OK. For example, to
+accept a user belonging to departmentNumber 421 only, define in ``mysite/settings.py``
+the key-value constant:
 
-    MY_SAML_CONTROL=('departmentNumber', '421')
+..  code-block:: python
 
-and the authentication backends::
+    MY_ATTRIBUTE_CONTROL = ('departmentNumber', '421')
+
+and the authentication backends:
+
+..  code-block:: python
 
     AUTHENTICATION_BACKENDS = [
         'django.contrib.auth.backends.ModelBackend',
 	'mysite.backends.MyCASBackend',
     ]
 
-and create a file ``mysite/backends.py`` containing::
+and create a file ``mysite/backends.py`` containing:
+
+..  code-block:: python
 
     from django_cas_ng.backends import CASBackend
     from django.contrib import messages
@@ -270,21 +283,21 @@ and create a file ``mysite/backends.py`` containing::
         def user_can_authenticate(self, user):
             return True
     
-    def bad_attributes_reject(self, request, username, attributes):
-        attribute = settings.MY_SAML_CONTROL[0]
-        value = settings.MY_SAML_CONTROL[1]
+        def bad_attributes_reject(self, request, username, attributes):
+            attribute = settings.MY_ATTRIBUTE_CONTROL[0]
+            value = settings.MY_ATTRIBUTE_CONTROL[1]
         
-        if attribute not in attributes:
-	    message = 'No \''+ attribute + '\' in SAML attributes'
-	    messages.add_message(request, messages.ERROR, message)
-	    return message
+            if attribute not in attributes:
+                message = 'No \''+ attribute + '\' in SAML attributes'
+                messages.add_message(request, messages.ERROR, message)
+                return message
 
-        if value not in attributes[attribute]:
-	    message = 'User ' + str(username) + ' is not in ' + value + ' ' + attribute + ', should be one of ' + str(attributes[attribute])
-            messages.add_message(request, messages.ERROR, message)
-            return message
+            if value not in attributes[attribute]:
+                message = 'User ' + str(username) + ' is not in ' + value + ' ' + attribute + ', should be one of ' + str(attributes[attribute])
+                messages.add_message(request, messages.ERROR, message)
+                return message
 
-        return None
+            return None
 
 
 Signals
@@ -346,6 +359,8 @@ If you want your application to be able to issue Proxy Ticket to authenticate ag
 setup the CAS_PROXY_CALLBACK parameter.
 Allow on the CAS config django_cas_ng to act as a Proxy application.
 Then after a user has logged in using the CAS, you can retrieve a Proxy Ticket as follow:
+
+..  code-block:: python
 
     from django_cas_ng.models import ProxyGrantingTicket
 
@@ -429,6 +444,7 @@ References
 * `Jasig CAS server`_
 
 .. _CAS: https://www.apereo.org/cas
+.. _CAS protocol: https://www.apereo.org/cas
 .. _django-cas: https://bitbucket.org/cpcc/django-cas
 .. _clearsessions: https://docs.djangoproject.com/en/1.8/topics/http/sessions/#clearing-the-session-store
 .. _pip: http://www.pip-installer.org/
