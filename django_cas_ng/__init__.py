@@ -27,7 +27,8 @@ _DEFAULTS = {
     'CAS_STORE_NEXT': False,
     'CAS_APPLY_ATTRIBUTES_TO_USER': False,
     'CAS_RENAME_ATTRIBUTES': {},
-    'CAS_CREATE_USER_WITH_ID': False
+    'CAS_CREATE_USER_WITH_ID': False,
+    'CAS_VERIFY_SSL_CERTIFICATE': True
 }
 
 for key, value in list(_DEFAULTS.items()):
