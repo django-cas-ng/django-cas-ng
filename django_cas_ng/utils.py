@@ -69,7 +69,7 @@ def get_cas_client(service_url=None, request=None):
         server_url = scheme + "://" + request.META['HTTP_HOST'] + server_url
     # assert server_url.startswith('http'), "settings.CAS_SERVER_URL invalid"
 
-    if django_settings.CAS_VERIFY_SSL_CERTIFICATE:
+    if not django_settings.CAS_VERIFY_SSL_CERTIFICATE:
         warnings.warn(
             "`CAS_VERIFY_SSL_CERTIFICATE` is disabled, meaning that SSL certificates "
             "are not being verified by a certificate authority. This can expose your "
