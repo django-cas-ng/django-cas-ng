@@ -64,6 +64,7 @@ Here's an example:
         'django.middleware.common.CommonMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'django_cas_ng.middleware.CASMiddleware',
         ...
     )
 
