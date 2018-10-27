@@ -9,7 +9,10 @@ from importlib import import_module
 from django_cas_ng.models import SessionTicket
 from django_cas_ng.backends import CASBackend
 from django_cas_ng.signals import cas_user_authenticated, cas_user_logout
-from django_cas_ng.views import login, logout
+from django_cas_ng.views import (
+    LoginView,
+    LogoutView
+)
 
 import django
 
@@ -44,7 +47,7 @@ def test_signal_when_user_logout_manual(monkeypatch, django_user_model):
         callback_values.update(kwargs)
         callback_values['session'] = dict(session)
 
-    response = logout(request)
+    response = LogoutView().get(request)
     if django.VERSION[0] < 2:
         assert request.user.is_anonymous() is True
     else:
@@ -95,7 +98,7 @@ def test_signal_when_user_logout_slo(monkeypatch, django_user_model, settings):
         callback_values['session'] = dict(session)
 
 
-    response = login(request)
+    response = LoginView().post(request)
     assert 'user' in callback_values
     assert 'session' in callback_values
     assert callback_values['session'].get('fake_session_key') == 'fake-session_value'
