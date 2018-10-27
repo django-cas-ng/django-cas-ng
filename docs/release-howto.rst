@@ -31,3 +31,14 @@ How To Make A Release
     twine upload dist/django-cas-ng-3.5.9.tar.gz
 
 8. Create a new release on https://github.com/mingchen/django-cas-ng/releases
+
+
+Troubleshooting
+
+    $ make build
+    CommandError: Can't find msgfmt. Make sure you have GNU gettext tools 0.15 or newer installed.
+
+    $ brew install gettext
+    $ export PATH=$PATH:/usr/local/Cellar/gettext/0.19.8.1/bin
+    $ make build
+
