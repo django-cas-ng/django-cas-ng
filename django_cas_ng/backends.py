@@ -38,7 +38,6 @@ class CASBackend(ModelBackend):
             for cas_attr_name, req_attr_name in settings.CAS_RENAME_ATTRIBUTES.items():
                 if cas_attr_name in attributes:
                     attributes[req_attr_name] = attributes[cas_attr_name]
-                    attributes.pop(cas_attr_name)
 
         UserModel = get_user_model()
 
