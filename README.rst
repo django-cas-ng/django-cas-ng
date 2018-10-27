@@ -139,6 +139,8 @@ Optional settings include:
   For example, if ``CAS_RENAME_ATTRIBUTES = {'ln':'last_name'}`` the ``ln`` attribute returned by the cas server
   will be renamed as ``last_name``. Used with ``CAS_APPLY_ATTRIBUTES_TO_USER = True``, this provides an easy way 
   to fill in Django Users' info independtly from the attributes' keys returned by the CAS server. 
+* ``CAS_VERIFY_SSL_CERTIFICATE``: If ``False`` CAS server certificate won't be verified. This is useful when using a
+  CAS test server with a self-signed certificate in a development environment. Default is ``True``.
 
 Make sure your project knows how to log users in and out by adding these to
 your URL mappings::
