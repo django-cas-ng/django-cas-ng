@@ -73,8 +73,6 @@ class LoginView(View):
         Forwards to CAS login URL or verifies CAS ticket
 
         :param request:
-        :param next_page:
-        :param required:
         :return:
         """
         next_page = request.GET.get('next')
@@ -160,7 +158,6 @@ class LogoutView(View):
         Redirects to CAS logout page
 
         :param request:
-        :param next_page:
         :return:
         """
         next_page = request.GET.get('next')
