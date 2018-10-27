@@ -48,11 +48,12 @@ class LoginView(View):
     def dispatch(self, request, *args, **kwargs):
         return super(LoginView, self).dispatch(request, *args, **kwargs)
 
-    def successful_login(self, user, next_page):
+    def successful_login(self, request, next_page):
         """
         This method is called on successful login. Override this method for
         custom post-auth actions (i.e, to add a cookie with a token).
 
+        :param request:
         :param next_page:
         :return:
         """
@@ -106,7 +107,7 @@ class LoginView(View):
             if settings.CAS_LOGGED_MSG is not None:
                 message = settings.CAS_LOGGED_MSG % request.user.get_username()
                 messages.success(request, message)
-            return self.successful_login(user=request.user, next_page=next_page)
+            return self.successful_login(request=request, next_page=next_page)
 
         ticket = request.GET.get('ticket')
         if ticket:
@@ -142,7 +143,7 @@ class LoginView(View):
                     name = user.get_username()
                     message = settings.CAS_LOGIN_MSG % name
                     messages.success(request, message)
-                return self.successful_login(user=request.user, next_page=next_page)
+                return self.successful_login(request=request, next_page=next_page)
             elif settings.CAS_RETRY_LOGIN or required:
                 return HttpResponseRedirect(client.get_login_url())
             else:
