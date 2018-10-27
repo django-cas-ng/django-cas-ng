@@ -16,6 +16,7 @@ Features
 
 - Supports CAS_ versions 1.0, 2.0 and 3.0.
 - Support Single Sign Out
+- Supports Token auth schemes
 - Can fetch Proxy Granting Ticket
 - Supports Django 1.5, 1.6, 1.7, 1.8, 1.9, 1.10, 1.11 and 2.0
 - Supports using a `User custom model`_
@@ -154,6 +155,8 @@ your URL mappings:
 
     url(r'^accounts/login$', django_cas_ng.views.login, name='cas_ng_login'),
     url(r'^accounts/logout$', django_cas_ng.views.logout, name='cas_ng_logout'),
+
+If you use the middleware, the ``login`` url must given the name ``cas_ng_login`` or it will create redirection issues.
 
 You should also add an URL mapping for the ``CAS_PROXY_CALLBACK`` settings:
 
