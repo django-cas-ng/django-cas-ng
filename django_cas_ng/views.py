@@ -154,11 +154,6 @@ class LoginView(View):
 
 
 class LogoutView(View):
-    def post(self, request):
-        if request.POST.get('logoutRequest'):
-            clean_sessions(get_cas_client(request=request), request)
-            return HttpResponse("{0}\n".format(_('ok')), content_type="text/plain")
-
     def get(self, request):
         """
         Redirects to CAS logout page
