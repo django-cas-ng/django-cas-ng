@@ -6,11 +6,7 @@ from django.test import RequestFactory
 from importlib import import_module
 
 from django_cas_ng.models import SessionTicket, ProxyGrantingTicket
-from django_cas_ng.views import (
-    LoginView,
-    LogoutView,
-    CallbackView
-)
+from django_cas_ng.views import login, logout, callback
 
 import pytest
 import django
@@ -68,7 +64,7 @@ def test_login_post_logout(django_user_model, settings):
                                        user=user, pgtiou='fake-ticket-iou',
                                        pgt='fake-ticket').exists() is True
 
-    LoginView().post(request)
+    login(request)
     assert SessionTicket.objects.filter(session_key=session.session_key,
                                         ticket='fake-ticket').exists() is False
     assert ProxyGrantingTicket.objects.filter(session_key=session.session_key,
@@ -103,7 +99,7 @@ def test_login_authenticate_and_create_user(monkeypatch, django_user_model, sett
     # Create a user object from middleware
     process_request_for_middleware(request, AuthenticationMiddleware)
 
-    response = LoginView().get(request)
+    response = login(request)
     assert response.status_code == 302
     assert response['Location'] == '/'
     if django.VERSION[0] < 2:
@@ -141,7 +137,7 @@ def test_login_authenticate_do_not_create_user(monkeypatch, django_user_model, s
     process_request_for_middleware(request, AuthenticationMiddleware)
 
     with pytest.raises(PermissionDenied):
-        LoginView().get(request)
+        login(request)
     assert django_user_model.objects.filter(username='test@example.com').exists() is False
 
 
@@ -181,7 +177,7 @@ def test_login_proxy_callback(monkeypatch, django_user_model, settings):
                                              pgt='fake-pgt')
     assert pgt is not None
 
-    response = LoginView().get(request)
+    response = login(request)
     assert response.status_code == 302
     if django.VERSION[0] < 2:
         assert django_user_model.objects.get(username='test@example.com').is_authenticated() is True
@@ -220,7 +216,7 @@ def test_login_redirect_based_on_cookie(monkeypatch, django_user_model, settings
     # Add the next pointer
     request.session['CASNEXT'] = '/admin/'
 
-    response = LoginView().get(request)
+    response = login(request)
     assert response.status_code == 302
     assert response['Location'] == '/admin/'
 
@@ -244,7 +240,7 @@ def test_login_no_ticket():
     # Create a user object from middleware
     process_request_for_middleware(request, AuthenticationMiddleware)
 
-    response = LoginView().get(request)
+    response = login(request)
     assert response.status_code == 302
 
 
@@ -263,7 +259,7 @@ def test_login_no_ticket_stores_default_next(settings):
     # Create a user object from middleware
     process_request_for_middleware(request, AuthenticationMiddleware)
 
-    response = LoginView().get(request)
+    response = login(request)
     assert response.status_code == 302
 
     assert 'CASNEXT' in request.session
@@ -285,11 +281,26 @@ def test_login_no_ticket_stores_explicit_next(settings):
     # Create a user object from middleware
     process_request_for_middleware(request, AuthenticationMiddleware)
 
-    response = LoginView().get(request)
+    response = login(request)
     assert response.status_code == 302
 
     assert 'CASNEXT' in request.session
     assert request.session['CASNEXT'] == '/admin/'
+
+
+def test_login_put_not_allowed():
+    factory = RequestFactory()
+    request = factory.put('/login/')
+    response = login(request)
+    assert response.status_code == 405
+
+
+def test_login_delete_not_allowed():
+    factory = RequestFactory()
+    request = factory.delete('/login/')
+    response = login(request)
+    assert response.status_code == 405
+
 
 @pytest.mark.django_db
 def test_logout_not_completely(django_user_model, settings):
@@ -307,7 +318,7 @@ def test_logout_not_completely(django_user_model, settings):
     assert user is not None
     request.user = user
 
-    response = LogoutView().get(request)
+    response = logout(request)
     assert response.status_code == 302
     if django.VERSION[0] < 2:
         assert request.user.is_anonymous() is True
@@ -331,12 +342,32 @@ def test_logout_completely(django_user_model, settings):
     assert user is not None
     request.user = user
 
-    response = LogoutView().get(request)
+    response = logout(request)
     assert response.status_code == 302
     if django.VERSION[0] < 2:
         assert request.user.is_anonymous() is True
     else:
         assert request.user.is_anonymous is True
+
+def test_logout_post_not_allowed():
+    factory = RequestFactory()
+    request = factory.post('/logout/')
+    response = logout(request)
+    assert response.status_code == 405
+
+
+def test_logout_put_not_allowed():
+    factory = RequestFactory()
+    request = factory.put('/logout/')
+    response = logout(request)
+    assert response.status_code == 405
+
+
+def test_logout_delete_not_allowed():
+    factory = RequestFactory()
+    request = factory.delete('/logout/')
+    response = logout(request)
+    assert response.status_code == 405
 
 
 @pytest.mark.django_db
@@ -348,7 +379,7 @@ def test_callback_create_pgt():
     request = factory.get('/callback/', {'pgtId': 'fake-pgtId',
                                          'pgtIou': 'fake-pgtIou'})
 
-    response = CallbackView().get(request)
+    response = callback(request)
     assert response.status_code == 200
     assert ProxyGrantingTicket.objects.filter(pgt='fake-pgtId',
                                               pgtiou='fake-pgtIou'
@@ -398,7 +429,7 @@ def test_callback_post_logout(django_user_model, settings):
                                        user=user, pgtiou='fake-ticket-iou',
                                        pgt='fake-ticket').exists() is True
 
-    CallbackView().post(request)
+    callback(request)
     assert SessionTicket.objects.filter(session_key=session.session_key,
                                         ticket='fake-ticket').exists() is False
     assert ProxyGrantingTicket.objects.filter(session_key=session.session_key,
@@ -406,3 +437,17 @@ def test_callback_post_logout(django_user_model, settings):
                                        pgt='fake-ticket').exists() is False
     assert SessionTicket.objects.filter(session_key=session.session_key,
                                         ticket='fake-ticket').exists() is False
+
+
+def test_callback_put_not_allowed():
+    factory = RequestFactory()
+    request = factory.put('/callback/')
+    response = callback(request)
+    assert response.status_code == 405
+
+
+def test_callback_delete_not_allowed():
+    factory = RequestFactory()
+    request = factory.delete('/callback/')
+    response = callback(request)
+    assert response.status_code == 405
