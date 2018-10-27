@@ -273,8 +273,8 @@ def test_cas_attributes_renaming_working(monkeypatch, settings):
     session_attr = request.session['attributes']
     assert session_attr['fn'] == 'MyFirstName'
     assert session_attr['last_name'] == 'MyLastName'
-    with pytest.raises(KeyError):
-        session_attr['ln']  
+    assert 'ln' in session_attr
+    assert session_attr['ln'] = session_attr['last_name']
 
 
 @pytest.mark.django_db
