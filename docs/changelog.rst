@@ -6,6 +6,16 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+
+**django-cas-ng 3.5.10** ``[2018-10-09]``
+
+  * PR-149: Add CAS_PROXIED_AS config: Allow functioanlity behind a proxy server like mod_auth_cas for apache.
+  * PR-150: Django 2.0 compatibility (user.is_authenticated).
+  * PR-154: Catalan and Spanish translation
+  * PR-156: Add support for CAS attributes renaming
+  * PR-165: Fix CAS_ROOT_PROXIED_AS double slash
+
+
 **django-cas-ng 3.5.9** ``[2018-01-02]``
 
   * Add the optional setting CAS_CREATE_USER_WITH_ID. (PR #129)
