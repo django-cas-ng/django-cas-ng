@@ -9,7 +9,17 @@ from django.http import HttpResponseRedirect
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
-from django.contrib.auth.views import login, logout
+try:
+    from django.contrib.auth.views import (
+        LoginView as login,
+        LogoutView as logout
+    )
+except ImportError:
+    from django.contrib.auth.views import (
+        login,
+        logout
+    )
+
 try:
     # Django > 1.10 deprecates django.core.urlresolvers
     from django.urls import reverse
@@ -25,7 +35,10 @@ except ImportError:
 
 import django
 
-from .views import login as cas_login, logout as cas_logout
+from .views import (
+    LoginView as cas_login,
+    LogoutView as cas_logout
+)
 
 __all__ = ['CASMiddleware']
 
@@ -73,4 +86,4 @@ class CASMiddleware(MiddlewareMixin):
             else:
                 raise PermissionDenied(_('You do not have staff privileges.'))
         params = urllib_parse.urlencode({REDIRECT_FIELD_NAME: request.get_full_path()})
-        return HttpResponseRedirect(reverse(cas_login) + '?' + params)
+        return HttpResponseRedirect(reverse('cas_ng_login') + '?' + params)
