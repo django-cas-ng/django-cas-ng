@@ -36,7 +36,7 @@ class CASBackend(ModelBackend):
             # If we can, we rename the attributes as described in the settings file
             # Existing attributes will be overwritten
             for cas_attr_name, req_attr_name in settings.CAS_RENAME_ATTRIBUTES.items():
-                if cas_attr_name in attributes:
+                if cas_attr_name in attributes and cas_attr_name is not req_attr_name:
                     attributes[req_attr_name] = attributes[cas_attr_name]
                     attributes.pop(cas_attr_name)
 
