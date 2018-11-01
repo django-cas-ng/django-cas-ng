@@ -41,4 +41,3 @@ setup(
     install_requires=['python-cas>=1.2.0'],
     zip_safe=False,  # dot not package as egg or django will not found management commands
 )
-

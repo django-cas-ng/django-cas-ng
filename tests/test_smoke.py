@@ -8,4 +8,3 @@ from django_cas_ng.decorators import *
 def test_nothing_is_on_fire():
     # Nothing to do here, this file is used for testing import works.
     pass
-

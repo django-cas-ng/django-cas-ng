@@ -19,13 +19,13 @@ How To Make A Release
     make build
 
 7. Upload release to pypi.python.org
-    
+
     # update setuptools if needed.
     #pip install -U pip setuptools twine
 
-    python setup.py sdist upload    
+    python setup.py sdist upload
 
-    or 
+    or
 
     python setup.py sdist
     twine upload dist/django-cas-ng-3.5.9.tar.gz
@@ -41,4 +41,3 @@ Troubleshooting
     $ brew install gettext
     $ export PATH=$PATH:/usr/local/Cellar/gettext/0.19.8.1/bin
     $ make build
-
