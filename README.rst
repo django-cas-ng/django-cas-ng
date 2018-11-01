@@ -141,8 +141,8 @@ Optional settings include:
   The default is ``False``.
 * ``CAS_RENAME_ATTRIBUTES``: a dict used to rename the (key of the) attributes that the CAS server may retrun.
   For example, if ``CAS_RENAME_ATTRIBUTES = {'ln':'last_name'}`` the ``ln`` attribute returned by the cas server
-  will be renamed as ``last_name``. Used with ``CAS_APPLY_ATTRIBUTES_TO_USER = True``, this provides an easy way 
-  to fill in Django Users' info independtly from the attributes' keys returned by the CAS server. 
+  will be renamed as ``last_name``. Used with ``CAS_APPLY_ATTRIBUTES_TO_USER = True``, this provides an easy way
+  to fill in Django Users' info independtly from the attributes' keys returned by the CAS server.
 * ``CAS_VERIFY_SSL_CERTIFICATE``: If ``False`` CAS server certificate won't be verified. This is useful when using a
   CAS test server with a self-signed certificate in a development environment. Default is ``True``.
 
@@ -288,11 +288,11 @@ and create a file ``mysite/backends.py`` containing:
     class MyCASBackend(CASBackend):
         def user_can_authenticate(self, user):
             return True
-    
+
         def bad_attributes_reject(self, request, username, attributes):
             attribute = settings.MY_ATTRIBUTE_CONTROL[0]
             value = settings.MY_ATTRIBUTE_CONTROL[1]
-        
+
             if attribute not in attributes:
                 message = 'No \''+ attribute + '\' in SAML attributes'
                 messages.add_message(request, messages.ERROR, message)
@@ -333,7 +333,7 @@ Sent on successful authentication, the ``CASBackend`` will fire the ``cas_user_a
 
 **service**
   The service used to authenticate the user with the CAS.
-  
+
 **request**
   The request that was used to login.
 
@@ -475,4 +475,3 @@ References
 .. _Alexander Kavanaugh: https://github.com/kavdev
 .. _Daniel Davis: https://github.com/danizen
 .. _Peter Baehr: https://github.com/pbaehr
-

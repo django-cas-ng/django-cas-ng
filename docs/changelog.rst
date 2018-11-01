@@ -123,5 +123,3 @@ creation in some case.
    * Support Django 1.5 custom user model.
 
 .. _commit history: https://github.com/mingchen/django-cas-ng/commits
-
-
