@@ -3,10 +3,7 @@
 from __future__ import absolute_import
 from __future__ import unicode_literals
 
-try:
-    from functools import wraps
-except ImportError:
-    from django.utils.functional import wraps
+from functools import wraps
 
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import login_required

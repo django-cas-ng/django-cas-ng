@@ -9,29 +9,13 @@ from django.http import HttpResponseRedirect
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
-try:
-    from django.contrib.auth.views import (
-        LoginView as login,
-        LogoutView as logout
-    )
-except ImportError:
-    from django.contrib.auth.views import (
-        login,
-        logout
-    )
-
-try:
-    # Django > 1.10 deprecates django.core.urlresolvers
-    from django.urls import reverse
-except ImportError:
-    from django.core.urlresolvers import reverse
+from django.contrib.auth.views import (
+    LoginView as login,
+    LogoutView as logout
+)
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
-
-try:
-    # Django > 1.10 uses MiddlewareMixin
-    from django.utils.deprecation import MiddlewareMixin
-except ImportError:
-    MiddlewareMixin = object
+from django.utils.deprecation import MiddlewareMixin
 
 import django
 

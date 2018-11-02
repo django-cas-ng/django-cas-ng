@@ -13,12 +13,7 @@ from django.http import HttpResponseRedirect
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.utils import timezone
-
-try:
-    from django.views import View
-except ImportError:
-    from django.views.generic import View
-
+from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import (
     logout as auth_logout,
