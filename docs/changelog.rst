@@ -6,6 +6,9 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+**django-cas-ng UNRELEASED**
+
+  * Removed support for Django < 1.11.
 
 **django-cas-ng 3.5.10** ``[2018-10-09]``
 

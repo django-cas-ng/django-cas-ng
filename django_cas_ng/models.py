@@ -7,8 +7,6 @@ from .utils import (get_cas_client, get_user_from_session)
 from importlib import import_module
 from cas import CASError
 
-import django
-
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
 
@@ -36,12 +34,8 @@ class ProxyGrantingTicket(models.Model):
         for pgt in cls.objects.all():
             session = SessionStore(session_key=pgt.session_key)
             user = get_user_from_session(session)
-            if django.VERSION[0] < 2:
-                if not user.is_authenticated():
-                    pgt.delete()
-            else:
-                if not user.is_authenticated:
-                    pgt.delete()
+            if not user.is_authenticated:
+                pgt.delete()
 
     @classmethod
     def retrieve_pt(cls, request, service):
@@ -78,9 +72,5 @@ class SessionTicket(models.Model):
         for st in cls.objects.all():
             session = SessionStore(session_key=st.session_key)
             user = get_user_from_session(session)
-            if django.VERSION[0] < 2:
-                if not user.is_authenticated():
-                    st.delete()
-            else:
-                if not user.is_authenticated:
-                    st.delete()
+            if not user.is_authenticated:
+                st.delete()
