@@ -4,14 +4,50 @@ python:
 env:
   global:
     - PIP_DOWNLOAD_CACHE=$HOME/.pip_cache
-  matrix:
-    - TOX_ENV=py27-django15
-    - TOX_ENV=py27-django16
-    - TOX_ENV=py27-django17
-    - TOX_ENV=py34-django15
-    - TOX_ENV=py34-django16
-    - TOX_ENV=py34-django17
-    - TOX_ENV=flake8
+
+matrix:
+  fast_finish: true
+  include:
+    - python: 2.7
+      env: TOX_ENV=py27-django111
+    - python: 3.4
+      env: TOX_ENV=py34-django111
+    - python: 3.5
+      env: TOX_ENV=py35-django111
+    - python: 3.6
+      env: TOX_ENV=py36-django111
+    - python: 3.4
+      env: TOX_ENV=py34-django20
+    - python: 3.5
+      env: TOX_ENV=py35-django20
+    - python: 3.6
+      env: TOX_ENV=py36-django20
+    - python: 3.7
+      env: TOX_ENV=py37-django20
+      dist: xenial
+      sudo: true
+    - python: 3.5
+      env: TOX_ENV=py35-django21
+    - python: 3.6
+      env: TOX_ENV=py36-django21
+    - python: 3.7
+      env: TOX_ENV=py37-django21
+      dist: xenial
+      sudo: true
+    - python: 3.5
+      env: TOX_ENV=py35-djangomaster
+    - python: 3.6
+      env: TOX_ENV=py36-djangomaster
+    - python: 3.7
+      env: TOX_ENV=py37-djangomaster
+      dist: xenial
+      sudo: true
+    - env: TOX_ENV=flake8
+  allow_failures:
+    - env: TOX_ENV=py35-djangomaster
+    - env: TOX_ENV=py36-djangomaster
+    - env: TOX_ENV=py37-djangomaster
+
 cache:
   directories:
     - $HOME/.pip-cache/
