@@ -1,11 +1,11 @@
 # ⁻*- coding: utf-8 -*-
-from django.db import models
-from django.conf import settings
-from .utils import (get_cas_client, get_user_from_session)
-
-
 from importlib import import_module
+
 from cas import CASError
+from django.conf import settings
+from django.db import models
+
+from .utils import get_cas_client, get_user_from_session
 
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 

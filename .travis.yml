@@ -43,6 +43,7 @@ matrix:
       dist: xenial
       sudo: true
     - env: TOX_ENV=flake8
+    - env: TOX_ENV=isort
   allow_failures:
     - env: TOX_ENV=py35-djangomaster
     - env: TOX_ENV=py36-djangomaster

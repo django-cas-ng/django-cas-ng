@@ -1,36 +1,34 @@
 """CAS login/logout replacement views"""
 
-from __future__ import absolute_import
-from __future__ import unicode_literals
+from __future__ import absolute_import, unicode_literals
 
+from datetime import timedelta
+from importlib import import_module
+
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponse, HttpResponseRedirect
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.six.moves import urllib_parse
-from django.conf import settings
-from django.http import HttpResponseRedirect
-from django.core.exceptions import PermissionDenied
-from django.http import HttpResponse
-from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth import (
-    logout as auth_logout,
-    login as auth_login,
-    authenticate
-)
-from django.contrib import messages
-from django.utils.translation import ugettext_lazy as _
 
-from importlib import import_module
+from .models import ProxyGrantingTicket, SessionTicket
+from .signals import cas_user_logout
+from .utils import (
+    get_cas_client,
+    get_protocol,
+    get_redirect_url,
+    get_service_url,
+    get_user_from_session,
+)
 
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
-from datetime import timedelta
-
-from .signals import cas_user_logout
-from .models import ProxyGrantingTicket, SessionTicket
-from .utils import (get_cas_client, get_service_url,
-                    get_protocol, get_redirect_url,
-                    get_user_from_session)
 
 __all__ = ['LoginView', 'LogoutView', 'CallbackView']
 

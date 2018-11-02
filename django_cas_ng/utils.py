@@ -1,12 +1,16 @@
 import warnings
 
 from cas import CASClient
-
 from django.conf import settings as django_settings
-from django.contrib.auth import REDIRECT_FIELD_NAME, SESSION_KEY, BACKEND_SESSION_KEY, load_backend
+from django.contrib.auth import (
+    BACKEND_SESSION_KEY,
+    REDIRECT_FIELD_NAME,
+    SESSION_KEY,
+    load_backend,
+)
 from django.contrib.auth.models import AnonymousUser
-from django.utils.six.moves import urllib_parse
 from django.shortcuts import resolve_url
+from django.utils.six.moves import urllib_parse
 
 
 def get_protocol(request):
