@@ -17,8 +17,6 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.utils.deprecation import MiddlewareMixin
 
-import django
-
 from .views import (
     LoginView as cas_login,
     LogoutView as cas_logout
@@ -59,12 +57,7 @@ class CASMiddleware(MiddlewareMixin):
         elif not view_func.__module__.startswith('django.contrib.admin.'):
             return None
 
-        if django.VERSION[0] < 2:
-            is_user_authenticated = request.user.is_authenticated()
-        else:
-            is_user_authenticated = request.user.is_authenticated
-
-        if is_user_authenticated:
+        if request.user.is_authenticated:
             if request.user.is_staff:
                 return None
             else:
