@@ -1,12 +1,12 @@
 """Tests for the management commands"""
 from __future__ import absolute_import
-from django.conf import settings
-from django.core import management
+
 from importlib import import_module
 
-from django_cas_ng.models import SessionTicket, ProxyGrantingTicket
-
 import pytest
+from django.conf import settings
+from django.core import management
+from django_cas_ng.models import ProxyGrantingTicket, SessionTicket
 
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 

@@ -1,13 +1,12 @@
 """CAS authentication backend"""
-from __future__ import absolute_import
-from __future__ import unicode_literals
+from __future__ import absolute_import, unicode_literals
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
-from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-
 from django_cas_ng.signals import cas_user_authenticated
+
 from .utils import get_cas_client
 
 __all__ = ['CASBackend']

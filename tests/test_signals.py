@@ -1,20 +1,16 @@
 from __future__ import absolute_import
-import pytest
 
-from django.conf import settings
-from django.test import RequestFactory
-from django.dispatch import receiver
 from importlib import import_module
 
-from django_cas_ng.models import SessionTicket
-from django_cas_ng.backends import CASBackend
-from django_cas_ng.signals import cas_user_authenticated, cas_user_logout
-from django_cas_ng.views import (
-    LoginView,
-    LogoutView
-)
-
 import django
+import pytest
+from django.conf import settings
+from django.dispatch import receiver
+from django.test import RequestFactory
+from django_cas_ng.backends import CASBackend
+from django_cas_ng.models import SessionTicket
+from django_cas_ng.signals import cas_user_authenticated, cas_user_logout
+from django_cas_ng.views import LoginView, LogoutView
 
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 

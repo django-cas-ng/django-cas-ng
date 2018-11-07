@@ -1,19 +1,14 @@
-from django.conf import settings
-from django.core.exceptions import PermissionDenied
-from django.contrib.auth.middleware import AuthenticationMiddleware
-from django.contrib.sessions.middleware import SessionMiddleware
-from django.test import RequestFactory
 from importlib import import_module
 
-from django_cas_ng.models import SessionTicket, ProxyGrantingTicket
-from django_cas_ng.views import (
-    LoginView,
-    LogoutView,
-    CallbackView
-)
-
-import pytest
 import django
+import pytest
+from django.conf import settings
+from django.contrib.auth.middleware import AuthenticationMiddleware
+from django.contrib.sessions.middleware import SessionMiddleware
+from django.core.exceptions import PermissionDenied
+from django.test import RequestFactory
+from django_cas_ng.models import ProxyGrantingTicket, SessionTicket
+from django_cas_ng.views import CallbackView, LoginView, LogoutView
 
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 

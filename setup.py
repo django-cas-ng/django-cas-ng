@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 from __future__ import absolute_import
+
 import codecs
+
 from setuptools import setup
 
 with codecs.open('README.rst', encoding='utf-8') as f:
