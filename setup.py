@@ -45,11 +45,11 @@ setup(
     url='https://github.com/mingchen/django-cas-ng',
     #bugtrack_url='https://github.com/mingchen/django-cas-ng/issues',  # not support this key
     download_url ='https://github.com/mingchen/django-cas-ng/releases',
-    version='3.5.10',
+    version='3.6.0',
     python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*",
     install_requires=[
         'Django>=1.11',
-        'python-cas>=1.2.0',
+        'python-cas>=1.4.0',
     ],
     zip_safe=False,  # dot not package as egg or django will not found management commands
 )

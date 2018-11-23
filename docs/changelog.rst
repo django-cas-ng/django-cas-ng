@@ -6,9 +6,24 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
-**django-cas-ng UNRELEASED**
+**django-cas-ng 3.6.0** ``[2018-11-23]``
 
   * Removed support for Django < 1.11.
+  * PR-188: Introduce isort for automatic import ordering
+  * PR-187: Remove unused workarounds for EOL Django < 1.10
+  * PR-186: Simplify dependency handling in tox.ini
+  * PR-184: Remove unnecessary distutils fallback from setup.py
+  * PR-183: Use skip_install=true for lint or static tox targets
+  * PR-182: Distribute package as a universal wheel
+  * PR-181: Remove unused submodule python-cas
+  * PR-180: Trim trailing white space throughout the project
+  * PR-179: Class-based Login, Logout and Callback views, plus successful_login overridable method
+  * PR-177: Fix #172 attributes that do not change being removed
+  * PR-176: Fix #106: Adding `CAS_VE RIFY_SSL_CERTIFICATE` setting
+  * PR-173: Include 'django_cas_ng.middleware.CASMiddleware' middleware in example settings of README
+  * PR-171: Fix #170 in README: Fix broken links, add syntax highlighting and slight changes to the bad_attributes_reject example
+  * Fix #164: Remove dead links in README
+
 
 **django-cas-ng 3.5.10** ``[2018-10-09]``
 
