@@ -91,9 +91,9 @@ class LoginView(View):
                                 request=request)
             pgtiou = request.session.get("pgtiou")
             if user is not None:
+                auth_login(request, user)
                 if not request.session.exists(request.session.session_key):
                     request.session.create()
-                auth_login(request, user)
                 SessionTicket.objects.create(
                     session_key=request.session.session_key,
                     ticket=ticket
