@@ -143,6 +143,30 @@ Optional settings include:
   For example, if ``CAS_RENAME_ATTRIBUTES = {'ln':'last_name'}`` the ``ln`` attribute returned by the cas server
   will be renamed as ``last_name``. Used with ``CAS_APPLY_ATTRIBUTES_TO_USER = True``, this provides an easy way
   to fill in Django Users' info independtly from the attributes' keys returned by the CAS server.
+* ``CAS_RESPONSE_CALLBACKS``: a tuple consisting of paths to the callback functions. The functions will receive
+  a dict argument containing ``username``, ``attributes``, and ``pgtiou`` obtained from the response.
+  This is useful if you want to use the response data in your app, e.g. to save the attributes into a model.
+  Please note that if you use ``CAS_FORCE_CHANGE_USERNAME_CASE`` and/or ``CAS_RENAME_ATTRIBUTES``,
+  the response sent to the callback functions will also be altered.
+  Example::
+
+    CAS_RESPONSE_CALLBACKS = (
+        'my_app.callbacks.cas_callback',
+    )
+
+  In ``my_app/callbacks.py``:
+
+..  code-block:: python
+
+    def cas_callback(response):
+        username = response['username']
+        user, user_created = User.objects.get_or_create(username=username)
+        profile, created = user.get_profile()
+
+        profile.role = response['attributes']['role']
+        profile.birth_date = response['attributes']['birth_date']
+        profile.save()
+
 * ``CAS_VERIFY_SSL_CERTIFICATE``: If ``False`` CAS server certificate won't be verified. This is useful when using a
   CAS test server with a self-signed certificate in a development environment. Default is ``True``.
 

@@ -277,6 +277,49 @@ def test_cas_attributes_renaming_working(monkeypatch, settings):
 
 
 @pytest.mark.django_db
+def test_cas_response_callbacks_working(monkeypatch, settings):
+    """
+    Test to make sure the callback functions are run after a successful login.
+    """
+    factory = RequestFactory()
+    request = factory.get('/login/')
+    request.session = {}
+    data = {}
+
+    def mock_verify(ticket, service):
+        return 'test@example.com', {'role': 'student', 'birth_date': '1995-01-13'}, None
+
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
+
+    def callback1(response):
+        data['role'] = response['attributes']['role']
+
+    def callback2(response):
+        data['birth_date'] = response['attributes']['birth_date']
+
+    settings.CAS_RESPONSE_CALLBACKS = (
+        'tests.test_backend.callback1',
+        'tests.test_backend.callback2'
+    )
+
+    globals()['callback1'] = None
+    globals()['callback2'] = None
+
+    monkeypatch.setattr('tests.test_backend.callback1', callback1)
+    monkeypatch.setattr('tests.test_backend.callback2', callback2)
+
+    backend = backends.CASBackend()
+    user = backend.authenticate(
+        request, ticket='fake-ticket', service='fake-service'
+    )
+
+    user.role, user.birth_date = data['role'], data['birth_date']
+
+    assert user.role == 'student'
+    assert user.birth_date == '1995-01-13'
+
+
+@pytest.mark.django_db
 def test_boolean_attributes_applied_as_booleans(monkeypatch, settings):
     """
     If CAS_CREATE_USER_WITH_ID is True and 'id' is in the attributes, use this

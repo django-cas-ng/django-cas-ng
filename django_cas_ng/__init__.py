@@ -21,6 +21,7 @@ _DEFAULTS = {
     'CAS_VERSION': '2',
     'CAS_USERNAME_ATTRIBUTE': 'uid',
     'CAS_PROXY_CALLBACK': None,
+    'CAS_RESPONSE_CALLBACKS': None,
     'CAS_LOGIN_MSG': _("Login succeeded. Welcome, %s."),
     'CAS_LOGGED_MSG': _("You are logged in as %s."),
     'CAS_STORE_NEXT': False,
