@@ -55,4 +55,4 @@ class CASMiddleware(MiddlewareMixin):
             else:
                 raise PermissionDenied(_('You do not have staff privileges.'))
         params = urllib_parse.urlencode({REDIRECT_FIELD_NAME: request.get_full_path()})
-        return HttpResponseRedirect(reverse('cas_ng_login') + '?' + params)
+        return HttpResponseRedirect(reverse(settings.CAS_LOGIN_URL_NAME) + '?' + params)

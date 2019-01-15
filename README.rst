@@ -101,6 +101,9 @@ Optional settings include:
   The default is ``"You are logged in as %s."`` or some translation of it
   if you have enabled django internationalization (``USE_I18N = True``)
   You cas disable it by setting this parametter to ``None``
+* ``CAS_LOGIN_URL_NAME``: Name of the login url, defaults to ``'cas_ng_login'``.
+  This is only necessary if you use the middleware and want to use some other
+  name for the login url (e.g. ``'my_app:cas_login'``).
 * ``CAS_EXTRA_LOGIN_PARAMS``: Extra URL parameters to add to the login URL
   when redirecting the user. Example::
 
@@ -180,7 +183,8 @@ your URL mappings:
     url(r'^accounts/login$', django_cas_ng.views.LoginView.as_view(), name='cas_ng_login'),
     url(r'^accounts/logout$', django_cas_ng.views.LogoutView.as_view(), name='cas_ng_logout'),
 
-If you use the middleware, the ``login`` url must given the name ``cas_ng_login`` or it will create redirection issues.
+If you use the middleware, the ``login`` url must be given the name ``cas_ng_login``
+or it will create redirection issues, unless you set the ``CAS_LOGIN_URL_NAME`` setting.
 
 You should also add an URL mapping for the ``CAS_PROXY_CALLBACK`` settings:
 
