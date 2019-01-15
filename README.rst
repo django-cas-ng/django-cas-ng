@@ -465,6 +465,7 @@ Credits
 * `Alexander Kavanaugh`_
 * `Daniel Davis`_
 * `Peter Baehr`_
+* `laymonage`_
 
 References
 ----------
@@ -499,3 +500,4 @@ References
 .. _Alexander Kavanaugh: https://github.com/kavdev
 .. _Daniel Davis: https://github.com/danizen
 .. _Peter Baehr: https://github.com/pbaehr
+.. _laymonage: https://github.com/laymonage
