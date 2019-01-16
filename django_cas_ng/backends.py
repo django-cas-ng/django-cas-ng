@@ -104,7 +104,9 @@ class CASBackend(ModelBackend):
             sender=self,
             user=user,
             created=created,
+            username=username,
             attributes=attributes,
+            pgtiou=pgtiou,
             ticket=ticket,
             service=service,
             request=request
