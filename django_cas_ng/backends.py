@@ -7,7 +7,7 @@ from django.contrib.auth.backends import ModelBackend
 from django.core.exceptions import ImproperlyConfigured
 from django_cas_ng.signals import cas_user_authenticated
 
-from .utils import cas_response_callbacks, get_cas_client
+from .utils import get_cas_client
 
 __all__ = ['CASBackend']
 
@@ -99,22 +99,14 @@ class CASBackend(ModelBackend):
             if settings.CAS_CREATE_USER:
                 user.save()
 
-        if settings.CAS_RESPONSE_CALLBACKS:
-            # Call the callback functions specified in the settings with
-            # CAS response as the argument.
-            response = {
-                'username': username,
-                'attributes': attributes,
-                'pgtiou': pgtiou
-            }
-            cas_response_callbacks(response)
-
         # send the `cas_user_authenticated` signal
         cas_user_authenticated.send(
             sender=self,
             user=user,
             created=created,
+            username=username,
             attributes=attributes,
+            pgtiou=pgtiou,
             ticket=ticket,
             service=service,
             request=request

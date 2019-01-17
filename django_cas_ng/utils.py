@@ -1,5 +1,4 @@
 import warnings
-from importlib import import_module
 
 from cas import CASClient
 from django.conf import settings as django_settings
@@ -102,16 +101,3 @@ def get_user_from_session(session):
         return backend.get_user(user_id) or AnonymousUser()
     except KeyError:
         return AnonymousUser()
-
-
-def cas_response_callbacks(response):
-    """Call all callback functions with CAS response as an argument."""
-    callbacks = []
-    callbacks.extend(django_settings.CAS_RESPONSE_CALLBACKS)
-
-    for path in callbacks:
-        i = path.rfind('.')
-        module_name, function_name = path[:i], path[i + 1:]
-        module = import_module(module_name)
-        function = getattr(module, function_name)
-        function(response)
