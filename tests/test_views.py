@@ -1,7 +1,5 @@
 from importlib import import_module
 
-from six.moves.urllib.parse import quote_plus
-
 import django
 import pytest
 from django.conf import settings
@@ -9,6 +7,8 @@ from django.contrib.auth.middleware import AuthenticationMiddleware
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.core.exceptions import PermissionDenied
 from django.test import RequestFactory
+from six.moves.urllib.parse import quote_plus
+
 from django_cas_ng.models import ProxyGrantingTicket, SessionTicket
 from django_cas_ng.views import CallbackView, LoginView, LogoutView
 
