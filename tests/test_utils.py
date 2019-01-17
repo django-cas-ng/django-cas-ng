@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 from django.test import RequestFactory
+
 from django_cas_ng.utils import get_redirect_url, get_service_url
 
 

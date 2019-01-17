@@ -6,6 +6,7 @@ from importlib import import_module
 import pytest
 from django.conf import settings
 from django.core import management
+
 from django_cas_ng.models import ProxyGrantingTicket, SessionTicket
 
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore

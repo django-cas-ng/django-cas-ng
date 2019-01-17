@@ -1,9 +1,10 @@
 # ⁻*- coding: utf-8 -*-
 from importlib import import_module
 
-from cas import CASError
 from django.conf import settings
 from django.db import models
+
+from cas import CASError
 
 from .utils import get_cas_client, get_user_from_session
 
