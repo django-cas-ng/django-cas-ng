@@ -1,5 +1,7 @@
 from importlib import import_module
 
+from six.moves.urllib.parse import quote_plus
+
 import django
 import pytest
 from django.conf import settings
@@ -242,6 +244,11 @@ def test_login_no_ticket():
     response = LoginView().get(request)
     assert response.status_code == 302
 
+    assert 'Location' in response
+    actual_location = response['Location']
+    expected_location = 'login?service='+quote_plus('http://testserver/login/?next=%s' % quote_plus('/'))
+    assert actual_location == expected_location
+
 
 @pytest.mark.django_db
 def test_login_no_ticket_stores_default_next(settings):
@@ -285,6 +292,30 @@ def test_login_no_ticket_stores_explicit_next(settings):
 
     assert 'CASNEXT' in request.session
     assert request.session['CASNEXT'] == '/admin/'
+
+
+@pytest.mark.django_db
+def test_login_accepts_next_page_kwarg():
+    """
+    Test the case where login receives a next_page kewyord argument
+    """
+    factory = RequestFactory()
+    request = factory.get('/login/')
+    relative_uri = '/special/'
+
+    # Create a session object from the middleware
+    process_request_for_middleware(request, SessionMiddleware)
+    # Create a user object from middleware
+    process_request_for_middleware(request, AuthenticationMiddleware)
+
+    response = LoginView().get(request, next_page=relative_uri)
+    assert response.status_code == 302
+    assert 'Location' in response
+
+    expected_location = 'login?service='+quote_plus('http://testserver/login/?next=%s' % quote_plus(relative_uri))
+    actual_location = response['Location']
+    assert actual_location == expected_location
+
 
 @pytest.mark.django_db
 def test_logout_not_completely(django_user_model, settings):
@@ -332,6 +363,71 @@ def test_logout_completely(django_user_model, settings):
         assert request.user.is_anonymous() is True
     else:
         assert request.user.is_anonymous is True
+
+
+@pytest.mark.django_db
+def test_logout_to_cas_redirect_url(django_user_model, settings):
+    """
+    Test that logout redirects to the CAS_REDIRECT_URL
+    """
+    settings.CAS_REDIRECT_URL = '/guest/'
+
+    factory = RequestFactory()
+    request = factory.get('/logout/')
+    # Create a session object from the middleware
+    process_request_for_middleware(request, SessionMiddleware)
+
+    user = django_user_model.objects.create_user('test@example.com', '')
+    assert user is not None
+    request.user = user
+
+    response = LogoutView().get(request)
+    assert response.status_code == 302
+    if django.VERSION[0] < 2:
+        assert request.user.is_anonymous() is True
+    else:
+        assert request.user.is_anonymous is True
+
+    assert 'Location' in response
+
+    expected_location = 'logout?url='+quote_plus('http://testserver%s' % settings.CAS_REDIRECT_URL)
+    actual_location = response['Location']
+    print('actual_location={}'.format(actual_location))
+
+    assert actual_location == expected_location
+
+
+@pytest.mark.django_db
+def test_logout_to_next_page_kwarg(django_user_model, settings):
+    """
+    Test that logout redirects to the next_page keyword argument
+    """
+    settings.CAS_REDIRECT_URL = '/'
+    relative_uri = '/guest/'
+
+    factory = RequestFactory()
+    request = factory.get('/logout/')
+    # Create a session object from the middleware
+    process_request_for_middleware(request, SessionMiddleware)
+
+    user = django_user_model.objects.create_user('test@example.com', '')
+    assert user is not None
+    request.user = user
+
+    response = LogoutView().get(request, next_page=relative_uri)
+    assert response.status_code == 302
+    if django.VERSION[0] < 2:
+        assert request.user.is_anonymous() is True
+    else:
+        assert request.user.is_anonymous is True
+
+    assert 'Location' in response
+
+    expected_location = 'logout?url='+quote_plus('http://testserver%s' % relative_uri)
+    actual_location = response['Location']
+    print('actual_location={}'.format(actual_location))
+
+    assert actual_location == expected_location
 
 
 @pytest.mark.django_db

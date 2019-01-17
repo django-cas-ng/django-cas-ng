@@ -49,23 +49,27 @@ class LoginView(View):
         """
         return HttpResponseRedirect(next_page)
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         if request.POST.get('logoutRequest'):
-            next_page = request.POST.get('next', settings.CAS_REDIRECT_URL)
+            next_page = kwargs.get('next_page', None)
+            if not next_page:
+                next_page = request.POST.get('next', settings.CAS_REDIRECT_URL)
             service_url = get_service_url(request, next_page)
             client = get_cas_client(service_url=service_url, request=request)
 
             clean_sessions(client, request)
             return HttpResponseRedirect(next_page)
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         """
         Forwards to CAS login URL or verifies CAS ticket
 
         :param request:
         :return:
         """
-        next_page = request.GET.get('next')
+        next_page = kwargs.get('next_page', None)
+        if not next_page:
+            next_page = request.GET.get('next')
         required = request.GET.get('required', False)
 
         service_url = get_service_url(request, next_page)
@@ -130,14 +134,16 @@ class LoginView(View):
 
 
 class LogoutView(View):
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         """
         Redirects to CAS logout page
 
         :param request:
         :return:
         """
-        next_page = request.GET.get('next')
+        next_page = kwargs.get('next_page', None)
+        if not next_page:
+            next_page = request.GET.get('next')
 
         # try to find the ticket matching current session for logout signal
         try:
