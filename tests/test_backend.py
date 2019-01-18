@@ -3,7 +3,6 @@ from __future__ import absolute_import
 import pytest
 from django.core.exceptions import ImproperlyConfigured
 from django.test import RequestFactory
-
 from django_cas_ng import backends
 
 
