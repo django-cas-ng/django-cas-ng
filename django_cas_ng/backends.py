@@ -57,7 +57,14 @@ class CASBackend(ModelBackend):
         else:
             created = False
             try:
-                user = UserModel._default_manager.get_by_natural_key(username)
+                if settings.CAS_LOCAL_NAME_FIELD:
+                    user_kwargs = {
+                        settings.CAS_LOCAL_NAME_FIELD: username
+
+                    }
+                    user = UserModel._default_manager.get(**user_kwargs)
+                else:
+                    user = UserModel._default_manager.get_by_natural_key(username)
             except UserModel.DoesNotExist:
                 pass
 

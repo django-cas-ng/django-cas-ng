@@ -28,7 +28,8 @@ _DEFAULTS = {
     'CAS_APPLY_ATTRIBUTES_TO_USER': False,
     'CAS_RENAME_ATTRIBUTES': {},
     'CAS_CREATE_USER_WITH_ID': False,
-    'CAS_VERIFY_SSL_CERTIFICATE': True
+    'CAS_VERIFY_SSL_CERTIFICATE': True,
+    'CAS_LOCAL_NAME_FIELD': None,
 }
 
 for key, value in list(_DEFAULTS.items()):
