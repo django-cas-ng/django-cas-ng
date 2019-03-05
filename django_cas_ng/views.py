@@ -197,6 +197,8 @@ class CallbackView(View):
 
 
 def clean_sessions(client, request):
+    if not hasattr(client, 'get_saml_slos'):
+        return
     for slo in client.get_saml_slos(request.POST.get('logoutRequest')):
         try:
             st = SessionTicket.objects.get(ticket=slo.text)
