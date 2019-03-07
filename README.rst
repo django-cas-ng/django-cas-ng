@@ -461,10 +461,10 @@ References
 .. _CAS protocol: https://www.apereo.org/cas
 .. _django-cas: https://bitbucket.org/cpcc/django-cas
 .. _clearsessions: https://docs.djangoproject.com/en/1.8/topics/http/sessions/#clearing-the-session-store
-.. _pip: http://www.pip-installer.org/
-.. _PEP8: http://www.python.org/dev/peps/pep-0008
+.. _pip: https://pip.pypa.io/
+.. _PEP8: https://www.python.org/dev/peps/pep-0008
 .. _Django coding style: https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style
-.. _User custom model: https://docs.djangoproject.com/en/1.5/topics/auth/customizing/
+.. _User custom model: https://docs.djangoproject.com/en/dev/topics/auth/customizing/
 .. _Jasig CAS server: http://jasig.github.io/cas
 .. _Piotr Buliński: https://github.com/piotrbulinski
 .. _Stefan Horomnea: https://github.com/choosy
