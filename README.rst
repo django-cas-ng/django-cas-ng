@@ -42,8 +42,14 @@ Install from source code::
     python setup.py install
 
 
+Configuration
+-------------
+
+In order for your project to use ``django-cas-ng``, you'll need to configure
+certain settings, add URL mappings, and sync your database.
+
 Settings
---------
+^^^^^^^^
 
 Now add it to the middleware, authentication backends and installed apps in your settings.
 Make sure you also have the authentication middleware installed.
@@ -131,8 +137,8 @@ Optional settings include:
 * ``CAS_VERSION``: The CAS protocol version to use. ``'1'`` ``'2'`` ``'3'`` and ``'CAS_2_SAML_1_0'`` are
   supported, with ``'2'`` being the default.
 * ``CAS_USERNAME_ATTRIBUTE``: The CAS user name attribute from response. The default is ``uid``.
-* ``CAS_PROXY_CALLBACK``: The full url to the callback view if you want to
-  retrive a Proxy Granting Ticket
+* ``CAS_PROXY_CALLBACK``: The full URL to the callback view if you want to
+  retrive a Proxy Granting Ticket. Defaults is ``None``.
 * ``CAS_ROOT_PROXIED_AS``: Useful if behind a proxy server.  If host is listening on http://foo.bar:8080 but request
   is https://foo.bar:8443.  Add CAS_ROOT_PROXIED_AS = 'https://foo.bar:8443' to your settings.
 * ``CAS_FORCE_CHANGE_USERNAME_CASE``: If ``lower``, usernames returned from CAS are lowercased before
@@ -151,26 +157,57 @@ Optional settings include:
   CAS test server with a self-signed certificate in a development environment. Default is ``True``.
 * ``CAS_LOCAL_NAME_FIELD``: If set, will make user lookup against this field and not model's nautral key.
   This allows you to authenticate arbitrary users.
+  
+URL dispatcher
+^^^^^^^^^^^^^^
 
 Make sure your project knows how to log users in and out by adding these to
-your URL mappings:
+your URL mappings, noting the `simplified URL routing syntax`_ in Django 2.0
+and later:
 
 ..  code-block:: python
 
+    # Django 2.0+
+    from django.urls import path
+    import django_cas_ng.views
+    
+    urlpatterns = [
+        # ...
+	path('accounts/login', django_cas_ng.views.LoginView.as_view(), name='cas_ng_login'),
+        path('accounts/logout', django_cas_ng.views.LogoutView.as_view(), name='cas_ng_logout'),
+    ]
+
+..  code-block:: python
+
+    # Django < 2.0
+    from django.conf.urls import url
     import django_cas_ng.views
 
-    url(r'^accounts/login$', django_cas_ng.views.LoginView.as_view(), name='cas_ng_login'),
-    url(r'^accounts/logout$', django_cas_ng.views.LogoutView.as_view(), name='cas_ng_logout'),
+    urlpatterns = [
+        # ...
+        url(r'^accounts/login$', django_cas_ng.views.LoginView.as_view(), name='cas_ng_login'),
+        url(r'^accounts/logout$', django_cas_ng.views.LogoutView.as_view(), name='cas_ng_logout'),
+    ]
+    
 
 If you use the middleware, the ``login`` url must be given the name ``cas_ng_login``
 or it will create redirection issues, unless you set the ``CAS_LOGIN_URL_NAME`` setting.
 
-You should also add an URL mapping for the ``CAS_PROXY_CALLBACK`` settings:
+You should also add an URL mapping for the ``CAS_PROXY_CALLBACK`` setting, if you have this
+configured:
 
 ..  code-block:: python
 
+    # Django 2.0+
+    path('accounts/callback', django_cas_ng.views.callback, name='cas_ng_proxy_callback'),
+    
+..  code-block:: python
+
+    # Django < 2.0
     url(r'^accounts/callback$', django_cas_ng.views.callback, name='cas_ng_proxy_callback'),
 
+Database
+^^^^^^^^
 
 Run ``./manage.py syncdb`` to create Single Sign On and Proxy Granting Ticket tables.
 On update you can just delete the ``django_cas_ng_sessionticket`` table and the
@@ -461,10 +498,10 @@ References
 .. _CAS protocol: https://www.apereo.org/cas
 .. _django-cas: https://bitbucket.org/cpcc/django-cas
 .. _clearsessions: https://docs.djangoproject.com/en/1.8/topics/http/sessions/#clearing-the-session-store
-.. _pip: https://pip.pypa.io/
-.. _PEP8: https://www.python.org/dev/peps/pep-0008
+.. _pip: http://www.pip-installer.org/
+.. _PEP8: http://www.python.org/dev/peps/pep-0008
 .. _Django coding style: https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style
-.. _User custom model: https://docs.djangoproject.com/en/dev/topics/auth/customizing/
+.. _User custom model: https://docs.djangoproject.com/en/1.5/topics/auth/customizing/
 .. _Jasig CAS server: http://jasig.github.io/cas
 .. _Piotr Buliński: https://github.com/piotrbulinski
 .. _Stefan Horomnea: https://github.com/choosy
@@ -484,3 +521,4 @@ References
 .. _Daniel Davis: https://github.com/danizen
 .. _Peter Baehr: https://github.com/pbaehr
 .. _laymonage: https://github.com/laymonage
+.. _simplified URL routing syntax: https://docs.djangoproject.com/en/dev/releases/2.0/#simplified-url-routing-syntax
