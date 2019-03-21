@@ -137,6 +137,10 @@ Optional settings include:
 * ``CAS_VERSION``: The CAS protocol version to use. ``'1'`` ``'2'`` ``'3'`` and ``'CAS_2_SAML_1_0'`` are
   supported, with ``'2'`` being the default.
 * ``CAS_USERNAME_ATTRIBUTE``: The CAS user name attribute from response. The default is ``uid``.
+  If set with a value other than ``uid`` when ``CAS_VERSION`` is not ``'CAS_2_SAML_1_0'``, this
+  will be handled by the ``CASBackend``, in which case if the user lacks that attribute then
+  authentication will fail. Note that the attribute is checked before ``CAS_RENAME_ATTRIBUTES``
+  is applied.
 * ``CAS_PROXY_CALLBACK``: The full URL to the callback view if you want to
   retrive a Proxy Granting Ticket. Defaults is ``None``.
 * ``CAS_ROOT_PROXIED_AS``: Useful if behind a proxy server.  If host is listening on http://foo.bar:8080 but request
@@ -488,6 +492,7 @@ Credits
 * `Daniel Davis`_
 * `Peter Baehr`_
 * `laymonage`_
+* `Michael Phelps`_
 
 References
 ----------
@@ -523,5 +528,6 @@ References
 .. _Daniel Davis: https://github.com/danizen
 .. _Peter Baehr: https://github.com/pbaehr
 .. _laymonage: https://github.com/laymonage
+.. _Michael Phelps: https://github.com/nottheswimmer
 .. _simplified URL routing syntax: https://docs.djangoproject.com/en/dev/releases/2.0/#simplified-url-routing-syntax
 .. _docs/changelog.rst: docs/changelog.rst

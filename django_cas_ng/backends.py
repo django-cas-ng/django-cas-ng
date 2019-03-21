@@ -22,6 +22,12 @@ class CASBackend(ModelBackend):
         if attributes and request:
             request.session['attributes'] = attributes
 
+        if settings.CAS_USERNAME_ATTRIBUTE != 'uid' and settings.CAS_VERSION != 'CAS_2_SAML_1_0':
+            if attributes:
+                username = attributes.get(settings.CAS_USERNAME_ATTRIBUTE)
+            else:
+                return None
+
         if not username:
             return None
         user = None

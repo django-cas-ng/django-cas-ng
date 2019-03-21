@@ -6,6 +6,11 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+**django-cas-ng x.x.x** ``[xxxx-xx-xx]``
+  * PR-206: New behavior for `CAS_USERNAME_ATTRIBUTE` setting which will now fallback to setting the specified attribute
+  for `username` when set with a value other than the default (`uid`) when using a `CAS_VERSION` that did not previously 
+  support this behavior (anything other than `CAS_VERSION = 'CAS_2_SAML_1_0`).
+
 **django-cas-ng 3.6.0** ``[2018-11-23]``
 
   * Removed support for Django < 1.11.
