@@ -486,6 +486,7 @@ Credits
 * `Daniel Davis`_
 * `Peter Baehr`_
 * `laymonage`_
+* `Michael Phelps`_
 
 References
 ----------
@@ -521,4 +522,5 @@ References
 .. _Daniel Davis: https://github.com/danizen
 .. _Peter Baehr: https://github.com/pbaehr
 .. _laymonage: https://github.com/laymonage
+.. _Michael Phelps: https://github.com/nottheswimmer
 .. _simplified URL routing syntax: https://docs.djangoproject.com/en/dev/releases/2.0/#simplified-url-routing-syntax
