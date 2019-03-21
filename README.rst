@@ -463,6 +463,8 @@ Also welcome to add your name to **Credits** section of this document.
 
 New code should follow both `PEP8`_ and the `Django coding style`_.
 
+In PR, please also add your change description (especially for break changes) to [docs/changelog.rst](docs/changelog.rst) with a draft release version number like `x.x.x`
+
 
 Credits
 -------
