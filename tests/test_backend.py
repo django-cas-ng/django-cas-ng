@@ -421,3 +421,37 @@ def test_backend_authentication_create_user_with_id_and_attributes(monkeypatch, 
         )
 
     assert "CAS_CREATE_USER_WITH_ID is True, but no attributes were provided" in str(excinfo)
+
+
+@pytest.mark.django_db
+def test_backend_user_can_authenticate_with_cas_username_attribute(monkeypatch, settings):
+    """
+    Test CAS_USERNAME_ATTRIBUTE setting.
+    """
+    factory = RequestFactory()
+    request = factory.get('/login/')
+    request.session = {}
+
+    settings.CAS_USERNAME_ATTRIBUTE = 'username'
+
+    def mock_verify(ticket, service):
+        return 'bad@example.com', {'ticket': ticket, 'service': service, 'username': 'good@example.com'}, None
+
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
+
+    user = backends.CASBackend().authenticate(
+        request, ticket='fake-ticket', service='fake-service',
+    )
+
+    assert user.username == 'good@example.com'
+
+    def mock_verify(ticket, service):
+        return 'bad@example.com', {'ticket': ticket, 'service': service}, None
+
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
+
+    user = backends.CASBackend().authenticate(
+        request, ticket='fake-ticket', service='fake-service',
+    )
+
+    assert user is None
