@@ -470,4 +470,3 @@ def test_backend_user_can_authenticate_with_cas_username_attribute(monkeypatch, 
     )
 
     assert user is None
-
