@@ -94,7 +94,7 @@ class LoginView(View):
                 auth_login(request, user)
                 if not request.session.exists(request.session.session_key):
                     request.session.create()
-                    
+
                 try:
                     st = SessionTicket.objects.get(session_key=request.session.session_key)
                     st.ticket = ticket
