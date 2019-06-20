@@ -94,10 +94,16 @@ class LoginView(View):
                 auth_login(request, user)
                 if not request.session.exists(request.session.session_key):
                     request.session.create()
-                SessionTicket.objects.create(
-                    session_key=request.session.session_key,
-                    ticket=ticket
-                )
+                    
+                try:
+                    st = SessionTicket.objects.get(session_key=request.session.session_key)
+                    st.ticket = ticket
+                    st.save()
+                except SessionTicket.DoesNotExist:
+                    SessionTicket.objects.create(
+                        session_key=request.session.session_key,
+                        ticket=ticket
+                    )
 
                 if pgtiou and settings.CAS_PROXY_CALLBACK:
                     # Delete old PGT
