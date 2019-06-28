@@ -239,11 +239,11 @@ these ones:
 
     @csrf_exempt
     def login(request, **kwargs):
-        return _add_locale(request, baseviews.login(request, **kwargs))
+        return _add_locale(request, baseviews.LoginView.as_view()(request, **kwargs))
 
 
     def logout(request, **kwargs):
-        return _add_locale(request, baseviews.logout(request, **kwargs))
+        return _add_locale(request, baseviews.LoginView.as_view()(request, **kwargs))
 
 
     def _add_locale(request, response):
