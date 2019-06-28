@@ -8,7 +8,8 @@ Django CAS NG
 .. image:: https://img.shields.io/badge/maintainers-wanted-red.svg
     :target: https://travis-ci.org/mingchen/django-cas-ng
     
-**NOTE: I am not active use this project anymore beacuse I moved off python stack. I can still maintenance this project but may not reponse in a time manner. If anyone have interesting to maintenance it (like review PR and merging), please create a ticket in issue say you can offer help, I can grant you permission.**
+    
+**NOTE: I am not actively use this project anymore beacuse I moved off python stack. I can still maintenance this project but may not reponse in a time manner. If anyone have interesting to maintenance it (like review PR and merging), please create a ticket in issue say you can offer help, I can grant you permission.**
 
 ``django-cas-ng`` is a Central Authentication Service (CAS) client implementation.
 This project inherits from `django-cas`_ (which has not been updated since
