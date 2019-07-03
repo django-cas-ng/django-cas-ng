@@ -389,7 +389,7 @@ def test_backend_authentication_create_user_with_id_and_no_id_provided(monkeypat
             request, ticket='fake-ticket', service='fake-service',
         )
 
-    assert "CAS_CREATE_USER_WITH_ID is True, but `'id'` is not part of attributes." in str(excinfo)
+    assert "CAS_CREATE_USER_WITH_ID is True, but `'id'` is not part of attributes." in str(excinfo.value)
 
 
 @pytest.mark.django_db
@@ -420,7 +420,7 @@ def test_backend_authentication_create_user_with_id_and_attributes(monkeypatch, 
             request, ticket='fake-ticket', service='fake-service',
         )
 
-    assert "CAS_CREATE_USER_WITH_ID is True, but no attributes were provided" in str(excinfo)
+    assert "CAS_CREATE_USER_WITH_ID is True, but no attributes were provided" in str(excinfo.value)
 
 
 @pytest.mark.django_db
