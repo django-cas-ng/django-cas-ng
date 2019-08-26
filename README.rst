@@ -116,6 +116,9 @@ Optional settings include:
 * ``CAS_LOGIN_URL_NAME``: Name of the login url, defaults to ``'cas_ng_login'``.
   This is only necessary if you use the middleware and want to use some other
   name for the login url (e.g. ``'my_app:cas_login'``).
+* ``CAS_LOGOUT_URL_NAME``: Name of the logout url, defaults to
+  ``'cas_ng_logout'``. This is only necessary if you use the middleware and
+  want to use some other name for the logout url (e.g. ``'my_app:cas_logout'``).
 * ``CAS_EXTRA_LOGIN_PARAMS``: Extra URL parameters to add to the login URL
   when redirecting the user. Example::
 
@@ -199,8 +202,9 @@ and later:
     ]
     
 
-If you use the middleware, the ``login`` url must be given the name ``cas_ng_login``
-or it will create redirection issues, unless you set the ``CAS_LOGIN_URL_NAME`` setting.
+If you use the middleware, the ``login`` and ``logout`` url must be given the
+name ``cas_ng_login`` and ``cas_ng_logout`` or it will create redirection
+issues, unless you set the ``CAS_LOGIN_URL_NAME`` and ``CAS_LOGOUT_URL_NAME`` setting.
 
 You should also add an URL mapping for the ``CAS_PROXY_CALLBACK`` setting, if you have this
 configured:

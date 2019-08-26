@@ -49,6 +49,9 @@ class CASMiddleware(MiddlewareMixin):
         elif not view_func.__module__.startswith('django.contrib.admin.'):
             return None
 
+        if view_func.__name__ == 'logout':
+            return HttpResponseRedirect(reverse(settings.CAS_LOGOUT_URL_NAME))
+
         if request.user.is_authenticated:
             if request.user.is_staff:
                 return None

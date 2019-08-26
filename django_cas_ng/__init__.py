@@ -11,6 +11,7 @@ _DEFAULTS = {
     'CAS_ADMIN_PREFIX': None,
     'CAS_CREATE_USER': True,
     'CAS_LOGIN_URL_NAME': 'cas_ng_login',
+    'CAS_LOGOUT_URL_NAME': 'cas_ng_logout',
     'CAS_EXTRA_LOGIN_PARAMS': None,
     'CAS_RENEW': False,
     'CAS_IGNORE_REFERER': False,
