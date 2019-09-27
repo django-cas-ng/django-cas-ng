@@ -222,7 +222,7 @@ configured:
 Database
 ^^^^^^^^
 
-Run ``./manage.py syncdb`` to create Single Sign On and Proxy Granting Ticket tables.
+Run ``./manage.py syncdb`` (or ``./manage.py migrate`` for Django 1.7+) to create Single Sign On and Proxy Granting Ticket tables.
 On update you can just delete the ``django_cas_ng_sessionticket`` table and the
 ``django_cas_ng_proxygrantingticket`` before calling ``./manage.py syncdb``.
 
