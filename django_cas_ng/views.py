@@ -12,7 +12,6 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils import timezone
 from django.utils.decorators import method_decorator
-from django.utils.six.moves import urllib_parse
 from django.utils.translation import ugettext_lazy as _
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
@@ -26,6 +25,11 @@ from .utils import (
     get_service_url,
     get_user_from_session,
 )
+
+try:
+    from urllib import parse as urllib_parse
+except ImportError:
+    from django.utils.six.moves import urllib_parse
 
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 

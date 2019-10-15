@@ -10,7 +10,11 @@ from django.contrib.auth import (
 )
 from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import resolve_url
-from django.utils.six.moves import urllib_parse
+
+try:
+    from urllib import parse as urllib_parse
+except ImportError:
+    from django.utils.six.moves import urllib_parse
 
 
 def get_protocol(request):

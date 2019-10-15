@@ -9,12 +9,17 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.deprecation import MiddlewareMixin
-from django.utils.six.moves import urllib_parse
 from django.utils.translation import ugettext_lazy as _
 
 from .views import LoginView as cas_login, LogoutView as cas_logout
 
-__all__ = ['CASMiddleware']
+try:
+    from urllib import parse as urllib_parse
+except ImportError:
+    from django.utils.six.moves import urllib_parse
+
+
+__all__ = ["CASMiddleware"]
 
 
 class CASMiddleware(MiddlewareMixin):
