@@ -4,6 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 from datetime import timedelta
 from importlib import import_module
+import re
 
 from django.conf import settings
 from django.contrib import messages
@@ -37,6 +38,32 @@ SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 __all__ = ['LoginView', 'LogoutView', 'CallbackView']
 
 
+def is_local_url(host_url: str, url: str) -> bool:
+    """
+    :param host_url: is an absolute host url, say https://site.com/
+    :param url: is any url
+    :return: Is :url: local to :host_url:?
+    """
+    url = url.strip()
+    # absolute url, relative to host_url
+    if url.startswith(host_url):
+        return True
+    # not relative url, in the fasion 'http://' or '//'
+    elif re.match('^[ a-z]*://', url) or url.startswith('//'):
+        return False
+    else:
+        return True
+
+    
+def clean_next_page(request, next_page):
+    """
+    Only local urls are safe.
+    """
+    if not is_local_url(request.build_absolute_uri('/'), next_page):
+        next_page = '/'
+    return next_page
+
+    
 class LoginView(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -54,7 +81,7 @@ class LoginView(View):
         return HttpResponseRedirect(next_page)
 
     def post(self, request):
-        next_page = request.POST.get('next', settings.CAS_REDIRECT_URL)
+        next_page = clean_next_page(request.POST.get('next', settings.CAS_REDIRECT_URL))
         service_url = get_service_url(request, next_page)
         client = get_cas_client(service_url=service_url, request=request)
 
@@ -71,7 +98,7 @@ class LoginView(View):
         :param request:
         :return:
         """
-        next_page = request.GET.get('next')
+        next_page = clean_next_page(request.GET.get('next'))
         required = request.GET.get('required', False)
 
         service_url = get_service_url(request, next_page)
@@ -149,7 +176,7 @@ class LogoutView(View):
         :param request:
         :return:
         """
-        next_page = request.GET.get('next')
+        next_page = clean_next_page(request.GET.get('next'))
 
         # try to find the ticket matching current session for logout signal
         try:
