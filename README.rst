@@ -212,12 +212,12 @@ configured:
 ..  code-block:: python
 
     # Django 2.0+
-    path('accounts/callback', django_cas_ng.views.callback, name='cas_ng_proxy_callback'),
+    path('accounts/callback', django_cas_ng.views.CallbackView.as_view(), name='cas_ng_proxy_callback'),
     
 ..  code-block:: python
 
     # Django < 2.0
-    url(r'^accounts/callback$', django_cas_ng.views.callback, name='cas_ng_proxy_callback'),
+    url(r'^accounts/callback$', django_cas_ng.views.CallbackView.as_view(), name='cas_ng_proxy_callback'),
 
 Database
 ^^^^^^^^
