@@ -84,7 +84,7 @@ class LoginView(View):
         return HttpResponseRedirect(next_page)
 
     def post(self, request):
-        next_page = clean_next_page(request.POST.get('next', settings.CAS_REDIRECT_URL))
+        next_page = clean_next_page(request, request.POST.get('next', settings.CAS_REDIRECT_URL))
         service_url = get_service_url(request, next_page)
         client = get_cas_client(service_url=service_url, request=request)
 
@@ -101,7 +101,7 @@ class LoginView(View):
         :param request:
         :return:
         """
-        next_page = clean_next_page(request.GET.get('next'))
+        next_page = clean_next_page(request, request.GET.get('next'))
         required = request.GET.get('required', False)
 
         service_url = get_service_url(request, next_page)
@@ -179,7 +179,7 @@ class LogoutView(View):
         :param request:
         :return:
         """
-        next_page = clean_next_page(request.GET.get('next'))
+        next_page = clean_next_page(request, request.GET.get('next'))
 
         # try to find the ticket matching current session for logout signal
         try:
