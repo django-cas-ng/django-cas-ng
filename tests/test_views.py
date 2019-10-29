@@ -8,7 +8,7 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from django.core.exceptions import PermissionDenied
 from django.test import RequestFactory
 from django_cas_ng.models import ProxyGrantingTicket, SessionTicket
-from django_cas_ng.views import CallbackView, LoginView, LogoutView
+from django_cas_ng.views import CallbackView, LoginView, LogoutView, is_local_url
 
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
@@ -17,6 +17,30 @@ SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 def process_request_for_middleware(request, middleware):
     middleware = middleware()
     middleware.process_request(request)
+
+def test_is_local_url(self):
+    assert not is_local_url('https://a.com', 'https://b.com')
+    assert not is_local_url('https://a.com', 'https://a.com.fake')
+    assert not is_local_url('https://a.com', 'http://a.com')
+    assert not is_local_url('https://a.com', 'http://b.a.com')
+    assert not is_local_url('https://a.com', 'https://b.a.com')
+    assert not is_local_url('//a.com', 'http://a.com')
+    assert not is_local_url('//a.com', 'https://a.com')
+    assert not is_local_url('https://a.com', '//a.com.fake')
+    assert not is_local_url('https://a.com', '//b.com')
+    assert not is_local_url('https://sub.a.com', '//a.com')
+    assert not is_local_url('https://a.com/path', 'https://a.com')
+    assert not is_local_url('https://a.com/fa', 'https://a.com/fa-ke')
+
+    assert is_local_url('//a.com', '//a.com')
+    assert is_local_url('http://a.com', '//a.com')
+    assert is_local_url('https://a.com', '//a.com')
+    assert is_local_url('https://a.com', '//a.com/path')
+    assert is_local_url('https://a.com', '/path')
+    assert is_local_url('https://a.com', '/')
+    assert is_local_url('https://a.com/', '/path')
+    assert is_local_url('https://a.com/', 'https://a.com')
+    assert is_local_url('https://a.com/path', 'https://a.com/path/folder')
 
 
 @pytest.mark.django_db
