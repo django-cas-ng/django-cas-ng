@@ -18,7 +18,7 @@ def process_request_for_middleware(request, middleware):
     middleware = middleware()
     middleware.process_request(request)
 
-def test_is_local_url(self):
+def test_is_local_url():
     assert not is_local_url('https://a.com', 'https://b.com')
     assert not is_local_url('https://a.com', 'https://a.com.fake')
     assert not is_local_url('https://a.com', 'http://a.com')
