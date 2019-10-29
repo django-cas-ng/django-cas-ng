@@ -37,6 +37,36 @@ SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 __all__ = ['LoginView', 'LogoutView', 'CallbackView']
 
 
+def clean_next_page(request, next_page):
+    """
+    set settings.CAS_CHECK_NEXT to lambda _: True if you want to bypass this check.
+    """
+    is_safe = getattr(settings, 'CAS_CHECK_NEXT', lambda _next_page: is_local_url(request.build_absolute_uri('/'), _next_page))
+    if not is_safe(next_page):
+        raise Exception("Non-local url is forbidden to be redirected to.")
+    return next_page
+
+
+def is_local_url(host_url, url):
+    """
+    :param host_url: is an absolute host url, say https://site.com/
+    :param url: is any url
+    :return: Is :url: local to :host_url:?
+    """
+    url = url.strip()
+    parsed_url = urllib_parse.urlparse(url)
+    if not parsed_url.netloc:
+        return True
+    parsed_host = urllib_parse.urlparse(host_url)
+    if parsed_url.netloc != parsed_host.netloc:
+        return False
+    if parsed_url.scheme != parsed_host.scheme and parsed_url.scheme:
+        return False
+    url_path = parsed_url.path if parsed_url.path.endswith('/') else parsed_url.path + '/'
+    host_path = parsed_host.path if parsed_host.path.endswith('/') else parsed_host.path + '/'
+    return url_path.startswith(host_path)
+
+
 class LoginView(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -54,7 +84,7 @@ class LoginView(View):
         return HttpResponseRedirect(next_page)
 
     def post(self, request):
-        next_page = request.POST.get('next', settings.CAS_REDIRECT_URL)
+        next_page = clean_next_page(request.POST.get('next', settings.CAS_REDIRECT_URL))
         service_url = get_service_url(request, next_page)
         client = get_cas_client(service_url=service_url, request=request)
 
@@ -71,7 +101,7 @@ class LoginView(View):
         :param request:
         :return:
         """
-        next_page = request.GET.get('next')
+        next_page = clean_next_page(request.GET.get('next'))
         required = request.GET.get('required', False)
 
         service_url = get_service_url(request, next_page)
@@ -149,7 +179,7 @@ class LogoutView(View):
         :param request:
         :return:
         """
-        next_page = request.GET.get('next')
+        next_page = clean_next_page(request.GET.get('next'))
 
         # try to find the ticket matching current session for logout signal
         try:
