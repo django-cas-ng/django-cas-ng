@@ -167,7 +167,7 @@ Optional settings include:
   to fill in Django Users' info independtly from the attributes' keys returned by the CAS server.
 * ``CAS_VERIFY_SSL_CERTIFICATE``: If ``False`` CAS server certificate won't be verified. This is useful when using a
   CAS test server with a self-signed certificate in a development environment. Default is ``True``.
-* ``CAS_LOCAL_NAME_FIELD``: If set, will make user lookup against this field and not model's nautral key.
+* ``CAS_LOCAL_NAME_FIELD``: If set, will make user lookup against this field and not model's natural key.
   This allows you to authenticate arbitrary users.
   
 URL dispatcher
