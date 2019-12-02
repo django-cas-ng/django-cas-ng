@@ -4,6 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 from datetime import timedelta
 from importlib import import_module
+from urllib import parse as urllib_parse
 
 from django.conf import settings
 from django.contrib import messages
@@ -26,7 +27,6 @@ from .utils import (
     get_user_from_session,
 )
 
-from urllib import parse as urllib_parse
 
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 

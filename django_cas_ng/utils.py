@@ -1,4 +1,5 @@
 import warnings
+from urllib import parse as urllib_parse
 
 from cas import CASClient
 from django.conf import settings as django_settings
@@ -11,7 +12,6 @@ from django.contrib.auth import (
 from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import resolve_url
 
-from urllib import parse as urllib_parse
 
 
 def get_protocol(request):
