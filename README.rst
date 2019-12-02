@@ -24,9 +24,9 @@ Features
 - Support Single Sign Out
 - Supports Token auth schemes
 - Can fetch Proxy Granting Ticket
-- Supports Django 1.5, 1.6, 1.7, 1.8, 1.9, 1.10, 1.11 and 2.0
+- Supports Django 2.0, 2.1, 2.2 and **3.0**
 - Supports using a `User custom model`_
-- Supports Python 2.7, 3.x
+- Supports Python 3.x
 
 
 Installation

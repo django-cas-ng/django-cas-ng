@@ -13,10 +13,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from .views import LoginView as cas_login, LogoutView as cas_logout
 
-try:
-    from urllib import parse as urllib_parse
-except ImportError:
-    from django.utils.six.moves import urllib_parse
+from urllib import parse as urllib_parse
 
 
 __all__ = ["CASMiddleware"]

@@ -26,10 +26,7 @@ from .utils import (
     get_user_from_session,
 )
 
-try:
-    from urllib import parse as urllib_parse
-except ImportError:
-    from django.utils.six.moves import urllib_parse
+from urllib import parse as urllib_parse
 
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
