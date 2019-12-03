@@ -15,7 +15,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from .views import LoginView as cas_login, LogoutView as cas_logout
 
-
 __all__ = ["CASMiddleware"]
 
 

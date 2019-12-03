@@ -13,7 +13,6 @@ from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import resolve_url
 
 
-
 def get_protocol(request):
     """Returns 'http' or 'https' for the request protocol"""
     if request.is_secure():
