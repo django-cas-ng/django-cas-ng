@@ -27,7 +27,7 @@ def test_signal_when_user_logout_manual(monkeypatch, django_user_model):
     request.session = session
 
     # Create a fake session ticket and make sure it exists in the db
-    session_ticket = SessionTicket.objects.create(
+    SessionTicket.objects.create(
         session_key=session.session_key,
         ticket='fake-ticket'
     )
@@ -43,7 +43,7 @@ def test_signal_when_user_logout_manual(monkeypatch, django_user_model):
         callback_values.update(kwargs)
         callback_values['session'] = dict(session)
 
-    response = LogoutView().get(request)
+    LogoutView().get(request)
     if django.VERSION[0] < 2:
         assert request.user.is_anonymous() is True
     else:
@@ -58,11 +58,12 @@ def test_signal_when_user_logout_manual(monkeypatch, django_user_model):
 
 @pytest.mark.django_db
 def test_signal_when_user_logout_slo(monkeypatch, django_user_model, settings):
-    data = {'logoutRequest': '<samlp:LogoutRequest '
-                             'xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol">'
-                             '<samlp:SessionIndex>fake-ticket'
-                             '</samlp:SessionIndex></samlp:LogoutRequest>'
-           }
+    data = {
+        'logoutRequest': '<samlp:LogoutRequest '
+                         'xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol">'
+                         '<samlp:SessionIndex>fake-ticket'
+                         '</samlp:SessionIndex></samlp:LogoutRequest>'
+    }
 
     settings.CAS_VERSION = 'CAS_2_SAML_1_0'
 
@@ -74,14 +75,13 @@ def test_signal_when_user_logout_slo(monkeypatch, django_user_model, settings):
     user = django_user_model.objects.create_user('test@example.com', '')
     assert user is not None
 
-
     session = SessionStore()
     session['fake_session_key'] = 'fake-session_value'
     session.save()
     assert SessionStore(session_key=session.session_key) is not None
 
     # Create a fake session ticket and make sure it exists in the db
-    session_ticket = SessionTicket.objects.create(
+    SessionTicket.objects.create(
         session_key=session.session_key,
         ticket='fake-ticket'
     )
@@ -93,14 +93,12 @@ def test_signal_when_user_logout_slo(monkeypatch, django_user_model, settings):
         callback_values.update(kwargs)
         callback_values['session'] = dict(session)
 
-
-    response = LoginView().post(request)
+    LoginView().post(request)
     assert 'user' in callback_values
     assert 'session' in callback_values
     assert callback_values['session'].get('fake_session_key') == 'fake-session_value'
     assert 'ticket' in callback_values
     assert callback_values['ticket'] == 'fake-ticket'
-
 
 
 @pytest.mark.django_db
@@ -139,7 +137,7 @@ def test_signal_when_user_is_created(monkeypatch, django_user_model):
 
     assert 'user' in callback_values
     assert callback_values.get('user') == user
-    assert callback_values.get('created') == True
+    assert callback_values.get('created') is True
     assert 'attributes' in callback_values
     assert 'ticket' in callback_values
     assert 'service' in callback_values
@@ -181,7 +179,7 @@ def test_signal_when_user_already_exists(monkeypatch, django_user_model):
 
     assert 'user' in callback_values
     assert callback_values.get('user') == user == existing_user
-    assert callback_values.get('created') == False
+    assert callback_values.get('created') is False
     assert 'attributes' in callback_values
     assert 'ticket' in callback_values
     assert 'service' in callback_values

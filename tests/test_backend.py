@@ -251,12 +251,12 @@ def test_cas_attributes_renaming_working(monkeypatch, settings):
 
     def mock_verify(ticket, service):
         return 'test@example.com', \
-            {'ln': 'MyLastName','fn':'MyFirstName','unkownAttr':'knownAttr'}, \
+            {'ln': 'MyLastName', 'fn': 'MyFirstName', 'unkownAttr': 'knownAttr'}, \
             None
 
     monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
 
-    settings.CAS_RENAME_ATTRIBUTES = {'ln':'last_name'}
+    settings.CAS_RENAME_ATTRIBUTES = {'ln': 'last_name'}
     settings.CAS_APPLY_ATTRIBUTES_TO_USER = True
 
     backend = backends.CASBackend()
@@ -385,7 +385,7 @@ def test_backend_authentication_create_user_with_id_and_no_id_provided(monkeypat
     settings.CAS_CREATE_USER_WITH_ID = True
     backend = backends.CASBackend()
     with pytest.raises(ImproperlyConfigured) as excinfo:
-        user = backend.authenticate(
+        backend.authenticate(
             request, ticket='fake-ticket', service='fake-service',
         )
 
@@ -416,7 +416,7 @@ def test_backend_authentication_create_user_with_id_and_attributes(monkeypatch, 
     settings.CAS_CREATE_USER_WITH_ID = True
     backend = backends.CASBackend()
     with pytest.raises(ImproperlyConfigured) as excinfo:
-        user = backend.authenticate(
+        backend.authenticate(
             request, ticket='fake-ticket', service='fake-service',
         )
 
