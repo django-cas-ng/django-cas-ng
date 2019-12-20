@@ -2,13 +2,13 @@ Django CAS NG
 =============
 
 .. image:: https://travis-ci.org/mingchen/django-cas-ng.svg?branch=master
-    :target: https://travis-ci.org/mingchen/django-cas-ng    
+    :target: https://travis-ci.org/mingchen/django-cas-ng
 .. image:: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
     :target: https://travis-ci.org/mingchen/django-cas-ng/pull/new
 .. image:: https://img.shields.io/badge/maintainers-wanted-red.svg
     :target: https://travis-ci.org/mingchen/django-cas-ng
-    
-    
+
+
 **NOTE: I am not actively use this project anymore beacuse I moved off python stack. I can still maintenance this project but may not reponse in a time manner. If anyone have interesting to maintenance it (like review PR and merging), please create a ticket in issue say you can offer help, I can grant you permission.**
 
 ``django-cas-ng`` is a Central Authentication Service (CAS) client implementation.
@@ -169,7 +169,7 @@ Optional settings include:
   CAS test server with a self-signed certificate in a development environment. Default is ``True``.
 * ``CAS_LOCAL_NAME_FIELD``: If set, will make user lookup against this field and not model's natural key.
   This allows you to authenticate arbitrary users.
-  
+
 URL dispatcher
 ^^^^^^^^^^^^^^
 
@@ -182,7 +182,7 @@ and later:
     # Django 2.0+
     from django.urls import path
     import django_cas_ng.views
-    
+
     urlpatterns = [
         # ...
 	path('accounts/login', django_cas_ng.views.LoginView.as_view(), name='cas_ng_login'),
@@ -200,7 +200,7 @@ and later:
         url(r'^accounts/login$', django_cas_ng.views.LoginView.as_view(), name='cas_ng_login'),
         url(r'^accounts/logout$', django_cas_ng.views.LogoutView.as_view(), name='cas_ng_logout'),
     ]
-    
+
 
 If you use the middleware, the ``login`` and ``logout`` url must be given the
 name ``cas_ng_login`` and ``cas_ng_logout`` or it will create redirection
@@ -213,7 +213,7 @@ configured:
 
     # Django 2.0+
     path('accounts/callback', django_cas_ng.views.CallbackView.as_view(), name='cas_ng_proxy_callback'),
-    
+
 ..  code-block:: python
 
     # Django < 2.0
