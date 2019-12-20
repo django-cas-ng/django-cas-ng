@@ -1,6 +1,5 @@
 """CAS authentication middleware"""
 
-from __future__ import absolute_import, unicode_literals
 
 from urllib import parse as urllib_parse
 

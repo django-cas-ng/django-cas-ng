@@ -1,6 +1,5 @@
 """Replacement authentication decorators that work around redirection loops"""
 
-from __future__ import absolute_import, unicode_literals
 
 from functools import wraps
 

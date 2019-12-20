@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Django CAS NG documentation build configuration file, created by
 # sphinx-quickstart on Sat May 24 09:24:34 2014.
@@ -12,7 +11,6 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-from __future__ import absolute_import
 
 import os
 import sys

@@ -1,6 +1,5 @@
 """CAS login/logout replacement views"""
 
-from __future__ import absolute_import, unicode_literals
 
 from datetime import timedelta
 from importlib import import_module
@@ -68,7 +67,7 @@ def is_local_url(host_url, url):
 class LoginView(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
-        return super(LoginView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def successful_login(self, request, next_page):
         """
@@ -218,12 +217,12 @@ class CallbackView(View):
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
-        return super(CallbackView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def post(self, request):
         if request.POST.get('logoutRequest'):
             clean_sessions(get_cas_client(request=request), request)
-            return HttpResponse("{0}\n".format(_('ok')), content_type="text/plain")
+            return HttpResponse("{}\n".format(_('ok')), content_type="text/plain")
 
     def get(self, request):
         pgtid = request.GET.get('pgtId')
@@ -234,7 +233,7 @@ class CallbackView(View):
             session_key=None,
             date__lt=(timezone.now() - timedelta(seconds=60))
         ).delete()
-        return HttpResponse("{0}\n".format(_('ok')), content_type="text/plain")
+        return HttpResponse("{}\n".format(_('ok')), content_type="text/plain")
 
 
 def clean_sessions(client, request):
