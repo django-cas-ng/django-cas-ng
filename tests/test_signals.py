@@ -44,10 +44,7 @@ def test_signal_when_user_logout_manual(monkeypatch, django_user_model):
         callback_values['session'] = dict(session)
 
     response = LogoutView().get(request)
-    if django.VERSION[0] < 2:
-        assert request.user.is_anonymous() is True
-    else:
-        assert request.user.is_anonymous is True
+    assert request.user.is_anonymous is True
     assert 'user' in callback_values
     assert callback_values['user'] == user
     assert 'session' in callback_values
