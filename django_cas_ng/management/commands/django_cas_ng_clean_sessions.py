@@ -5,7 +5,7 @@ from ... import models
 
 class Command(BaseCommand):
     args = ''
-    help = u"Clean SessionTicket and ProxyGrantingTicket linked to expired sessions"
+    help = "Clean SessionTicket and ProxyGrantingTicket linked to expired sessions"
 
     def handle(self, *args, **options):
         models.ProxyGrantingTicket.clean_deleted_sessions()
