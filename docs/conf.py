@@ -37,9 +37,9 @@ copyright = '2014, Ming Chen'
 # built documents.
 #
 # The short X.Y version.
-version = '3.6'
+version = '4.0'
 # The full version, including alpha/beta/rc tags.
-release = '3.6.0'
+release = '4.0.0'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
