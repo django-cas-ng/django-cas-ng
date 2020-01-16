@@ -34,18 +34,17 @@ def test_command_clean_session(django_user_model):
 
     # Create a fake pgt
     pgt = ProxyGrantingTicket.objects.create(session_key=session.session_key,
-                                       user=user, pgtiou='fake-ticket-iou',
-                                       pgt='fake-ticket')
+                                             user=user, pgtiou='fake-ticket-iou',
+                                             pgt='fake-ticket')
     assert pgt is not None
     assert ProxyGrantingTicket.objects.filter(session_key=session.session_key,
-                                       user=user, pgtiou='fake-ticket-iou',
-                                       pgt='fake-ticket').exists() is True
-
+                                              user=user, pgtiou='fake-ticket-iou',
+                                              pgt='fake-ticket').exists() is True
 
     # Call the clean sessions command and make sure things are cleaned up
     management.call_command('django_cas_ng_clean_sessions')
     assert SessionTicket.objects.filter(session_key=session.session_key,
                                         ticket='fake-ticket').exists() is False
     assert ProxyGrantingTicket.objects.filter(session_key=session.session_key,
-                                       user=user, pgtiou='fake-ticket-iou',
-                                       pgt='fake-ticket').exists() is False
+                                              user=user, pgtiou='fake-ticket-iou',
+                                              pgt='fake-ticket').exists() is False

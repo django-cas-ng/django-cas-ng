@@ -38,12 +38,11 @@ setup(
     long_description=readme,
     name='django-cas-ng',
     packages=['django_cas_ng', 'django_cas_ng.management', 'django_cas_ng.management.commands', 'django_cas_ng.migrations'],
-    package_data = {
-        'django_cas_ng': ['locale/*/LC_MESSAGES/*',],
+    package_data={
+        'django_cas_ng': ['locale/*/LC_MESSAGES/*'],
     },
     url='https://github.com/mingchen/django-cas-ng',
-    #bugtrack_url='https://github.com/mingchen/django-cas-ng/issues',  # not support this key
-    download_url ='https://github.com/mingchen/django-cas-ng/releases',
+    download_url='https://github.com/mingchen/django-cas-ng/releases',
     version='4.0.0',
     python_requires=">=3.5",
     install_requires=[

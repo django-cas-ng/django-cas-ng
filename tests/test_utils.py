@@ -65,6 +65,7 @@ def test_service_url_root_proxied_as(settings):
     expected = 'https://foo.bar:8443/login/?next=%2F'
     assert actual == expected
 
+
 #
 # get_redirect_url tests
 #

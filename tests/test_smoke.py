@@ -1,8 +1,8 @@
-from django_cas_ng.backends import *
-from django_cas_ng.decorators import *
-from django_cas_ng.middleware import *
-from django_cas_ng.models import *
-from django_cas_ng.views import *
+from django_cas_ng.backends import *  # noqa
+from django_cas_ng.decorators import *  # noqa
+from django_cas_ng.middleware import *  # noqa
+from django_cas_ng.models import *  # noqa
+from django_cas_ng.views import *  # noqa
 
 
 def test_nothing_is_on_fire():
