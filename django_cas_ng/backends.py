@@ -1,5 +1,4 @@
 """CAS authentication backend"""
-from __future__ import absolute_import, unicode_literals
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -125,13 +124,6 @@ class CASBackend(ModelBackend):
             request=request
         )
         return user
-
-    # ModelBackend has a `user_can_authenticate` method starting from Django
-    # 1.10, that only allows active user to log in. For consistency,
-    # django-cas-ng will have the same behavior as Django's ModelBackend.
-    if not hasattr(ModelBackend, 'user_can_authenticate'):
-        def user_can_authenticate(self, user):
-            return True
 
     def get_user_id(self, attributes):
         """

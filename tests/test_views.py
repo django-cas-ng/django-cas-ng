@@ -1,6 +1,5 @@
 from importlib import import_module
 
-import django
 import pytest
 from django.conf import settings
 from django.contrib.auth.middleware import AuthenticationMiddleware
@@ -126,10 +125,7 @@ def test_login_authenticate_and_create_user(monkeypatch, django_user_model, sett
     response = LoginView().get(request)
     assert response.status_code == 302
     assert response['Location'] == '/'
-    if django.VERSION[0] < 2:
-        assert django_user_model.objects.get(username='test@example.com').is_authenticated() is True
-    else:
-        assert django_user_model.objects.get(username='test@example.com').is_authenticated is True
+    assert django_user_model.objects.get(username='test@example.com').is_authenticated is True
 
 
 @pytest.mark.django_db
@@ -203,10 +199,7 @@ def test_login_proxy_callback(monkeypatch, django_user_model, settings):
 
     response = LoginView().get(request)
     assert response.status_code == 302
-    if django.VERSION[0] < 2:
-        assert django_user_model.objects.get(username='test@example.com').is_authenticated() is True
-    else:
-        assert django_user_model.objects.get(username='test@example.com').is_authenticated is True
+    assert django_user_model.objects.get(username='test@example.com').is_authenticated is True
     assert ProxyGrantingTicket.objects.filter(pgtiou='fake-pgtiou').exists() is True
     assert ProxyGrantingTicket.objects.filter(pgtiou='fake-pgtiou').count() == 1
 
@@ -245,10 +238,7 @@ def test_login_redirect_based_on_cookie(monkeypatch, django_user_model, settings
     assert response['Location'] == '/admin/'
 
     assert 'CASNEXT' not in request.session
-    if django.VERSION[0] < 2:
-        assert django_user_model.objects.get(username='test@example.com').is_authenticated() is True
-    else:
-        assert django_user_model.objects.get(username='test@example.com').is_authenticated is True
+    assert django_user_model.objects.get(username='test@example.com').is_authenticated is True
 
 
 @pytest.mark.django_db
@@ -330,10 +320,7 @@ def test_logout_not_completely(django_user_model, settings):
 
     response = LogoutView().get(request)
     assert response.status_code == 302
-    if django.VERSION[0] < 2:
-        assert request.user.is_anonymous() is True
-    else:
-        assert request.user.is_anonymous is True
+    assert request.user.is_anonymous is True
 
 
 @pytest.mark.django_db
@@ -354,10 +341,7 @@ def test_logout_completely(django_user_model, settings):
 
     response = LogoutView().get(request)
     assert response.status_code == 302
-    if django.VERSION[0] < 2:
-        assert request.user.is_anonymous() is True
-    else:
-        assert request.user.is_anonymous is True
+    assert request.user.is_anonymous is True
 
 
 @pytest.mark.django_db

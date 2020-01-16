@@ -1,6 +1,5 @@
 """CAS authentication middleware"""
 
-from __future__ import absolute_import, unicode_literals
 
 from urllib import parse as urllib_parse
 
@@ -11,7 +10,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.deprecation import MiddlewareMixin
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from .views import LoginView as cas_login, LogoutView as cas_logout
 

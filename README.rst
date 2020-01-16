@@ -7,7 +7,7 @@ Django CAS NG
     :target: https://travis-ci.org/mingchen/django-cas-ng/pull/new
 .. image:: https://img.shields.io/badge/maintainers-wanted-red.svg
     :target: https://travis-ci.org/mingchen/django-cas-ng
-    
+
 **NOTE: I am not actively using this project anymore because I moved off a Python stack. I can still maintain this project but may not respond in a timely manner. If anyone is interested in maintaining it (reviewing PRs and merging them), please create a ticket that says you can offer help and I'll grant you permission.**
 
 ``django-cas-ng`` is a Central Authentication Service (CAS) client implementation.
@@ -25,7 +25,7 @@ Features
 - Can fetch Proxy Granting Ticket
 - Supports Django 2.0, 2.1, 2.2 and **3.0**
 - Supports using a `User custom model`_
-- Supports Python 3.x
+- Supports Python 3.5+
 
 
 Installation
