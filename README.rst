@@ -8,7 +8,7 @@ Django CAS NG
 .. image:: https://img.shields.io/badge/maintainers-wanted-red.svg
     :target: https://travis-ci.org/mingchen/django-cas-ng
 
-``django-cas-ng`` is a Central Authentication Service (CAS) client implementation.
+`django-cas-ng`_ is a Central Authentication Service (CAS) client implementation.
 This project inherits from `django-cas`_ (which has not been updated since
 April 2013). The NG stands for "next generation". Our fork will include
 bugfixes and new features contributed by the community.
@@ -21,6 +21,7 @@ Checkout document at https://djangocas.dev/docs/
 
 Quick links:
 
+* `CAS Protocol Introduction`_
 * `Install`_
 * `Configuration`_
 
@@ -47,9 +48,11 @@ This project adheres to Semantic Versioning. Checkout all the `Changelog`_.
 
 
 .. _CAS: https://www.apereo.org/cas
+.. _django-cas-ng: https://djangocas.dev
 .. _django-cas: https://bitbucket.org/cpcc/django-cas
 .. _clearsessions: https://docs.djangoproject.com/en/1.8/topics/http/sessions/#clearing-the-session-store
 .. _User custom model: https://docs.djangoproject.com/en/1.5/topics/auth/customizing/
+.. _CAS Protocol Introduction: https://djangocas.dev/docs/4.0/cas-protocol.html
 .. _Contribution: https://djangocas.dev/docs/4.0/contribution.html
 .. _Changelog: https://djangocas.dev/docs/4.0/changelog.html
 .. _Install: https://djangocas.dev/docs/4.0/install.html
