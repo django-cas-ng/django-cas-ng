@@ -7,6 +7,7 @@ Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
 **django-cas-ng 4.0.0** ``[2020-01-16]``
+
   * Break change: Drop python 2.x support
   * Break change: Drop django 1.x support
   * PR-206: New behavior for `CAS_USERNAME_ATTRIBUTE` setting which will now fallback to setting the specified attribute
