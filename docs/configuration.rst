@@ -184,3 +184,6 @@ It could be a good idea to put it in the crontab.
 
 Users should now be able to log into your site using CAS.
 
+
+.. _simplified URL routing syntax: https://docs.djangoproject.com/en/dev/releases/2.0/#simplified-url-routing-syntax
+.. _clearsessions: https://docs.djangoproject.com/en/1.8/topics/http/sessions/#clearing-the-session-store

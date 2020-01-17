@@ -87,8 +87,7 @@ here. For additional detail, read the complete `commit history`_.
 
 **django-cas-ng 3.5.5** ``[2016-09-28]``
 
-* Login after the session is created, fix the need for double login (such as #83, might fix it but seems slightly
-different)
+* Login after the session is created, fix the need for double login (such as #83, might fix it but seems slightly different)
 * Fix #96 Login after the session is created, fix the need for double login
 * Fix #95 by delete django requirement from setup.py
 * Fix #91 - raise PermissionDenied rather than return HttpResponseForbidden
@@ -100,8 +99,7 @@ different)
 * Support for string view arguments to url() is deprecated and will be removed in Django 1.10.
 * Add migrations.
 * Add initial migrations file.
-* Add CAS_FORCE_CHANGE_USERNAME_CASE option to convert username case to lower or upper. This prevent duplicate account
-creation in some case.
+* Add CAS_FORCE_CHANGE_USERNAME_CASE option to convert username case to lower or upper. This prevent duplicate account creation in some case.
 * Bugfix for loop redirect when CAS_ADMIN_PREFIX is set as root.
 
 

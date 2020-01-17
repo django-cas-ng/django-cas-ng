@@ -16,3 +16,4 @@ Install from source code::
 
     python setup.py install
 
+.. _pip: http://www.pip-installer.org/

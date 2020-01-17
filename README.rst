@@ -50,8 +50,7 @@ This project adheres to Semantic Versioning. Checkout all the `Changelog`_.
 .. _CAS: https://www.apereo.org/cas
 .. _django-cas-ng: https://djangocas.dev
 .. _django-cas: https://bitbucket.org/cpcc/django-cas
-.. _clearsessions: https://docs.djangoproject.com/en/1.8/topics/http/sessions/#clearing-the-session-store
-.. _User custom model: https://docs.djangoproject.com/en/1.5/topics/auth/customizing/
+.. _User custom model: https://docs.djangoproject.com/en/3.0/topics/auth/customizing/
 .. _CAS Protocol Introduction: https://djangocas.dev/docs/4.0/cas-protocol.html
 .. _Contribution: https://djangocas.dev/docs/4.0/contribution.html
 .. _Changelog: https://djangocas.dev/docs/4.0/changelog.html
