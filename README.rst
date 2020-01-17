@@ -17,8 +17,12 @@ bugfixes and new features contributed by the community.
 Document
 --------
 
-https://djangocas.dev
+Checkout document at https://djangocas.dev/docs/
 
+Quick links:
+
+* `Install`_
+* `Configuration`_
 
 Features
 --------
@@ -48,4 +52,6 @@ This project adheres to Semantic Versioning. Checkout all the `Changelog`_.
 .. _User custom model: https://docs.djangoproject.com/en/1.5/topics/auth/customizing/
 .. _Contribution: https://djangocas.dev/docs/4.0/contribution.html
 .. _Changelog: https://djangocas.dev/docs/4.0/changelog.html
+.. _Install: https://djangocas.dev/docs/4.0/install.html
+.. _Configuration: https://djangocas.dev/docs/4.0/configuration.html
 
