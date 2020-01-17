@@ -29,7 +29,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'Django CAS NG'
+project = 'django-cas-ng'
 copyright = '2014-2020, django-cas-ng'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -53,7 +53,7 @@ pygments_style = 'sphinx'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 # html_theme = 'default'
-html_theme = 'sphinx_rtd_theme'
+html_theme = 'custom_sphinx_rtd_theme'
 
 html_theme_path = ["_themes", ]
 
@@ -80,7 +80,7 @@ html_theme_options = {
 html_static_path = ['_static']
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'DjangoCASNGdoc'
+htmlhelp_basename = 'django-cas-ng-doc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -89,7 +89,7 @@ htmlhelp_basename = 'DjangoCASNGdoc'
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    ('index', 'DjangoCASNG.tex', 'Django CAS NG Documentation',
+    ('index', 'django-cas-ng.tex', 'django-cas-ng Documentation',
      'django-cas-ng', 'manual'),
 ]
 
@@ -98,7 +98,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'djangocasng', 'Django CAS NG Documentation',
+    ('index', 'django-cas-ng', 'django-cas-ng Documentation',
      ['django-cas-ng'], 1)
 ]
 
@@ -108,7 +108,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    ('index', 'DjangoCASNG', 'Django CAS NG Documentation',
-     'DjangoCASNG', 'DjangoCASNG', 'One line description of project.',
+    ('index', 'django-cas-ng', 'django-cas-ng Documentation',
+     'django-cas-ng', 'django-cas-ng', 'One line description of project.',
      'Miscellaneous'),
 ]
