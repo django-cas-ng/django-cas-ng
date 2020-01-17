@@ -10,8 +10,8 @@ here. For additional detail, read the complete `commit history`_.
   * Break change: Drop python 2.x support
   * Break change: Drop django 1.x support
   * PR-206: New behavior for `CAS_USERNAME_ATTRIBUTE` setting which will now fallback to setting the specified attribute
-  for `username` when set with a value other than the default (`uid`) when using a `CAS_VERSION` that did not previously
-  support this behavior (anything other than `CAS_VERSION = 'CAS_2_SAML_1_0`).
+    for `username` when set with a value other than the default (`uid`) when using a `CAS_VERSION` that did not previously
+    support this behavior (anything other than `CAS_VERSION = 'CAS_2_SAML_1_0`).
   * PR-195: Fix bug where session_key is empty after logging in.
   * PR-196: Add support for CAS response callbacks by setting CAS_RESPONSE_CALLBACKS (fix #109)
   * PR-131: Fix get_proxy_ticket method usage
