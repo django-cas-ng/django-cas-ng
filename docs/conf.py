@@ -30,7 +30,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'Django CAS NG'
-copyright = '2014, Ming Chen'
+copyright = '2014-2020, django-cas-ng'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -52,7 +52,27 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'default'
+# html_theme = 'default'
+html_theme = 'sphinx_rtd_theme'
+
+html_theme_path = ["_themes", ]
+
+html_theme_options = {
+    #'canonical_url': '',
+    #'analytics_id': 'UA-XXXXXXX-1',
+    # 'logo_only': False,
+    'display_version': True,
+    'prev_next_buttons_location': 'both',
+    'style_external_links': True,
+    # 'vcs_pageview_mode': '',
+    # 'style_nav_header_background': 'white',
+    # Toc options
+    # 'collapse_navigation': True,
+    # 'sticky_navigation': True,
+    # 'navigation_depth': 4,
+    # 'includehidden': True,
+    # 'titles_only': False
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -70,7 +90,7 @@ htmlhelp_basename = 'DjangoCASNGdoc'
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     ('index', 'DjangoCASNG.tex', 'Django CAS NG Documentation',
-     'Ming Chen', 'manual'),
+     'django-cas-ng', 'manual'),
 ]
 
 # -- Options for manual page output ---------------------------------------
@@ -79,7 +99,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'djangocasng', 'Django CAS NG Documentation',
-     ['Ming Chen'], 1)
+     ['django-cas-ng'], 1)
 ]
 
 # -- Options for Texinfo output -------------------------------------------

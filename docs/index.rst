@@ -11,7 +11,19 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   feature
+   install
+   configuration
+   test
+   view-wrapper
+   custom-backend
+   signals
+   proxy-granting-ticket
+   i18n
    changelog
+   contribution
+   credits
+   references
 
 
 Indices and tables
