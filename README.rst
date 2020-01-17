@@ -22,7 +22,7 @@ Checkout document at https://djangocas.dev/docs/
 Quick links:
 
 * `CAS Protocol Introduction`_
-* `Install`_
+* `Installation`_
 * `Configuration`_
 
 Features
@@ -54,6 +54,6 @@ This project adheres to Semantic Versioning. Checkout all the `Changelog`_.
 .. _CAS Protocol Introduction: https://djangocas.dev/docs/4.0/cas-protocol.html
 .. _Contribution: https://djangocas.dev/docs/4.0/contribution.html
 .. _Changelog: https://djangocas.dev/docs/4.0/changelog.html
-.. _Install: https://djangocas.dev/docs/4.0/install.html
+.. _Installation: https://djangocas.dev/docs/4.0/install.html
 .. _Configuration: https://djangocas.dev/docs/4.0/configuration.html
 
