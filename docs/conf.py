@@ -58,8 +58,8 @@ html_theme = 'sphinx_rtd_theme'
 html_theme_path = ["_themes", ]
 
 html_theme_options = {
-    # 'canonical_url': '',
-    # 'analytics_id': 'UA-XXXXXXX-1',
+    'canonical_url': 'https://djangocas.dev/docs/' + version + '/',
+    'analytics_id': 'UA-156453684-1',
     # 'logo_only': False,
     'display_version': True,
     'prev_next_buttons_location': 'both',
@@ -109,6 +109,6 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     ('index', 'DjangoCASNG', 'Django CAS NG Documentation',
-     'Ming Chen', 'DjangoCASNG', 'One line description of project.',
+     'DjangoCASNG', 'DjangoCASNG', 'One line description of project.',
      'Miscellaneous'),
 ]

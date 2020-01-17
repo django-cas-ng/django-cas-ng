@@ -10,7 +10,7 @@ with codecs.open('README.rst', encoding='utf-8') as f:
 
 setup(
     author='Ming Chen',
-    author_email='mockey.chen@gmail.com',
+    author_email='ming@djangocas.dev',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
@@ -41,7 +41,7 @@ setup(
     package_data={
         'django_cas_ng': ['locale/*/LC_MESSAGES/*'],
     },
-    url='https://github.com/mingchen/django-cas-ng',
+    url='https://djangocas.dev',
     download_url='https://github.com/mingchen/django-cas-ng/releases',
     version='4.0.0',
     python_requires=">=3.5",

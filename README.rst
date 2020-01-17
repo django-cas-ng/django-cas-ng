@@ -14,6 +14,12 @@ April 2013). The NG stands for "next generation". Our fork will include
 bugfixes and new features contributed by the community.
 
 
+Document
+--------
+
+https://djangocas.dev
+
+
 Features
 --------
 
@@ -25,8 +31,21 @@ Features
 - Supports using a `User custom model`_
 - Supports Python 3.5+
 
+Contributing
+------------
+
+New contributors are always welcome! Check out `Contribution`_ to get involved.
+
+
+Change Log
+----------
+This project adheres to Semantic Versioning. Checkout all the `Changelog`_.
+
 
 .. _CAS: https://www.apereo.org/cas
 .. _django-cas: https://bitbucket.org/cpcc/django-cas
 .. _clearsessions: https://docs.djangoproject.com/en/1.8/topics/http/sessions/#clearing-the-session-store
 .. _User custom model: https://docs.djangoproject.com/en/1.5/topics/auth/customizing/
+.. _Contribution: https://djangocas.dev/docs/4.0/contribution.html
+.. _Changelog: https://djangocas.dev/docs/4.0/changelog.html
+
