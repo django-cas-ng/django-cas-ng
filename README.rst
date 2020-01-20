@@ -1,4 +1,4 @@
-Django CAS NG
+django-cas-ng
 =============
 
 .. image:: https://travis-ci.org/mingchen/django-cas-ng.svg?branch=master
@@ -8,16 +8,16 @@ Django CAS NG
 .. image:: https://img.shields.io/badge/maintainers-wanted-red.svg
     :target: https://travis-ci.org/mingchen/django-cas-ng
 
-`django-cas-ng`_ is a Central Authentication Service (CAS) client implementation.
+`django-cas-ng`_ is CAS (Central Authentication Service) 1.0/2.0/3.0 client
+authentication backend for Django, support Django 2.x and 3.x, Python 3.5+.
 This project inherits from `django-cas`_ (which has not been updated since
 April 2013). The NG stands for "next generation". Our fork will include
 bugfixes and new features contributed by the community.
 
-
 Document
 --------
 
-Checkout document at https://djangocas.dev/docs/
+Checkout document at https://djangocas.dev/docs/?utm-source=github-readme
 
 Quick links:
 
@@ -44,16 +44,17 @@ New contributors are always welcome! Check out `Contribution`_ to get involved.
 
 Change Log
 ----------
+
 This project adheres to Semantic Versioning. Checkout all the `Changelog`_.
 
 
 .. _CAS: https://www.apereo.org/cas
-.. _django-cas-ng: https://djangocas.dev
+.. _django-cas-ng: https://djangocas.dev?utm-source=github-readme
 .. _django-cas: https://bitbucket.org/cpcc/django-cas
 .. _User custom model: https://docs.djangoproject.com/en/3.0/topics/auth/customizing/
-.. _CAS Protocol Introduction: https://djangocas.dev/docs/4.0/cas-protocol.html
-.. _Contribution: https://djangocas.dev/docs/4.0/contribution.html
-.. _Changelog: https://djangocas.dev/docs/4.0/changelog.html
-.. _Installation: https://djangocas.dev/docs/4.0/install.html
-.. _Configuration: https://djangocas.dev/docs/4.0/configuration.html
+.. _CAS Protocol Introduction: https://djangocas.dev/docs/4.0/cas-protocol.html?utm-source=github-readme
+.. _Contribution: https://djangocas.dev/docs/4.0/contribution.html?utm-source=github-readme
+.. _Changelog: https://djangocas.dev/docs/4.0/changelog.html?utm-source=github-readme
+.. _Installation: https://djangocas.dev/docs/4.0/install.html?utm-source=github-readme
+.. _Configuration: https://djangocas.dev/docs/4.0/configuration.html?utm-source=github-readme
 
