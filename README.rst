@@ -36,6 +36,8 @@ Features
 - Supports using a `User custom model`_
 - Supports Python 3.5+
 
+To support django 1.x and Python 2.x, please use `3.6.0`.
+
 Contributing
 ------------
 
