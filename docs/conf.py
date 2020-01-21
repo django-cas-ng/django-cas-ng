@@ -1,5 +1,4 @@
-#
-# Django CAS NG documentation build configuration file, created by
+# build configuration file, created by
 # sphinx-quickstart on Sat May 24 09:24:34 2014.
 #
 # This file is execfile()d with the current directory set to its
@@ -64,7 +63,7 @@ html_theme_options = {
     'analytics_id': 'UA-156453684-1',
     # 'logo_only': False,
     'display_version': True,
-    'prev_next_buttons_location': 'both',
+    'prev_next_buttons_location': 'bottom',
     'style_external_links': True,
     # 'vcs_pageview_mode': '',
     # 'style_nav_header_background': 'white',
