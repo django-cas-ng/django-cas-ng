@@ -1,15 +1,6 @@
----
-layout: default
-title: CAS - CAS Protocol Specification
----
+# Reference: *CAS Protocol 3.0 Specification*
 
-<a name="headTop"/>
-
-*CAS Protocol 3.0 Specification*
-================================
-
-**Authors, Version**
-====================
+## **Authors, Version**
 
 Author: Drew Mazurek
 
@@ -32,8 +23,7 @@ Copyright &copy; 2017, Apereo, Inc.
 
 <a name="head1"/>
 
-**1. Introduction**
-===================
+## **1. Introduction**
 
 This is the official specification of the CAS 1.0, 2.0 and 3.0 protocols.
 
@@ -46,8 +36,7 @@ application.
 
 <a name="head1.1"/>
 
-**1.1. Conventions & Definitions**
-----------------------------------
+### 1.1. Conventions & Definitions**
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
@@ -73,8 +62,8 @@ interpreted as described in RFC 2119[1](<#1>).
 
 <a name="head1.2"/>
 
-**1.2 Reference Implementation**
---------------------------------
+### 1.2 Reference Implementation**
+
 The Apereo CAS-Server [8](<#8>) is the official reference implementation of the
 CAS Protocol Specification.
 
@@ -83,8 +72,7 @@ Apereo CAS Server 4.x supports the CAS Protocol 3.0 Specification.
 
 <a name="head2"/>
 
-**2. CAS URIs**
-===============
+## 2. CAS URIs**
 
 CAS is an HTTP[2](<#2>),[3](<#3>)-based protocol that requires each of its
 components to be accessible through specific URIs. This section will discuss
@@ -103,8 +91,7 @@ each of the URIs:
 
 <a name="head2.1"/>
 
-**2.1. /login as credential requestor**
----------------------------------------
+### 2.1. /login as credential requestor**
 
 The `/login` URI operates with two behaviors: as a credential requestor, and as
 a credential acceptor. It responds to credentials by acting as a credential
@@ -120,7 +107,7 @@ See Section [3.6](<#head3.6>) for more information on ticket-granting cookies.
 
 <a name="head2.1.1"/>
 
-### **2.1.1. parameters**
+#### **2.1.1. parameters**
 
 The following HTTP request parameters may be passed to `/login` while it is
 acting as a credential requestor. They are all case-sensitive, and they all
@@ -180,7 +167,7 @@ MUST be handled by `/login`.
 
 <a name="head2.1.2"/>
 
-### **2.1.2. URL examples of /login**
+#### **2.1.2. URL examples of /login**
 
 Simple login example:
 
@@ -200,7 +187,7 @@ Use POST responses instead of redirects:
 
 <a name="head2.1.3"/>
 
-### **2.1.3. response for username/password authentication**
+#### **2.1.3. response for username/password authentication**
 
 When `/login` behaves as a credential requestor, the response will vary depending
 on the type of credentials it is requesting. In most cases, CAS will respond by
@@ -214,7 +201,7 @@ act as a credential acceptor, discussed in Section [2.2](#head2.2).
 
 <a name="head2.1.4"/>
 
-### **2.1.4. response for trust authentication**
+#### **2.1.4. response for trust authentication**
 
 Trust authentication accommodates consideration of arbitrary aspects of the
 request as a basis for authentication. The appropriate user experience for trust
@@ -234,7 +221,7 @@ authentication).
 
 <a name="head2.1.5"/>
 
-### **2.1.5. response for single sign-on authentication**
+#### **2.1.5. response for single sign-on authentication**
 
 If the client has already established a single sign-on session with CAS, the
 client will have presented its HTTP session cookie to `/login` and behavior will
@@ -244,15 +231,14 @@ is set, the behavior will be handled as in Section [2.1.3](#head2.1.3) or
 
 <a name="head2.2"/>
 
-**2.2. /login as credential acceptor**
---------------------------------------
+### **2.2. /login as credential acceptor**
 
 When a set of accepted credentials are passed to `/login`, `/login` acts as a
 credential acceptor and its behavior is defined in this Section.
 
 <a name="head2.2.1"/>
 
-### **2.2.1. parameters common to all types of authentication**
+#### **2.2.1. parameters common to all types of authentication**
 
 The following HTTP request parameters MAY be passed to `/login` while it is acting
 as a credential acceptor. They are all case-sensitive and they all MUST be
@@ -285,7 +271,7 @@ handled by `/login`.
 
 <a name="head2.2.2"/>
 
-### **2.2.2. parameters for username/password authentication**
+#### **2.2.2. parameters for username/password authentication**
 
 In addition to the OPTIONAL parameters specified in Section [2.2.1](#head2.2.1),
 the following HTTP request parameters MUST be passed to `/login` while it is
@@ -313,14 +299,14 @@ all case-sensitive.
 
 <a name="head2.2.3"/>
 
-### **2.2.3. parameters for trust authentication**
+#### **2.2.3. parameters for trust authentication**
 
 There are no REQUIRED HTTP request parameters for trust authentication. Trust
 authentication MAY be based on any aspect of the HTTP request.
 
 <a name="head2.2.4"/>
 
-### **2.2.4. response**
+#### **2.2.4. response**
 
 One of the following responses MUST be provided by `/login` when it is operating
 as a credential acceptor.
@@ -342,8 +328,7 @@ as a credential acceptor.
 
 <a name="head2.3"/>
 
-**2.3. /logout**
-----------------
+### **2.3. /logout**
 
 `/logout` destroys a client's single sign-on CAS session. The ticket-granting
 cookie (Section [3.6](#head3.6)) is destroyed, and subsequent requests to `/login` will not
@@ -352,7 +337,7 @@ thereby establishes a new single sign-on session).
 
 <a name="head2.3.1"/>
 
-### **2.3.1. parameters**
+#### **2.3.1. parameters**
 
 The following HTTP request parameter MAY be specified to `/logout`. It is case
 sensitive and SHOULD be handled by `/logout`.
@@ -382,7 +367,7 @@ sensitive and SHOULD be handled by `/logout`.
 
 <a name="head2.3.2"/>
 
-### **2.3.2. response**
+#### **2.3.2. response**
 
 [CAS 1.0, CAS 2.0] `/logout` MUST display a page stating that the user has been
 logged out. If the "url" request parameter is implemented, `/logout` SHOULD also
@@ -402,7 +387,7 @@ after successful logout.
 
 <a name="head2.3.3"/>
 
-### **2.3.3 Single Logout**
+#### **2.3.3 Single Logout**
 
 The CAS Server MAY support Single Logout (SLO). SLO means that the user gets
 logged out not only from the CAS Server, but also from all visited CAS client
@@ -417,7 +402,7 @@ SLO requests MAY also be initiated by the CAS Server upon TGT idle timeout.
 
 <a name="head2.3.3.1"/>
 
-#### **2.3.3.1 Server behaviour**
+##### **2.3.3.1 Server behaviour**
 
 The CAS Server SHALL ignore all errors that might occur on a Single Logout POST
 request to CAS Client applications service URLs. This ensures that any errors
@@ -428,7 +413,7 @@ availability ("fire and forget").
 
 <a name="head2.3.3.2"/>
 
-#### **2.3.3.2 Client behaviour**
+##### **2.3.3.2 Client behaviour**
 
 Handling the logout POST request data is up to the CAS client. It is RECOMMENDED
 to logout the user from the application identified by the service ticket id sent
@@ -440,7 +425,7 @@ status code.
 
 <a name="head2.4"/>
 
-## **2.4. /validate [CAS 1.0]**
+### **2.4. /validate [CAS 1.0]**
 
 `/validate` checks the validity of a service ticket. `/validate` is part of the CAS
 1.0 protocol and thus does not handle proxy authentication. CAS MUST respond
@@ -451,7 +436,7 @@ with a ticket validation failure response when a proxy ticket is passed to
 
 <a name="head2.4.1"/>
 
-### **2.4.1. parameters**
+#### **2.4.1. parameters**
 
 The following HTTP request parameters MAY be specified to `/validate`. They are
 case sensitive and MUST all be handled by `/validate`.
@@ -482,7 +467,7 @@ case sensitive and MUST all be handled by `/validate`.
 
 <a name="head2.4.2"/>
 
-### **2.4.2. response**
+#### **2.4.2. response**
 
 `/validate` will return one of the following two responses:
 
@@ -498,7 +483,7 @@ no<LF>
 
 <a name="head2.4.3"/>
 
-### **2.4.3. URL examples of /validate**
+#### **2.4.3. URL examples of /validate**
 
 Simple validation attempt:
 
@@ -512,8 +497,7 @@ Ensure service ticket was issued by presentation of primary credentials:
 
 <a name="head2.5"/>
 
-**2.5. /serviceValidate [CAS 2.0]**
------------------------------------
+### **2.5. /serviceValidate [CAS 2.0]**
 
 `/serviceValidate` checks the validity of a service ticket and returns an XML-fragment response.
 `/serviceValidate` MUST also generate and issue proxy-granting tickets when requested.
@@ -526,7 +510,7 @@ to `/serviceValidate`.
 
 <a name="head2.5.1"/>
 
-### **2.5.1. parameters**
+#### **2.5.1. parameters**
 
 The following HTTP request parameters MAY be specified to `/serviceValidate`. They
 are case sensitive and MUST all be handled by `/serviceValidate`.
@@ -566,7 +550,7 @@ are case sensitive and MUST all be handled by `/serviceValidate`.
 
 <a name="head2.5.2"/>
 
-### **2.5.2. response**
+#### **2.5.2. response**
 
 `/serviceValidate` will return an XML-formatted CAS serviceResponse as described
 in the XML schema in Appendix A. Below are example responses:
@@ -619,7 +603,7 @@ For proxy responses, see section [2.6.2](<#head2.6.2>).
 
 <a name="head2.5.3"/>
 
-### **2.5.3. error codes**
+#### **2.5.3. error codes**
 
 The following values MAY be used as the "code" attribute of authentication
 failure responses. The following is the minimum set of error codes that all CAS
@@ -650,7 +634,7 @@ as the body of the `<cas:authenticationFailure>` block of the XML response.
 
 <a name="head2.5.4"/>
 
-### **2.5.4. proxy callback**
+#### **2.5.4. proxy callback**
 
 If a service wishes to proxy a client's authentication to a back-end service, it
 must acquire a proxy-granting ticket (PGT). Acquisition of this ticket is handled
@@ -709,7 +693,7 @@ The proxy callback mechanism works as follows:
 
 <a name="head2.5.5"/>
 
-### **2.5.5. attributes [CAS 3.0]**
+#### **2.5.5. attributes [CAS 3.0]**
 
 [CAS 3.0] The response document MAY include an optional <cas:attributes>
 element for additional authentication and/or user attributes. See [Appendix
@@ -717,7 +701,7 @@ A](<#head_appdx_a>) for details.
 
 <a name="head2.5.6"/>
 
-### **2.5.6. URL examples of /serviceValidate**
+#### **2.5.6. URL examples of /serviceValidate**
 
 Simple validation attempt:
 
@@ -736,7 +720,7 @@ Pass in a callback URL for proxying:
 
 <a name="head2.5.7"/>
 
-### **2.5.7 Example response with custom attributes**
+#### **2.5.7 Example response with custom attributes**
 ```xml
   <cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
     <cas:authenticationSuccess>
@@ -775,8 +759,7 @@ Pass in a callback URL for proxying:
 
 <a name="head2.6"/>
 
-**2.6. /proxyValidate [CAS 2.0]**
----------------------------------
+### **2.6. /proxyValidate [CAS 2.0]**
 
 `/proxyValidate` MUST perform the same validation tasks as `/serviceValidate` and
 additionally validate proxy tickets. `/proxyValidate` MUST be capable of
@@ -787,7 +770,7 @@ validating both service tickets and proxy tickets. See Section
 
 <a name="head2.6.1"/>
 
-### **2.6.1. parameters**
+#### **2.6.1. parameters**
 
 `/proxyValidate` has the same parameter requirements as `/serviceValidate`. See
 Section [2.5.1](<#head2.5.1>).
@@ -796,7 +779,7 @@ Section [2.5.1](<#head2.5.1>).
 
 <a name="head2.6.2"/>
 
-### **2.6.2. response**
+#### **2.6.2. response**
 
 `/proxyValidate` will return an XML-formatted CAS serviceResponse as described in
 the XML schema in Appendix A. Below are example responses:
@@ -860,7 +843,7 @@ Response on ticket validation failure:
 
 <a name="head2.6.3"/>
 
-### **2.6.3 error codes**
+#### **2.6.3 error codes**
 
 See section [2.5.3](<#head2.5.3>)
 
@@ -868,7 +851,7 @@ See section [2.5.3](<#head2.5.3>)
 
 <a name="head2.6.4"/>
 
-### **2.6.4 URL examples of /proxyValidate**
+#### **2.6.4 URL examples of /proxyValidate**
 
 `/proxyValidate` accepts the same parameters as `/serviceValidate`. See Section
 [2.5.5](<#head2.5.5>) for use examples, substituting "proxyValidate" for
@@ -878,8 +861,7 @@ See section [2.5.3](<#head2.5.3>)
 
 <a name="head2.7"/>
 
-**2.7. /proxy [CAS 2.0]**
--------------------------
+### **2.7. /proxy [CAS 2.0]**
 
 `/proxy` provides proxy tickets to services that have acquired proxy-granting
 tickets and will be proxying authentication to back-end services.
@@ -887,7 +869,7 @@ tickets and will be proxying authentication to back-end services.
 
 <a name="head2.7.1"/>
 
-### **2.7.1. parameters**
+#### **2.7.1. parameters**
 
 The following HTTP request parameters MUST be specified to `/proxy`. They are both
 case-sensitive.
@@ -903,7 +885,7 @@ case-sensitive.
 
 <a name="head2.7.2"/>
 
-### **2.7.2. response**
+#### **2.7.2. response**
 
 `/proxy` will return an XML-formatted CAS serviceResponse document as described in the XML
 schema in [Appendix A](#head_appdx_a). Below are example responses:
@@ -941,7 +923,7 @@ Response on request failure:
 
 <a name="head2.7.3"/>
 
-### **2.7.3. error codes**
+#### **2.7.3. error codes**
 
 The following values MAY be used as the `code` attribute of authentication
 failure responses. The following is the minimum set of error codes that all CAS
@@ -960,7 +942,7 @@ as the body of the <cas:authenticationFailure> block of the XML response.
 
 <a name="head2.7.4"/>
 
-### **2.7.4. URL example of /proxy**
+#### **2.7.4. URL example of /proxy**
 
 Simple proxy request:
 
@@ -969,11 +951,11 @@ Simple proxy request:
 
 <a name="head3"/>
 
-### **2.7.4 Service Ticket Lifecycle implications**
+#### **2.7.4 Service Ticket Lifecycle implications**
+
 The CAS Server implementation MAY update the parent Service Ticket (ST) lifetime upon proxy ticket generation.
 
-**2.8. /p3/serviceValidate [CAS 3.0]**
----------------------------------
+### **2.8. /p3/serviceValidate [CAS 3.0]**
 
 `/p3/serviceValidate` MUST perform the same validation tasks as `/serviceValidate` and
 additionally return user attributes in the CAS response. See
@@ -981,31 +963,28 @@ Section [2.5](<#head2.5>) and Section [2.5.7](<#head2.5.7>) for details.
 
 <a name="head2.8.1"/>
 
-### **2.8.1. parameters**
+#### **2.8.1. parameters**
 
 `/p3/serviceValidate` has the same parameter requirements as `/serviceValidate`. See
 Section [2.5.1](<#head2.5.1>).
 
-**2.9. /p3/proxyValidate [CAS 3.0]**
----------------------------------
+### **2.9. /p3/proxyValidate [CAS 3.0]**
 
 `/p3/proxyValidate` MUST perform the same validation tasks as `/p3/serviceValidate` and
 additionally validate proxy tickets. See Section [2.8](<#head2.5>).
 
 <a name="head2.8.1"/>
 
-### **2.9.1. parameters**
+#### **2.9.1. parameters**
 
 `/p3/proxyValidate` has the same parameter requirements as `/p3/serviceValidate`. See
 Section [2.8.1](<#head2.8.1>).
 
-**3. CAS Entities**
-===================
+## **3. CAS Entities**
 
 <a name="head3.1"/>
 
-**3.1. service ticket**
------------------------
+### **3.1. service ticket**
 
 A service ticket is an opaque string that is used by the client as a credential
 to obtain access to a service. The service ticket is obtained from CAS upon a
@@ -1014,7 +993,7 @@ described in Section [2.2](#head2.2).
 
 <a name="head3.1.1"/>
 
-### **3.1.1. service ticket properties**
+#### **3.1.1. service ticket properties**
 
 -   Service tickets are only valid for the service identifier that was specified
     to `/login` when they were generated. The service identifier SHOULD NOT be
@@ -1047,8 +1026,7 @@ described in Section [2.2](#head2.2).
 
 <a name="head3.2"/>
 
-**3.2. proxy ticket**
----------------------
+### **3.2. proxy ticket**
 
 A proxy ticket is an opaque string that a service uses as a credential to obtain
 access to a back-end service on behalf of a client. Proxy tickets are obtained
@@ -1060,7 +1038,7 @@ it is connecting.
 
 <a name="head3.2.1"/>
 
-### **3.2.1. proxy ticket properties**
+#### **3.2.1. proxy ticket properties**
 
 -   Proxy tickets are only valid for the service identifier specified to `/proxy`
     when they were generated. The service identifier SHOULD NOT be part of the
@@ -1097,8 +1075,7 @@ it is connecting.
 
 <a name="head3.3"/>
 
-**3.3. proxy-granting ticket**
-------------------------------
+### **3.3. proxy-granting ticket**
 
 A proxy-granting ticket (PGT) is an opaque string that is used by a service to obtain
 proxy tickets for obtaining access to a back-end service on behalf of a client.
@@ -1110,7 +1087,7 @@ or a proxy ticket. Proxy-granting ticket issuance is described fully in Section
 
 <a name="head3.3.1"/>
 
-### **3.3.1. proxy-granting ticket properties**
+#### **3.3.1. proxy-granting ticket properties**
 
 -   Proxy-granting tickets MAY be used by services to obtain multiple proxy
     tickets. Proxy-granting tickets are not one-time-use tickets.
@@ -1134,8 +1111,7 @@ or a proxy ticket. Proxy-granting ticket issuance is described fully in Section
 
 <a name="head3.4"/>
 
-**3.4. proxy-granting ticket IOU**
-----------------------------------
+### **3.4. proxy-granting ticket IOU**
 
 A proxy-granting ticket IOU is an opaque string that is placed in the response
 provided by `/serviceValidate` and `/proxyValidate` used to correlate a service
@@ -1146,7 +1122,7 @@ Section [2.5.4](<#head2.5.4>) for a full description of this process.
 
 <a name="head3.4.1"/>
 
-### **3.4.1. proxy-granting ticket IOU properties**
+#### **3.4.1. proxy-granting ticket IOU properties**
 
 -   Proxy-granting ticket IOUs SHOULD NOT contain any reference to their
     associated proxy-granting tickets. Given a particular PGTIOU, it MUST NOT be
@@ -1167,8 +1143,7 @@ Section [2.5.4](<#head2.5.4>) for a full description of this process.
 
 <a name="head3.5"/>
 
-**3.5. login ticket**
----------------------
+### **3.5. login ticket**
 
 A login ticket is an *optional* string that MAY be provided by `/login` as a credential requester
 and passed to `/login` as a credential acceptor for username/password
@@ -1178,7 +1153,7 @@ bugs in web browsers.
 
 <a name="head3.5.1"/>
 
-### **3.5.1. login ticket properties**
+#### **3.5.1. login ticket properties**
 
 -   Login tickets issued by `/login` MUST be probabilistically unique.
 
@@ -1191,8 +1166,7 @@ bugs in web browsers.
 
 <a name="head3.6"/>
 
-**3.6. ticket-granting cookie**
--------------------------------
+### **3.6. ticket-granting cookie**
 
 A ticket-granting cookie is an HTTP cookie[[5](<#5>)] set by CAS upon the
 establishment of a single sign-on session. This cookie maintains login state for
@@ -1205,7 +1179,7 @@ and [2.5.1](<#head2.5.1>).
 
 <a name="head3.6.1"/>
 
-### **3.6.1. ticket-granting cookie properties**
+#### **3.6.1. ticket-granting cookie properties**
 
 -   A ticket-granting cookie SHALL be set to expire at the end of the client's
     browser session if Long-Term support is not active ([4.1.1](<#head4.1.1>))
@@ -1226,8 +1200,7 @@ and [2.5.1](<#head2.5.1>).
 
 <a name="head3.7"/>
 
-**3.7. ticket and ticket-granting cookie character set**
---------------------------------------------------------
+### **3.7. ticket and ticket-granting cookie character set**
 
 In addition to the above requirements, all CAS tickets and the value of the
 ticket-granting cookie MUST contain only characters from the set `{A-Z, a-z, 0-9}`,
@@ -1236,7 +1209,7 @@ and the hyphen character `-`.
 
 <a name="head3.8"/>
 
-**3.8. ticket-granting ticket**
+### **3.8. ticket-granting ticket**
 ------------------------------
 
 A ticket-granting ticket (TGT) is an opaque string that is generated by the CAS
@@ -1248,7 +1221,7 @@ tickets, and more.
 
 <a name="head3.8.1"/>
 
-### **3.8.1. ticket-granting ticket properties**
+#### **3.8.1. ticket-granting ticket properties**
 
 -   Ticket-granting tickets MAY be used by services to obtain multiple service
     tickets. Ticket-granting tickets are not one-time-use tickets and are associated
@@ -1271,13 +1244,11 @@ tickets, and more.
 
 <a name="head4"/>
 
-**4. Optional Features**
-========================
+## **4. Optional Features**
 
 <a name="head4.1"/>
 
-**4.1 Long-Term Tickets - Remember-Me [CAS 3.0]**
--------------------------------------------------
+### **4.1 Long-Term Tickets - Remember-Me [CAS 3.0]**
 
 CAS Server MAY support Long-Term Ticket Granting Tickets (referred to as
 "Remember Me" functionality). If this feature is supported by the CAS Server, it
@@ -1288,7 +1259,7 @@ and the browsers TGC Cookie is valid.
 
 <a name="head4.1.1"/>
 
-### **4.1.1 Enabling Remember-Me (Login Page)**
+#### **4.1.1 Enabling Remember-Me (Login Page)**
 
 -   The CAS Server MUST provide a checkbox on the login page to allow Remember-Me
 functionality.
@@ -1302,7 +1273,7 @@ functionality.
 
 <a name="head4.1.2"/>
 
-### **4.1.2 Security implications**
+#### **4.1.2 Security implications**
 
 Enabling Remember-Me MAY have security implications. As the CAS authentication
 is bound to the browser and the user is not getting interactively logged-in when
@@ -1315,7 +1286,7 @@ if and when Remember-Me CAS logins might be handled special. See [4.1.3](<#head4
 
 <a name="head4.1.3"/>
 
-### **4.1.3 CAS Validation Response Attributes**
+#### **4.1.3 CAS Validation Response Attributes**
 
 As only the CAS Client MUST decide how to handle Remember-Me logins (see
 [4.2.1](<#head4.2.1>)), the CAS Server MUST provide information about a
@@ -1336,7 +1307,7 @@ implications.
 
 <a name="head4.1.4"/>
 
-### **4.1.4 CAS Client requirements**
+#### **4.1.4 CAS Client requirements**
 
 If the CAS client needs to handle Remember-Me logins special (e.g. deny access to
 sensitive areas of the CAS client application on a remembered login), the CAS
@@ -1344,7 +1315,7 @@ client MUST NOT use the `/validate` CAS validation URL, as this URL does not
 support CAS attributes in the validation response document.
 
 
-### **4.1.5 Long-Term ticket-granting cookie properties**
+#### **4.1.5 Long-Term ticket-granting cookie properties**
 
 When a Long-Term TGT was created by the CAS Server, the Ticket-granting cookie
 MUST NOT expire at the end of the client's browser session as defined in [3.6.1](<#head3.6.1>).
@@ -1356,8 +1327,7 @@ The Long-Term Ticket Granting Ticket lifetime MAY not exceed 3 months.
 
 <a name="head4.2"/>
 
-**4.2 /samlValidate [CAS 3.0]**
--------------------------------
+### **4.2 /samlValidate [CAS 3.0]**
 
 `/samlValidate` checks the validity of a Service Ticket by a SAML 1.1 request
 document provided by a HTTP POST. A SAML (Secure Access Markup Language)[7](#7) 1.1
@@ -1371,7 +1341,7 @@ be exchanged.
 
 <a name="head4.2.1"/>
 
-### **4.2.1 parameters**
+#### **4.2.1 parameters**
 
 The following HTTP request parameters MUST be specified to `/samlValidate`. They
 are both case-sensitive.
@@ -1387,7 +1357,7 @@ are both case-sensitive.
 
 <a name="head4.2.2"/>
 
-### **4.2.2 HTTP Request Method and Body**
+#### **4.2.2 HTTP Request Method and Body**
 
 Request to /samlValidate MUST be a HTTP POST request. The request body MUST be a valid
 SAML 1.0 or 1.1 request XML document of document type "text/xml".
@@ -1396,7 +1366,7 @@ SAML 1.0 or 1.1 request XML document of document type "text/xml".
 
 <a name="head4.2.3"/>
 
-### **4.2.3 SAML request values**
+#### **4.2.3 SAML request values**
 
 -   `RequestID` [REQUIRED] - unique identifier for the request
 
@@ -1409,7 +1379,7 @@ SAML 1.0 or 1.1 request XML document of document type "text/xml".
 
 <a name="head4.2.4"/>
 
-### **4.2.4 Example of /samlValidate POST request**
+#### **4.2.4 Example of /samlValidate POST request**
 
 ```bash
 POST /cas/samlValidate?TARGET=
@@ -1432,7 +1402,7 @@ Content-Type: text/xml
 
 <a name="head4.2.5"/>
 
-### **4.2.5 SAML response**
+#### **4.2.5 SAML response**
 
 CAS Server response to a `/samlValidate` request. MUST be a SAML 1.1 response.
 
@@ -1506,7 +1476,7 @@ Example SAML 1.1 validation response:
 
 <a name="head4.2.5.1"/>
 
-### **4.2.5.1 SAML CAS response attributes**
+#### **4.2.5.1 SAML CAS response attributes**
 
 The following additional attributes might be provided within the SAML response:
 
@@ -1518,8 +1488,7 @@ to the CAS client.
 
 <a name="head_appdx_a"/>
 
-**Appendix A: CAS response XML schema**
-=======================================
+## **Appendix A: CAS response XML schema**
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -1620,8 +1589,7 @@ to the CAS client.
 
 <a name="head_appdx_b"/>
 
-**Appendix B: Safe redirection**
-================================
+## **Appendix B: Safe redirection**
 
 After a successful login, safely redirecting the client from CAS to its final
 destination must be handled with care. In most cases, the client has sent
@@ -1681,8 +1649,7 @@ then manually click to proceed.
 
 <a name="head_appdx_c"/>
 
-**Appendix C: Logout XML document**
-===================================
+## **Appendix C: Logout XML document**
 
 When SLO is supported by the CAS Server, it will callback to each of the
 services that are registered with the system and send a POST request with the
@@ -1702,8 +1669,7 @@ following SAML Logout Request XML document:
 
 <a name="head_appdx_d"/>
 
-**Appendix D: References**
-==========================
+## **Appendix D: References**
 
 <a name="1"/>[1] Bradner, S., "Key words for use in RFCs to Indicate Requirement
 Levels", [RFC 2119](<http://www.ietf.org/rfc/rfc2119.txt>), Harvard University,
@@ -1738,8 +1704,7 @@ implementation
 
 <a name="head_appdx_e"/>
 
-**Appendix E: CAS License**
-===========================
+## **Appendix E: CAS License**
 
 Licensed to Apereo under one or more contributor license agreements. See the
 NOTICE file distributed with this work for additional information regarding
@@ -1755,8 +1720,7 @@ CONDITIONS OF ANY KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations under the License.
 
 
-**Appendix F: YALE License**
-===========================
+## **Appendix F: YALE License**
 
 Copyright (c) 2000-2005 Yale University.
 
@@ -1790,8 +1754,7 @@ met:
 
 <a name="head_appdx_f"/>
 
-**Appendix F: Changes to this Document**
-========================================
+## **Appendix F: Changes to this Document**
 
 May 4, 2005: v1.0 - initial release
 
