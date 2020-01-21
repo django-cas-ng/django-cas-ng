@@ -21,7 +21,7 @@ Checkout document at https://djangocas.dev/docs/?utm-source=github-readme
 
 Quick links:
 
-* `CAS Protocol Introduction`_
+* `CAS Protocol Overview`_
 * `Installation`_
 * `Configuration`_
 
@@ -54,7 +54,7 @@ This project adheres to Semantic Versioning. Checkout all the `Changelog`_.
 .. _django-cas-ng: https://djangocas.dev?utm-source=github-readme
 .. _django-cas: https://bitbucket.org/cpcc/django-cas
 .. _User custom model: https://docs.djangoproject.com/en/3.0/topics/auth/customizing/
-.. _CAS Protocol Introduction: https://djangocas.dev/docs/4.0/cas-protocol.html?utm-source=github-readme
+.. _CAS Protocol Overview: https://djangocas.dev/docs/4.0/cas-protocol-overview.html?utm-source=github-readme
 .. _Contribution: https://djangocas.dev/docs/4.0/contribution.html?utm-source=github-readme
 .. _Changelog: https://djangocas.dev/docs/4.0/changelog.html?utm-source=github-readme
 .. _Installation: https://djangocas.dev/docs/4.0/install.html?utm-source=github-readme

@@ -11,7 +11,7 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   cas-protocol
+   cas-protocol-overview
    feature
    install
    configuration
@@ -25,6 +25,7 @@ Contents:
    contribution
    credits
    references
+   CAS-Protocol-Specification
 
 
 Indices and tables
