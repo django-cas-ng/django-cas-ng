@@ -17,6 +17,7 @@
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx_sitemap',
     'm2r'
 ]
 
@@ -76,6 +77,9 @@ html_theme_options = {
 }
 
 html_show_sourcelink = False
+
+# https://pypi.org/project/sphinx-sitemap/
+html_baseurl = 'https://djangocas.dev/docs/'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
