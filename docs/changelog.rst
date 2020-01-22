@@ -6,6 +6,11 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+**django-cas-ng 4.0.1** ``[2020-01-16]``
+
+  * Split README into docs.
+  * Update reference to new repo URL.
+
 **django-cas-ng 4.0.0** ``[2020-01-16]``
 
   * Break change: Drop python 2.x support

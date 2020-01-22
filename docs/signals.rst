@@ -1,6 +1,5 @@
-
 Signals
--------
+=======
 
 django_cas_ng.signals.cas_user_authenticated
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -49,4 +48,3 @@ Sent on user logout. Will be fired over manual logout or logout via CAS SingleLo
 
 **ticket**
   The ticket used to authenticate the user with the CAS. (if found, else value if set to ``None``)
-

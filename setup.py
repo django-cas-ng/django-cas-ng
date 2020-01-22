@@ -42,8 +42,8 @@ setup(
         'django_cas_ng': ['locale/*/LC_MESSAGES/*'],
     },
     url='https://djangocas.dev',
-    download_url='https://github.com/mingchen/django-cas-ng/releases',
-    version='4.0.0',
+    download_url='https://github.com/django-cas-ng/django-cas-ng/releases',
+    version='4.0.1',
     python_requires=">=3.5",
     install_requires=[
         'Django>=2.0',
