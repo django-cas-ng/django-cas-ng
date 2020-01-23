@@ -32,7 +32,7 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Topic :: Internet :: WWW/HTTP',
     ],
-    description='CAS 1.0/2.0/3.0 client authentication backend for Django, support Django 2.x and 3.x, Python 3.5+',
+    description='Django CAS 1.0/2.0/3.0 client authentication library, support Django 2.0, 2.1, 2.2, 3.0 and Python 3.5+',
     keywords=['django', 'cas', 'cas2', 'cas3', 'client', 'sso', 'single sign-on', 'Central Authentication Service', 'authentication', 'auth'],
     license='BSD',
     long_description=readme,
