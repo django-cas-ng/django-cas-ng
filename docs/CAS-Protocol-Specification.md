@@ -1,4 +1,4 @@
-# Reference: *CAS Protocol 3.0 Specification*
+# *CAS Protocol 3.0 Specification*
 
 ## **Authors, Version**
 
@@ -1762,3 +1762,4 @@ March 2, 2012: v1.0.1 - fixed "noscropt" typo. apetro per amazurek with credit
 to Faraz Khan at ASU for catching the typo.
 
 April, 2013: v2.0 - CAS 3.0 protocol, Apereo copyright, Apache License 2.0
+
