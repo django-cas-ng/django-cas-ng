@@ -1,4 +1,4 @@
-Welcome to **django-cas-ng**'s documentation
+**django-cas-ng** Documentation
 ============================================
 
 **Table of Contents**
