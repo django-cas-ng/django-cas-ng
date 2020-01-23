@@ -1,12 +1,12 @@
 django-cas-ng
 =============
 
-.. image:: https://travis-ci.org/mingchen/django-cas-ng.svg?branch=master
-    :target: https://travis-ci.org/mingchen/django-cas-ng
+.. image:: https://travis-ci.org/django-cas-ng/django-cas-ng.svg?branch=master
+    :target: https://travis-ci.org/django-cas-ng/django-cas-ng
 .. image:: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
-    :target: https://travis-ci.org/mingchen/django-cas-ng/pull/new
+    :target: https://travis-ci.org/django-cas-ng/django-cas-ng/pull/new
 .. image:: https://img.shields.io/badge/maintainers-wanted-red.svg
-    :target: https://travis-ci.org/mingchen/django-cas-ng
+    :target: https://travis-ci.org/django-cas-ng/django-cas-ng
 
 `django-cas-ng`_ is Django CAS (Central Authentication Service) 1.0/2.0/3.0 client
 authentication library, support Django 2.0, 2.1, 2.2, 3.0 and Python 3.5+
