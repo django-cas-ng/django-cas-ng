@@ -1,4 +1,4 @@
-# *CAS Protocol 3.0 Specification*
+# CAS Protocol 3.0 Specification
 
 ## **Authors, Version**
 
@@ -36,7 +36,7 @@ application.
 
 <a name="head1.1"/>
 
-### 1.1. Conventions & Definitions**
+### **1.1. Conventions & Definitions**
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
@@ -62,7 +62,7 @@ interpreted as described in RFC 2119[1](<#1>).
 
 <a name="head1.2"/>
 
-### 1.2 Reference Implementation**
+### **1.2 Reference Implementation**
 
 The Apereo CAS-Server [8](<#8>) is the official reference implementation of the
 CAS Protocol Specification.
@@ -72,7 +72,7 @@ Apereo CAS Server 4.x supports the CAS Protocol 3.0 Specification.
 
 <a name="head2"/>
 
-## 2. CAS URIs**
+## **2. CAS URIs**
 
 CAS is an HTTP[2](<#2>),[3](<#3>)-based protocol that requires each of its
 components to be accessible through specific URIs. This section will discuss
@@ -91,7 +91,7 @@ each of the URIs:
 
 <a name="head2.1"/>
 
-### 2.1. /login as credential requestor**
+### **2.1. /login as credential requestor**
 
 The `/login` URI operates with two behaviors: as a credential requestor, and as
 a credential acceptor. It responds to credentials by acting as a credential
@@ -1722,6 +1722,7 @@ specific language governing permissions and limitations under the License.
 
 ## **Appendix F: YALE License**
 
+```
 Copyright (c) 2000-2005 Yale University.
 
 THIS SOFTWARE IS PROVIDED "AS IS," AND ANY EXPRESS OR IMPLIED WARRANTIES,
@@ -1749,17 +1750,15 @@ met:
 
 3.  The names "Yale" and "Yale University" must not be used to endorse or
     promote products derived from this software.
-
+```
 
 
 <a name="head_appdx_f"/>
 
-## **Appendix F: Changes to this Document**
+## **Appendix G: Changes to this Document**
 
-May 4, 2005: v1.0 - initial release
-
-March 2, 2012: v1.0.1 - fixed "noscropt" typo. apetro per amazurek with credit
+* May 4, 2005: v1.0 - initial release
+* March 2, 2012: v1.0.1 - fixed "noscropt" typo. apetro per amazurek with credit
 to Faraz Khan at ASU for catching the typo.
-
-April, 2013: v2.0 - CAS 3.0 protocol, Apereo copyright, Apache License 2.0
+* April, 2013: v2.0 - CAS 3.0 protocol, Apereo copyright, Apache License 2.0
 
