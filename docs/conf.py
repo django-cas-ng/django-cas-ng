@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.abspath('../'))
 sys.path.insert(0, os.path.abspath('../tests'))
 settings.configure(
     SECRET_KEY='something to make Django happy',
-    INSTALLED_APPS = [
+    INSTALLED_APPS=[
         'django.contrib.auth',
         'django.contrib.contenttypes',
         'django_cas_ng'
@@ -32,9 +32,9 @@ django.setup()
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc',  # Pull in documentation from docstrings
-    'sphinx.ext.napoleon', # Support for NumPy and Google style docstrings
-    'sphinx.ext.viewcode', # Generate HTML highlighted source code
+    'sphinx.ext.autodoc',   # Pull in documentation from docstrings
+    'sphinx.ext.napoleon',  # Support for NumPy and Google style docstrings
+    'sphinx.ext.viewcode',  # Generate HTML highlighted source code
     'sphinx_sitemap',
     'm2r'
 ]
