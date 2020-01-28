@@ -2,4 +2,5 @@ sphinx
 sphinx-rtd-theme==0.4.3
 sphinx-sitemap==1.1.0
 m2r==0.2.1
+pytest  # autodoc tests package have a dependence on pytest
 
