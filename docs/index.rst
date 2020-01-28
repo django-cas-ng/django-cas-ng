@@ -6,9 +6,8 @@
 .. toctree::
    :maxdepth: 2
 
-   readme
-   cas-protocol-overview
    feature
+   cas-protocol-overview
    install
    configuration
    test
@@ -23,6 +22,7 @@
    references
    CAS-Protocol-Specification
    modules/index
+   readme
 
 Indices and tables
 ==================

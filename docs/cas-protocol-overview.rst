@@ -1,4 +1,4 @@
-CAS protocol Overview
+CAS Protocol Overview
 =====================
 
 Introduction

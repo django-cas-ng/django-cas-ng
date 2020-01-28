@@ -1,12 +1,11 @@
-View-wrappers example
----------------------
+View-wrappers Example
+=====================
 
 The ``settings.CAS_EXTRA_LOGIN_PARAMS`` allows you to define a static
 dictionary of extra parameters to be passed on to the CAS login page. But what
 if you want this dictionary to be dynamic (e.g. based on user session)?
 
-Our current advice is to implement simple wrappers for our default views, like
-these ones:
+Our current advice is to implement simple wrappers for our default views, like these ones:
 
 ..  code-block:: python
 

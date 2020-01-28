@@ -1,4 +1,4 @@
-Custom backends
+Custom Backends
 ===============
 
 The ``CASBackend`` class is heavily inspired from Django's own
