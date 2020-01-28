@@ -6,6 +6,7 @@
 .. toctree::
    :maxdepth: 2
 
+   readme
    cas-protocol-overview
    feature
    install
