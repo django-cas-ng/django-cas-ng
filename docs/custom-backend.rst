@@ -1,10 +1,9 @@
-
 Custom backends
----------------
+===============
 
 The ``CASBackend`` class is heavily inspired from Django's own
-``RemoteUserBackend`` and allows for some configurability through subclassing
-if you need more control than django-cas-ng's settings provide. For instance,
+``RemoteUserBackend`` and allows for some configurability through subclassing.
+If you need more control than django-cas-ng's settings provide. For instance,
 here is an example backend that only allows some users to login through CAS:
 
 ..  code-block:: python
@@ -22,29 +21,21 @@ django-cas-ng's settings provide, you can create your own authentication
 backend that inherits from ``django_cas_ng.backends.CASBackend`` and override
 these attributes or methods:
 
-**CASBackend.clean_username(username)**
+- CASBackend.clean_username(username)
+- CASBackend.user_can_authenticate(user)
+    Returns whether the user is allowed to authenticate. For consistency with
+    Django's own behavior, django-cas-ng will allow all users to authenticate
+    through CAS on Django versions lower than 1.10; starting with Django 1.10
+    however, django-cas-ng will prevent users with ``is_active=False`` from
+    authenticating.
+    See also https://docs.djangoproject.com/en/3.0/ref/contrib/auth/#django.contrib.auth.backends.RemoteUserBackend
+- CASBackend.configure_user(user)
+- CASBackend.bad_attributes_reject(request, username, attributes)
 
-Performs any cleaning on the ``username`` prior to using it to get or create a
-``User`` object. Returns the cleaned username. The default implementations
-changes the case according to the value of ``CAS_FORCE_CHANGE_USERNAME_CASE``.
+Example
+-------
 
-**CASBackend.user_can_authenticate(user)**
-
-Returns whether the user is allowed to authenticate. For consistency with
-Django's own behavior, django-cas-ng will allow all users to authenticate
-through CAS on Django versions lower than 1.10; starting with Django 1.10
-however, django-cas-ng will prevent users with ``is_active=False`` from
-authenticating.
-
-**CASBackend.configure_user(user)**
-
-Configures a newly created user. This method is called immediately after a new
-user is created, and can be used to perform custom setup actions. Returns the
-user object.
-
-**CASBackend.bad_attributes_reject(request, username, attributes)**
-
-Rejects a user if the returned username/attributes are not OK. For example, to
+For example, to
 accept a user belonging to departmentNumber 421 only, define in ``mysite/settings.py``
 the key-value constant:
 
@@ -58,7 +49,7 @@ and the authentication backends:
 
     AUTHENTICATION_BACKENDS = [
         'django.contrib.auth.backends.ModelBackend',
-	'mysite.backends.MyCASBackend',
+        'mysite.backends.MyCASBackend',
     ]
 
 and create a file ``mysite/backends.py`` containing:
@@ -90,3 +81,11 @@ and create a file ``mysite/backends.py`` containing:
 
             return None
 
+CASBackend API Reference
+------------------------
+
+.. autoclass:: django_cas_ng.backends.CASBackend
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:

@@ -15,7 +15,11 @@ class CASBackend(ModelBackend):
     """CAS authentication backend"""
 
     def authenticate(self, request, ticket, service):
-        """Verifies CAS ticket and gets or creates User object"""
+        """
+        Verifies CAS ticket and gets or creates User object
+
+        :returns: [User] Authenticated User object or None if authenticate failed.
+        """
         client = get_cas_client(service_url=service, request=request)
         username, attributes, pgtiou = client.verify_ticket(ticket)
         if attributes and request:
@@ -131,6 +135,8 @@ class CASBackend(ModelBackend):
         exceptions when a user_id cannot be accessed. This is important because we
         shouldn't create Users with automatically assigned ids if we are trying to
         keep User primary key's in sync.
+
+        :returns: [string] user id.
         """
         if not attributes:
             raise ImproperlyConfigured("CAS_CREATE_USER_WITH_ID is True, but "
@@ -146,11 +152,15 @@ class CASBackend(ModelBackend):
 
     def clean_username(self, username):
         """
-        Performs any cleaning on the "username" prior to using it to get or
-        create the user object.  Returns the cleaned username.
+        Performs any cleaning on the ``username`` prior to using it to get or
+        create the user object.
 
         By default, changes the username case according to
         `settings.CAS_FORCE_CHANGE_USERNAME_CASE`.
+
+        :param username: [string] username.
+
+        :returns: [string] The cleaned username.
         """
         username_case = settings.CAS_FORCE_CHANGE_USERNAME_CASE
         if username_case == 'lower':
@@ -167,9 +177,18 @@ class CASBackend(ModelBackend):
         """
         Configures a user after creation and returns the updated user.
 
-        By default, returns the user unmodified.
+        This method is called immediately after a new user is created, and can be used to perform custom setup actions.
+
+        :param user: User object.
+
+        :returns: [User] The user object. By default, returns the user unmodified.
         """
         return user
 
     def bad_attributes_reject(self, request, username, attributes):
+        """
+        Rejects a user if the returned username/attributes are not OK.
+
+        :returns: [boolean] ``True/False``. Default is ``False``.
+        """
         return False
