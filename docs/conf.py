@@ -10,6 +10,21 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
+import os
+import sys
+import django
+from django.conf import settings
+
+sys.path.insert(0, os.path.abspath('../'));
+sys.path.insert(0, os.path.abspath('../tests'));
+settings.configure(
+    SECRET_KEY='something to make Django happy',
+    INSTALLED_APPS = [
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django_cas_ng'
+    ])
+django.setup()
 
 # -- General configuration ------------------------------------------------
 
@@ -17,6 +32,9 @@
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx.ext.autodoc',  # Pull in documentation from docstrings
+    'sphinx.ext.napoleon', # Support for NumPy and Google style docstrings
+    'sphinx.ext.viewcode', # Generate HTML highlighted source code
     'sphinx_sitemap',
     'm2r'
 ]
