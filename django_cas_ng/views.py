@@ -191,10 +191,12 @@ class LogoutView(View):
             session=request.session,
             ticket=ticket,
         )
-        auth_logout(request)
+
         # clean current session ProxyGrantingTicket and SessionTicket
         ProxyGrantingTicket.objects.filter(session_key=request.session.session_key).delete()
         SessionTicket.objects.filter(session_key=request.session.session_key).delete()
+        auth_logout(request)
+        
         next_page = next_page or get_redirect_url(request)
         if settings.CAS_LOGOUT_COMPLETELY:
             protocol = get_protocol(request)
