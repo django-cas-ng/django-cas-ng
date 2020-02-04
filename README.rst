@@ -24,7 +24,7 @@ Checkout document at https://djangocas.dev/docs/
 
 Quick links:
 
-* `CAS 101`_
+* `CAS 101`_: Introduction to CAS protocol.
 * `Example integration`_: A step by step guide on how to integrate this library.
 * `Installation`_
 * `Configuration`_
