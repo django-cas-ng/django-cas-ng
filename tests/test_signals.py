@@ -5,7 +5,6 @@ import pytest
 from django.conf import settings
 from django.dispatch import receiver
 from django.test import RequestFactory
-
 from django_cas_ng.backends import CASBackend
 from django_cas_ng.models import SessionTicket
 from django_cas_ng.signals import cas_user_authenticated, cas_user_logout
