@@ -1,3 +1,5 @@
+:orphan:
+
 Install from source::
 
     python setup install
