@@ -3,9 +3,10 @@
 *.egg-info
 *.mo
 *.sublime-workspace
-build/
-dist/
-_build/
+/build/
+/dist/
+/docs/_build/
+/htmlcov/
 
 # Mac OS X garbage
 .DS_Store

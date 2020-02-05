@@ -31,6 +31,17 @@ To run all testing on all environments locally::
 
     $ tox
 
+tox.ini - tox Configuration Reference
+-------------------------------------
+
+.. literalinclude:: ../tox.ini
+   :language: ini
+
+.travis.yml - travis-ci Configuration Reference
+-----------------------------------------------
+
+.. literalinclude:: ../.travis.yml
+   :language: ini
 
 Tests Module Reference
 ----------------------
