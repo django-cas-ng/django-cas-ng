@@ -11,19 +11,25 @@ Testing is managed by ``pytest`` and ``tox``.
 
 Before run install, you need install required packages for testing::
 
-    pip install -r requirements-dev.txt
+    $ pip install -r requirements-dev.txt
 
 Run Test
 --------
 
 To run testing on locally::
 
-    py.test
+    $ py.test
 
+To run testing on locally with code coverage::
+
+    $ py.test --cov-report=html --cov=django_cas_ng
+    ...
+    ...
+    Coverage HTML written to dir htmlcov
 
 To run all testing on all environments locally::
 
-    tox
+    $ tox
 
 
 Tests Module Reference
