@@ -3,6 +3,8 @@ django-cas-ng
 
 .. image:: https://travis-ci.org/django-cas-ng/django-cas-ng.svg?branch=master
     :target: https://travis-ci.org/django-cas-ng/django-cas-ng
+.. image:: https://img.shields.io/pypi/v/django-cas-ng.svg
+    :target: https://pypi.org/project/django-cas-ng/
 .. image:: https://img.shields.io/pypi/pyversions/django-cas-ng.svg
     :target: https://pypi.org/project/django-cas-ng/
 .. image:: https://codecov.io/gh/django-cas-ng/django-cas-ng/branch/master/graph/badge.svg
