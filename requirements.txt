@@ -2,5 +2,5 @@ lxml>=3.4
 
 # If you want the latest python-cas, uncomment following line.
 #-e git+https://github.com/python-cas/python-cas.git#egg=python_cas
-python-cas==1.4.0
-requests
+python-cas==1.5.0
+requests>=2.0.0
