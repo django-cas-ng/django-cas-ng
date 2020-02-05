@@ -64,8 +64,8 @@ This project adheres to Semantic Versioning. Checkout all the `Changelog`_.
 .. _django-cas-ng: https://djangocas.dev
 .. _django-cas: https://bitbucket.org/cpcc/django-cas
 .. _User custom model: https://docs.djangoproject.com/en/3.0/topics/auth/customizing/
-.. _CAS 101: https://djangocas.dev/blog/2018-01-02-cas-101-introduction-to-cas-central-authentication-server/
-.. _Example integration: https://djangocas.dev/blog/2020-01-26-django-cas-ng-example-project/
+.. _CAS 101: https://djangocas.dev/blog/cas-101-introduction-to-cas-central-authentication-service/
+.. _Example integration: https://djangocas.dev/blog/django-cas-ng-example-project/
 .. _Contribution: https://djangocas.dev/docs/4.0/contribution.html
 .. _Changelog: https://djangocas.dev/docs/4.0/changelog.html
 .. _Installation: https://djangocas.dev/docs/4.0/install.html
