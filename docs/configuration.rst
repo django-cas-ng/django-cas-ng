@@ -55,11 +55,14 @@ The URL prefix of the Django administration site.
 If undefined, the CAS middleware will check the view being rendered to
 see if it lives in ``django.contrib.admin.views``.
 
+The default is ``None``.
+
 
 ``CAS_CREATE_USER`` [Optional]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Create a user when the CAS authentication is successful.
+
 The default is ``True``.
 
 
@@ -67,9 +70,11 @@ The default is ``True``.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Create a user using the ``id`` field provided by
-the attributes returned by the CAS provider. Default is ``False``. Raises
+the attributes returned by the CAS provider. Raises
 ``ImproperlyConfigured`` exception if attributes are not provided or do not
 contain the field ``id``.
+
+The default is ``False``.
 
 
 ``CAS_LOGIN_MSG`` [Optional]
@@ -77,9 +82,11 @@ contain the field ``id``.
 
 Welcome message send via the messages framework upon
 successful authentication. Take the user login as formatting argument.
+
+You cas disable it by setting this parametter to ``None``
+
 The default is ``"Login succeeded. Welcome, %s."`` or some translation of it
 if you have enabled django internationalization (``USE_I18N = True``)
-You cas disable it by setting this parametter to ``None``
 
 
 ``CAS_LOGGED_MSG`` [Optional]
@@ -88,25 +95,33 @@ You cas disable it by setting this parametter to ``None``
 Welcome message send via the messages framework upon
 authentication attempt if the user is already authenticated.
 Take the user login as formatting argument.
+
+You cas disable it by setting this parametter to ``None``
+
 The default is ``"You are logged in as %s."`` or some translation of it
 if you have enabled django internationalization (``USE_I18N = True``)
-You cas disable it by setting this parametter to ``None``
 
 
 ``CAS_LOGIN_URL_NAME`` [Optional]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Name of the login url, defaults to ``'cas_ng_login'``.
+Name of the login url.
+
 This is only necessary if you use the middleware and want to use some other
 name for the login url (e.g. ``'my_app:cas_login'``).
+
+The default is ``'cas_ng_login'``.
 
 
 ``CAS_LOGOUT_URL_NAME`` [Optional]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Name of the logout url, defaults to
-``'cas_ng_logout'``. This is only necessary if you use the middleware and
+Name of the logout url.
+
+This is only necessary if you use the middleware and
 want to use some other name for the logout url (e.g. ``'my_app:cas_logout'``).
+
+The default is ``'cas_ng_logout'``.
 
 
 ``CAS_EXTRA_LOGIN_PARAMS`` [Optional]
@@ -121,13 +136,17 @@ If you need these parameters to be dynamic, then we recommend to implement
 a wrapper for our default login view (the same can be done in case of the
 logout view). See an example in the section below.
 
+The default is ``None``.
+
 
 ``CAS_RENEW`` [Optional]
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 Whether pass ``renew`` parameter on login and verification
 of ticket to enforce that the login is made with a fresh username and password
-verification in the CAS server. Default is ``False``.
+verification in the CAS server.
+
+The default is ``False``.
 
 
 ``CAS_IGNORE_REFERER`` [Optional]
@@ -136,6 +155,8 @@ verification in the CAS server. Default is ``False``.
 If ``True``, logging out of the application will
 always send the user to the URL specified by ``CAS_REDIRECT_URL``.
 
+The default is ``False``.
+
 
 ``CAS_LOGOUT_COMPLETELY`` [Optional]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -143,13 +164,17 @@ always send the user to the URL specified by ``CAS_REDIRECT_URL``.
 If ``False``, logging out of the application
 won't log the user out of CAS as well.
 
+The default is ``True``.
+
 
 ``CAS_REDIRECT_URL`` [Optional]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Where to send a user after logging in or out if
 there is no referrer and no next page set. This setting also accepts named
-URL patterns. Default is ``/``.
+URL patterns.
+
+The default is ``/``.
 
 
 ``CAS_RETRY_LOGIN`` [Optional]
@@ -158,6 +183,8 @@ URL patterns. Default is ``/``.
 If ``True`` and an unknown or invalid ticket is
 received, the user is redirected back to the login page.
 
+The default is ``False``.
+
 
 ``CAS_STORE_NEXT`` [Optional]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -165,9 +192,11 @@ received, the user is redirected back to the login page.
 If ``True``, the page to redirect to following login will be stored
 as a session variable, which can avoid encoding errors depending on the CAS implementation.
 
+The default is ``False``.
+
+
 ``CAS_VERSION`` [Optional]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 The CAS protocol version to use. The following version are supported:
 
@@ -176,24 +205,28 @@ The CAS protocol version to use. The following version are supported:
 - ``'3'``
 - ``'CAS_2_SAML_1_0'``
 
-Default is ``'2'``.
+The default is ``'2'``.
 
 
 ``CAS_USERNAME_ATTRIBUTE`` [Optional]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The CAS user name attribute from response. The default is ``uid``.
+The CAS user name attribute from response.
 If set with a value other than ``uid`` when ``CAS_VERSION`` is not ``'CAS_2_SAML_1_0'``, this
 will be handled by the ``CASBackend``, in which case if the user lacks that attribute then
 authentication will fail. Note that the attribute is checked before ``CAS_RENAME_ATTRIBUTES``
 is applied.
+
+The default is ``uid``.
 
 
 ``CAS_PROXY_CALLBACK`` [Optional]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The full URL to the callback view if you want to
-retrieve a Proxy Granting Ticket. Defaults is ``None``.
+retrieve a Proxy Granting Ticket.
+
+The defaults is ``None``.
 
 
 ``CAS_ROOT_PROXIED_AS`` [Optional]
@@ -211,7 +244,7 @@ we check whether their account already exists. Allows user `Joe` to log in to CA
 `joe` or `JOE` without duplicate accounts being created by Django (since Django allows
 case-sensitive duplicates). If ``upper``, the submitted username will be uppercased.
 
-Default is ``False``.
+The default is ``False``.
 
 
 ``CAS_APPLY_ATTRIBUTES_TO_USER`` [Optional]
@@ -233,45 +266,13 @@ will be renamed as ``last_name``. Used with ``CAS_APPLY_ATTRIBUTES_TO_USER = Tru
 to fill in Django Users' info independently from the attributes' keys returned by the CAS server.
 
 
-``CAS_RESPONSE_CALLBACKS`` [Optional]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-A tuple consisting of paths to the callback functions. The functions will receive
-a dict argument containing ``username``, ``attributes``, and ``pgtiou`` obtained from the response.
-This is useful if you want to use the response data in your app, e.g. to save the attributes into a model.
-
-Please note that if you use ``CAS_FORCE_CHANGE_USERNAME_CASE`` and/or ``CAS_RENAME_ATTRIBUTES``,
-the response sent to the callback functions will also be altered.
-
-Example:
-
-..  code-block:: python
-
-    CAS_RESPONSE_CALLBACKS = (
-        'my_app.callbacks.cas_callback',
-    )
-
-In ``my_app/callbacks.py``:
-
-..  code-block:: python
-
-    def cas_callback(response):
-        username = response['username']
-        user, user_created = User.objects.get_or_create(username=username)
-        profile, created = user.get_profile()
-
-        profile.role = response['attributes']['role']
-        profile.birth_date = response['attributes']['birth_date']
-        profile.save()
-
-
 ``CAS_VERIFY_SSL_CERTIFICATE`` [Optional]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If ``False`` CAS server certificate won't be verified. This is useful when using a
 CAS test server with a self-signed certificate in a development environment.
 
-Default is ``True``.
+The default is ``True``.
 
 
 ``CAS_LOCAL_NAME_FIELD`` [Optional]
