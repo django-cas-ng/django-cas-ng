@@ -1,3 +1,5 @@
+:orphan:
+
 ============
 Coding style
 ============
@@ -97,9 +99,7 @@ Imports
 * Use `isort <https://github.com/timothycrosley/isort#readme>`_ to automate
   import sorting using the guidelines below.
 
-  Quick start:
-
-  .. console::
+  Quick start::
 
       $ python -m pip install isort
       $ isort -rc .
@@ -314,9 +314,6 @@ such as ``django.utils.functional.LazyObject``,
 Miscellaneous
 =============
 
-* Mark all strings for internationalization; see the :doc:`i18n
-  documentation </topics/i18n/index>` for details.
-
 * Remove ``import`` statements that are no longer used when you change code.
   `flake8`_ will identify these imports for you. If an unused import needs to
   remain for backwards-compatibility, mark the end of with ``# NOQA`` to
@@ -333,12 +330,6 @@ Miscellaneous
   -- not scattered throughout the codebase itself. Feel free to include a
   change to the ``AUTHORS`` file in your patch if you make more than a
   single trivial change.
-
-JavaScript style
-================
-
-For details about the JavaScript code style used by Django, see
-:doc:`javascript`.
 
 .. _editorconfig: https://editorconfig.org/
 .. _flake8: https://pypi.org/project/flake8/
