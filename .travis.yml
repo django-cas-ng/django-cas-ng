@@ -1,5 +1,7 @@
 language: python
+
 cache: pip
+
 matrix:
   fast_finish: true
   include:
@@ -41,7 +43,14 @@ matrix:
     - env: TOXENV=py36-djangomaster
     - env: TOXENV=py37-djangomaster
     - env: TOXENV=py38-djangomaster
+
 install:
   - pip install tox
+  - pip install codecov
+
 script:
   - tox
+
+# Push the results back to codecov
+after_success:
+  - codecov
