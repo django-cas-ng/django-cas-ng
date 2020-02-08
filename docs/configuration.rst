@@ -5,6 +5,10 @@ Configuration
 In order for your project to use ``django-cas-ng``, you'll need to configure
 certain settings, add URL mappings, and sync your database.
 
+Here is a post on `guide to create a demo integration project <https://djangocas.dev/blog/django-cas-ng-example-project/>`_.
+
+You can also try `live demo <https://django-cas-ng-demo.herokuapp.com/>`_.
+
 Settings
 ^^^^^^^^
 
