@@ -9,6 +9,8 @@ django-cas-ng
     :target: https://pypi.org/project/django-cas-ng/
 .. image:: https://codecov.io/gh/django-cas-ng/django-cas-ng/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/django-cas-ng/django-cas-ng
+.. image:: https://static.deepsource.io/deepsource-badge-light-mini.svg
+    :target: https://deepsource.io/gh/django-cas-ng/django-cas-ng/?ref=repository-badge
 .. image:: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
     :target: https://travis-ci.org/django-cas-ng/django-cas-ng/pull/new
 .. image:: https://img.shields.io/badge/maintainers-wanted-red.svg
