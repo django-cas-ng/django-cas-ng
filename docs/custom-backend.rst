@@ -28,9 +28,11 @@ these attributes or methods:
     through CAS on Django versions lower than 1.10; starting with Django 1.10
     however, django-cas-ng will prevent users with ``is_active=False`` from
     authenticating.
-    See also https://docs.djangoproject.com/en/3.0/ref/contrib/auth/#django.contrib.auth.backends.RemoteUserBackend
+    See also `django.contrib.auth.backends.RemoteUserBackend`_.
 - CASBackend.configure_user(user)
 - CASBackend.bad_attributes_reject(request, username, attributes)
+
+.. _django.contrib.auth.backends.RemoteUserBackend: https://docs.djangoproject.com/en/3.0/ref/contrib/auth/#django.contrib.auth.backends.RemoteUserBackend
 
 Example
 -------
