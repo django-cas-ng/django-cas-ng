@@ -66,6 +66,18 @@ def test_service_url_root_proxied_as(settings):
     assert actual == expected
 
 
+def test_force_ssl_service_url(settings):
+    settings.CAS_FORCE_SSL_SERVICE_URL = True
+
+    factory = RequestFactory()
+    request = factory.get('/login/')
+
+    actual = get_service_url(request)
+    expected = 'https://testserver/login/?next=%2F'
+
+    assert actual == expected
+
+
 #
 # get_redirect_url tests
 #
