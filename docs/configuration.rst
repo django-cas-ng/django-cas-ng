@@ -1,6 +1,8 @@
-
 Configuration
 -------------
+
+.. contents:: Table of Contents
+   :depth: 3
 
 In order for your project to use ``django-cas-ng``, you'll need to configure
 certain settings, add URL mappings, and sync your database.
@@ -275,6 +277,13 @@ to fill in Django Users' info independently from the attributes' keys returned b
 
 If ``False`` CAS server certificate won't be verified. This is useful when using a
 CAS test server with a self-signed certificate in a development environment.
+
+.. warning::
+
+    If ``CAS_VERIFY_SSL_CERTIFICATE`` is disabled (``False``), meaning that SSL
+    certificates are not being verified by a certificate authority.
+    This can expose your system to various attacks and should **never** be disabled
+    in a production environment.
 
 The default is ``True``.
 
