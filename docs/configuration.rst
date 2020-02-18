@@ -295,6 +295,12 @@ If set, will make user lookup against this field and not model's natural key.
 This allows you to authenticate arbitrary users.
 
 
+``CAS_FORCE_SSL_SERVICE_URL`` [Optional]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Force the service url to always target HTTPS by setting CAS_FORCE_SSL_SERVICE_URL to True.
+
+
 URL dispatcher
 ^^^^^^^^^^^^^^
 

@@ -6,6 +6,10 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+**django-cas-ng 4.0.2** ``[2020-02-10]``
+
+  * New setting CAS_FORCE_SSL_SERVICE_URL forces the service url to always target HTTPS
+
 **django-cas-ng 4.0.1** ``[2020-01-16]``
 
   * Split README into docs.

@@ -45,7 +45,10 @@ def get_service_url(request, redirect_to=None):
     if hasattr(django_settings, 'CAS_ROOT_PROXIED_AS'):
         service = django_settings.CAS_ROOT_PROXIED_AS + request.path
     else:
-        protocol = get_protocol(request)
+        if django_settings.CAS_FORCE_SSL_SERVICE_URL:
+            protocol = 'https'
+        else:
+            protocol = get_protocol(request)
         host = request.get_host()
         service = urllib_parse.urlunparse(
             (protocol, host, request.path, '', '', ''),

@@ -30,6 +30,7 @@ _DEFAULTS = {
     'CAS_CREATE_USER_WITH_ID': False,
     'CAS_VERIFY_SSL_CERTIFICATE': True,
     'CAS_LOCAL_NAME_FIELD': None,
+    'CAS_FORCE_SSL_SERVICE_URL': False,
 }
 
 for key, value in list(_DEFAULTS.items()):
