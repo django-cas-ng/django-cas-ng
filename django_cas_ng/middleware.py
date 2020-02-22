@@ -6,7 +6,7 @@ from urllib import parse as urllib_parse
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.views import LoginView as login, LogoutView as logout
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import ImproperlyConfigured, PermissionDenied
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.deprecation import MiddlewareMixin
@@ -27,7 +27,8 @@ class CASMiddleware(MiddlewareMixin):
                  "middleware to be installed. Edit your MIDDLEWARE_CLASSES "
                  "setting to insert 'django.contrib.auth.middleware."
                  "AuthenticationMiddleware'.")
-        assert hasattr(request, 'user'), error
+        if not hasattr(request, 'user'):
+            raise ImproperlyConfigured(error)
 
     def process_view(self, request, view_func, view_args, view_kwargs):
         """Forwards unauthenticated requests to the admin page to the CAS
