@@ -179,7 +179,8 @@ class CASBackend(ModelBackend):
         """
         Configures a user after creation and returns the updated user.
 
-        This method is called immediately after a new user is created, and can be used to perform custom setup actions.
+        This method is called immediately after a new user is created,
+        and can be used to perform custom setup actions.
 
         :param user: User object.
 
