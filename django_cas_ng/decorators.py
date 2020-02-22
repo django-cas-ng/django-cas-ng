@@ -30,10 +30,10 @@ def user_passes_test(test_func, login_url=None,
 
             if request.user.is_authenticated:
                 raise PermissionDenied
-            else:
-                path = '%s?%s=%s' % (login_url, redirect_field_name,
-                                     urlquote(request.get_full_path()))
-                return HttpResponseRedirect(path)
+
+            path = '%s?%s=%s' % (login_url, redirect_field_name,
+                                 urlquote(request.get_full_path()))
+            return HttpResponseRedirect(path)
         return wrapper
     return decorator
 

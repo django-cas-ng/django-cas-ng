@@ -118,53 +118,56 @@ class LoginView(View):
             return self.successful_login(request=request, next_page=next_page)
 
         ticket = request.GET.get('ticket')
-        if ticket:
-            user = authenticate(ticket=ticket,
-                                service=service_url,
-                                request=request)
-            pgtiou = request.session.get("pgtiou")
-            if user is not None:
-                auth_login(request, user)
-                if not request.session.exists(request.session.session_key):
-                    request.session.create()
-
-                try:
-                    st = SessionTicket.objects.get(session_key=request.session.session_key)
-                    st.ticket = ticket
-                    st.save()
-                except SessionTicket.DoesNotExist:
-                    SessionTicket.objects.create(
-                        session_key=request.session.session_key,
-                        ticket=ticket
-                    )
-
-                if pgtiou and settings.CAS_PROXY_CALLBACK:
-                    # Delete old PGT
-                    ProxyGrantingTicket.objects.filter(
-                        user=user,
-                        session_key=request.session.session_key
-                    ).delete()
-                    # Set new PGT ticket
-                    try:
-                        pgt = ProxyGrantingTicket.objects.get(pgtiou=pgtiou)
-                        pgt.user = user
-                        pgt.session_key = request.session.session_key
-                        pgt.save()
-                    except ProxyGrantingTicket.DoesNotExist:
-                        pass
-
-                if settings.CAS_LOGIN_MSG is not None:
-                    name = user.get_username()
-                    message = settings.CAS_LOGIN_MSG % name
-                    messages.success(request, message)
-                return self.successful_login(request=request, next_page=next_page)
-            elif settings.CAS_RETRY_LOGIN or required:
-                return HttpResponseRedirect(client.get_login_url())
-            raise PermissionDenied(_('Login failed.'))
-        else:
+        if not ticket:
             if settings.CAS_STORE_NEXT:
                 request.session['CASNEXT'] = next_page
             return HttpResponseRedirect(client.get_login_url())
+
+        user = authenticate(ticket=ticket,
+                            service=service_url,
+                            request=request)
+        pgtiou = request.session.get("pgtiou")
+        if user is not None:
+            auth_login(request, user)
+            if not request.session.exists(request.session.session_key):
+                request.session.create()
+
+            try:
+                st = SessionTicket.objects.get(session_key=request.session.session_key)
+                st.ticket = ticket
+                st.save()
+            except SessionTicket.DoesNotExist:
+                SessionTicket.objects.create(
+                    session_key=request.session.session_key,
+                    ticket=ticket
+                )
+
+            if pgtiou and settings.CAS_PROXY_CALLBACK:
+                # Delete old PGT
+                ProxyGrantingTicket.objects.filter(
+                    user=user,
+                    session_key=request.session.session_key
+                ).delete()
+                # Set new PGT ticket
+                try:
+                    pgt = ProxyGrantingTicket.objects.get(pgtiou=pgtiou)
+                    pgt.user = user
+                    pgt.session_key = request.session.session_key
+                    pgt.save()
+                except ProxyGrantingTicket.DoesNotExist:
+                    pass
+
+            if settings.CAS_LOGIN_MSG is not None:
+                name = user.get_username()
+                message = settings.CAS_LOGIN_MSG % name
+                messages.success(request, message)
+
+            return self.successful_login(request=request, next_page=next_page)
+
+        if settings.CAS_RETRY_LOGIN or required:
+            return HttpResponseRedirect(client.get_login_url())
+
+        raise PermissionDenied(_('Login failed.'))
 
 
 class LogoutView(View):
