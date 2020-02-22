@@ -446,10 +446,10 @@ def test_backend_user_can_authenticate_with_cas_username_attribute(monkeypatch, 
     assert user.username == 'GOOD@EXAMPLE.COM'
 
     # Testing to make sure None is returned if username attribute is missing.
-    def mock_verify(ticket, service):
+    def mock_verify1(ticket, service):
         return 'bad@example.com', {'ticket': ticket, 'service': service}, None
 
-    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify1)
 
     user = backends.CASBackend().authenticate(
         request, ticket='fake-ticket', service='fake-service',
@@ -458,10 +458,10 @@ def test_backend_user_can_authenticate_with_cas_username_attribute(monkeypatch, 
     assert user is None
 
     # Testing to make sure None is returned if attributes are None.
-    def mock_verify(ticket, service):
+    def mock_verify2(ticket, service):
         return 'bad@example.com', None, None
 
-    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify2)
 
     user = backends.CASBackend().authenticate(
         request, ticket='fake-ticket', service='fake-service',
