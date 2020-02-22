@@ -17,7 +17,7 @@ New code should follow both `PEP8`_ and the Django coding style.
 
 .. seealso::
 
-    :doc:`django-coding-style` (taken from `Django coding-style.txt` for quick reference)
+    :doc:`django-coding-style` (taken from `Django coding-style.txt`_ for quick reference)
 
 
 Documentation
@@ -39,6 +39,15 @@ Pull Request
 ------------
 
 In PR, please also add your change description (especially for break changes) to `docs/changelog.rst`_ with a draft release version number like ``x.x.x``.
+
+
+What to Contribute
+------------------
+
+* Bug fixes
+* New features
+* Tests to increase code coverage
+* Documentation
 
 
 .. _pip: http://www.pip-installer.org/
