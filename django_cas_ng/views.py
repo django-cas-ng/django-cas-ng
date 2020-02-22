@@ -9,7 +9,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
@@ -228,21 +228,27 @@ class CallbackView(View):
             clean_sessions(get_cas_client(request=request), request)
             return HttpResponse("{}\n".format(_('ok')), content_type="text/plain")
 
+        return HttpResponseBadRequest('Missing logoutRequest')
+
     def get(self, request):
         pgtid = request.GET.get('pgtId')
         pgtiou = request.GET.get('pgtIou')
+
         pgt = ProxyGrantingTicket.objects.create(pgtiou=pgtiou, pgt=pgtid)
         pgt.save()
+
         ProxyGrantingTicket.objects.filter(
             session_key=None,
             date__lt=(timezone.now() - timedelta(seconds=60))
         ).delete()
+
         return HttpResponse("{}\n".format(_('ok')), content_type="text/plain")
 
 
 def clean_sessions(client, request):
     if not hasattr(client, 'get_saml_slos'):
         return
+
     for slo in client.get_saml_slos(request.POST.get('logoutRequest')):
         try:
             st = SessionTicket.objects.get(ticket=slo.text)
