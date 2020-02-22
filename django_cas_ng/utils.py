@@ -9,7 +9,7 @@ from django.contrib.auth import (
     SESSION_KEY,
     load_backend,
 )
-from django.contrib.auth.models import AnonymousUser
+from django.contrib.auth.models import AnonymousUser, User
 from django.shortcuts import resolve_url
 
 
@@ -96,7 +96,10 @@ def get_cas_client(service_url=None, request=None):
     )
 
 
-def get_user_from_session(session):
+def get_user_from_session(session) -> User:
+    """
+    Get User object (or AnonymousUser() if not logged in) from session.
+    """
     try:
         user_id = session[SESSION_KEY]
         backend_path = session[BACKEND_SESSION_KEY]
