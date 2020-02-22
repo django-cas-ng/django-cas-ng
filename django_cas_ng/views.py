@@ -160,8 +160,7 @@ class LoginView(View):
                 return self.successful_login(request=request, next_page=next_page)
             elif settings.CAS_RETRY_LOGIN or required:
                 return HttpResponseRedirect(client.get_login_url())
-            else:
-                raise PermissionDenied(_('Login failed.'))
+            raise PermissionDenied(_('Login failed.'))
         else:
             if settings.CAS_STORE_NEXT:
                 request.session['CASNEXT'] = next_page
@@ -206,10 +205,10 @@ class LogoutView(View):
             )
             client = get_cas_client(request=request)
             return HttpResponseRedirect(client.get_logout_url(redirect_url))
-        else:
-            # This is in most cases pointless if not CAS_RENEW is set. The user will
-            # simply be logged in again on next request requiring authorization.
-            return HttpResponseRedirect(next_page)
+
+        # This is in most cases pointless if not CAS_RENEW is set. The user will
+        # simply be logged in again on next request requiring authorization.
+        return HttpResponseRedirect(next_page)
 
 
 class CallbackView(View):

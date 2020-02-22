@@ -27,7 +27,8 @@ def user_passes_test(test_func, login_url=None,
         def wrapper(request, *args, **kwargs):
             if test_func(request.user):
                 return view_func(request, *args, **kwargs)
-            elif request.user.is_authenticated:
+
+            if request.user.is_authenticated:
                 raise PermissionDenied
             else:
                 path = '%s?%s=%s' % (login_url, redirect_field_name,

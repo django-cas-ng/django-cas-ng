@@ -37,7 +37,8 @@ class CASMiddleware(MiddlewareMixin):
 
         if view_func == login:
             return cas_login(request, *view_args, **view_kwargs)
-        elif view_func == logout:
+
+        if view_func == logout:
             return cas_logout(request, *view_args, **view_kwargs)
 
         if view_func in (cas_login, cas_logout):
@@ -55,7 +56,6 @@ class CASMiddleware(MiddlewareMixin):
         if request.user.is_authenticated:
             if request.user.is_staff:
                 return None
-            else:
-                raise PermissionDenied(_('You do not have staff privileges.'))
+            raise PermissionDenied(_('You do not have staff privileges.'))
         params = urllib_parse.urlencode({REDIRECT_FIELD_NAME: request.get_full_path()})
         return HttpResponseRedirect(reverse(settings.CAS_LOGIN_URL_NAME) + '?' + params)
