@@ -6,8 +6,7 @@ test_patterns = [
 
 exclude_patterns = [
   "django_cas_ng/migrations/**",
-  "docs/**",
-  "tests/**"
+  "docs/**"
 ]
 
 [[analyzers]]
