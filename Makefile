@@ -1,6 +1,6 @@
 PYTHON = python
 
-.PHONY: all build clean install compilemessages test
+.PHONY: all build clean install compilemessages lint test
 
 all: build
 
@@ -19,5 +19,8 @@ install: compilemessages
 compilemessages:
 	cd django_cas_ng && django-admin compilemessages
 
-test:
+lint:
+	flake8
+
+test: lint
 	py.test
