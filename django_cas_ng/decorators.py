@@ -12,8 +12,9 @@ from django.utils.http import urlquote
 __all__ = ['login_required', 'permission_required', 'user_passes_test']
 
 
-def user_passes_test(test_func, login_url=None,
-                     redirect_field_name=REDIRECT_FIELD_NAME):
+def user_passes_test(test_func,
+                     login_url=None,
+                     redirect_field_name: str = REDIRECT_FIELD_NAME):
     """Replacement for django.contrib.auth.decorators.user_passes_test that
     returns 403 Forbidden if the user is already logged in.
     """
@@ -38,7 +39,7 @@ def user_passes_test(test_func, login_url=None,
     return decorator
 
 
-def permission_required(perm, login_url=None):
+def permission_required(perm: str, login_url: str = None):
     """Replacement for django.contrib.auth.decorators.permission_required that
     returns 403 Forbidden if the user is already logged in.
     """

@@ -1,5 +1,7 @@
 """CAS authentication backend"""
 
+from typing import Mapping
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
@@ -131,7 +133,7 @@ class CASBackend(ModelBackend):
         )
         return user
 
-    def get_user_id(self, attributes):
+    def get_user_id(self, attributes: Mapping[str, str]) -> str:
         """
         For use when CAS_CREATE_USER_WITH_ID is True. Will raise ImproperlyConfigured
         exceptions when a user_id cannot be accessed. This is important because we
@@ -152,7 +154,7 @@ class CASBackend(ModelBackend):
 
         return user_id
 
-    def clean_username(self, username):
+    def clean_username(self, username: str) -> str:
         """
         Performs any cleaning on the ``username`` prior to using it to get or
         create the user object.
@@ -175,7 +177,7 @@ class CASBackend(ModelBackend):
                 "Valid values are `'lower'`, `'upper'`, and `None`.")
         return username
 
-    def configure_user(self, user):
+    def configure_user(self, user: User) -> User:
         """
         Configures a user after creation and returns the updated user.
 
@@ -188,7 +190,10 @@ class CASBackend(ModelBackend):
         """
         return user
 
-    def bad_attributes_reject(self, request, username, attributes):
+    def bad_attributes_reject(self,
+                              request: HttpRequest,
+                              username: str,
+                              attributes: Mapping[str, str]):
         """
         Rejects a user if the returned username/attributes are not OK.
 
