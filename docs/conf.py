@@ -67,7 +67,7 @@ release = '4.0.1'
 exclude_patterns = ['_build']
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = 'colorful'
 
 # -- Options for HTML output ----------------------------------------------
 
