@@ -6,9 +6,12 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
-**django-cas-ng 4.0.2** ``[2020-02-10]``
+**django-cas-ng 4.1.0** ``[2020-02-25]``
 
-  * New setting CAS_FORCE_SSL_SERVICE_URL forces the service url to always target HTTPS
+  * PR #244: New setting CAS_FORCE_SSL_SERVICE_URL forces the service url to always target HTTPS. @mikegostomski
+  * PR #241: Fix #240: SessionTicket and ProxyGrantingTicket do not delete issue. @vpr-dev
+  * Add typing hints for public API.
+  * Fix potential issues in deep source.
 
 **django-cas-ng 4.0.1** ``[2020-01-16]``
 

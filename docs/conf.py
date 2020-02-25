@@ -58,9 +58,9 @@ copyright = '2014-2020, django-cas-ng'
 # built documents.
 #
 # The short X.Y version.
-version = '4.0'
+version = '4.1'
 # The full version, including alpha/beta/rc tags.
-release = '4.0.1'
+release = '4.1.0'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
