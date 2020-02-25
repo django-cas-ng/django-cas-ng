@@ -39,7 +39,10 @@ setup(
     name='django-cas-ng',
     packages=['django_cas_ng', 'django_cas_ng.management', 'django_cas_ng.management.commands', 'django_cas_ng.migrations'],
     package_data={
-        'django_cas_ng': ['locale/*/LC_MESSAGES/*'],
+        'django_cas_ng': [
+            'locale/*/LC_MESSAGES/*',
+            'py.typed',
+        ],
     },
     url='https://djangocas.dev',
     download_url='https://github.com/django-cas-ng/django-cas-ng/releases',
