@@ -298,8 +298,11 @@ This allows you to authenticate arbitrary users.
 ``CAS_FORCE_SSL_SERVICE_URL`` [Optional]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Force the service url to always target HTTPS by setting CAS_FORCE_SSL_SERVICE_URL to True.
+Available in ``4.1.0``.
 
+Force the service url to always target HTTPS by setting ``CAS_FORCE_SSL_SERVICE_URL`` to True.
+
+The default is ``False``.
 
 URL dispatcher
 ^^^^^^^^^^^^^^
