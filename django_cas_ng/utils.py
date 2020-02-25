@@ -1,4 +1,5 @@
 import warnings
+from typing import Union
 from urllib import parse as urllib_parse
 
 from cas import CASClient
@@ -10,6 +11,7 @@ from django.contrib.auth import (
     load_backend,
 )
 from django.contrib.auth.models import AnonymousUser, User
+from django.contrib.sessions.backends.base import SessionBase
 from django.shortcuts import resolve_url
 
 
@@ -96,7 +98,7 @@ def get_cas_client(service_url=None, request=None):
     )
 
 
-def get_user_from_session(session) -> User:
+def get_user_from_session(session: SessionBase) -> Union[User, AnonymousUser]:
     """
     Get User object (or AnonymousUser() if not logged in) from session.
     """

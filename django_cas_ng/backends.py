@@ -1,6 +1,6 @@
 """CAS authentication backend"""
 
-from typing import Mapping
+from typing import Mapping, Optional
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -18,7 +18,7 @@ __all__ = ['CASBackend']
 class CASBackend(ModelBackend):
     """CAS authentication backend"""
 
-    def authenticate(self, request: HttpRequest, ticket: str, service: str) -> User:
+    def authenticate(self, request: HttpRequest, ticket: str, service: str) -> Optional[User]:
         """
         Verifies CAS ticket and gets or creates User object
 
@@ -193,7 +193,7 @@ class CASBackend(ModelBackend):
     def bad_attributes_reject(self,
                               request: HttpRequest,
                               username: str,
-                              attributes: Mapping[str, str]):
+                              attributes: Mapping[str, str]) -> bool:
         """
         Rejects a user if the returned username/attributes are not OK.
 
