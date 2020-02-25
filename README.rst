@@ -40,7 +40,7 @@ Quick links:
 Features
 --------
 
-- Supports CAS_ versions 1.0, 2.0 and 3.0
+- Supports **CAS** versions 1.0, 2.0 and 3.0
 - Support Single Logout (needs CAS server support)
 - Supports Token auth schemes
 - Can fetch Proxy Granting Ticket
@@ -62,14 +62,13 @@ Change Log
 This project adheres to Semantic Versioning. Checkout all the `Changelog`_.
 
 
-.. _CAS: https://www.apereo.org/cas
 .. _django-cas-ng: https://djangocas.dev
 .. _django-cas: https://bitbucket.org/cpcc/django-cas
 .. _User custom model: https://docs.djangoproject.com/en/3.0/topics/auth/customizing/
 .. _CAS 101: https://djangocas.dev/blog/cas-101-introduction-to-cas-central-authentication-service/
 .. _Example integration: https://djangocas.dev/blog/django-cas-ng-example-project/
-.. _Contribution: https://djangocas.dev/docs/4.0/contribution.html
-.. _Changelog: https://djangocas.dev/docs/4.0/changelog.html
-.. _Installation: https://djangocas.dev/docs/4.0/install.html
-.. _Configuration: https://djangocas.dev/docs/4.0/configuration.html
+.. _Contribution: https://djangocas.dev/docs/4.x/contribution.html
+.. _Changelog: https://djangocas.dev/docs/4.x/changelog.html
+.. _Installation: https://djangocas.dev/docs/4.x/install.html
+.. _Configuration: https://djangocas.dev/docs/4.x/configuration.html
 

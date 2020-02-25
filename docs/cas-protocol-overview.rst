@@ -43,4 +43,5 @@ References
 * https://apereo.github.io/cas/4.2.x/protocol/CAS-Protocol.html
 
 
-.. _CAS-Protocol-Specification: https://djangocas.dev/docs/4.0/CAS-Protocol-Specification.html
+.. _CAS-Protocol-Specification: https://djangocas.dev/docs/4.x/CAS-Protocol-Specification.html
+
