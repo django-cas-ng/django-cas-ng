@@ -28,7 +28,7 @@ Our fork will include bugfixes and new features contributed by the community.
 Document
 --------
 
-Checkout document at https://djangocas.dev/docs/
+Checkout document at https://djangocas.dev/docs/latest/
 
 Quick links:
 
@@ -47,6 +47,7 @@ Features
 - Supports Django 2.0, 2.1, 2.2 and 3.0
 - Supports using a `User custom model`_
 - Supports Python 3.5+
+- Supports typing hints in public API.
 
 To support django 1.x and Python 2.x, please use `3.6.0`.
 
@@ -67,8 +68,7 @@ This project adheres to Semantic Versioning. Checkout all the `Changelog`_.
 .. _User custom model: https://docs.djangoproject.com/en/3.0/topics/auth/customizing/
 .. _CAS 101: https://djangocas.dev/blog/cas-101-introduction-to-cas-central-authentication-service/
 .. _Example integration: https://djangocas.dev/blog/django-cas-ng-example-project/
-.. _Contribution: https://djangocas.dev/docs/4.x/contribution.html
-.. _Changelog: https://djangocas.dev/docs/4.x/changelog.html
-.. _Installation: https://djangocas.dev/docs/4.x/install.html
-.. _Configuration: https://djangocas.dev/docs/4.x/configuration.html
-
+.. _Contribution: https://djangocas.dev/docs/latest/contribution.html
+.. _Changelog: https://djangocas.dev/docs/latest/changelog.html
+.. _Installation: https://djangocas.dev/docs/latest/install.html
+.. _Configuration: https://djangocas.dev/docs/latest/configuration.html
