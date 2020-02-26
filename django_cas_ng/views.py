@@ -3,13 +3,19 @@
 
 from datetime import timedelta
 from importlib import import_module
+from typing import Any
 from urllib import parse as urllib_parse
 
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
+from django.http import (
+    HttpRequest,
+    HttpResponse,
+    HttpResponseBadRequest,
+    HttpResponseRedirect,
+)
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
@@ -66,10 +72,10 @@ def is_local_url(host_url, url):
 
 class LoginView(View):
     @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
         return super().dispatch(request, *args, **kwargs)
 
-    def successful_login(self, request, next_page):
+    def successful_login(self, request: HttpRequest, next_page: str) -> HttpResponse:
         """
         This method is called on successful login. Override this method for
         custom post-auth actions (i.e, to add a cookie with a token).
@@ -80,7 +86,7 @@ class LoginView(View):
         """
         return HttpResponseRedirect(next_page)
 
-    def post(self, request):
+    def post(self, request: HttpRequest) -> HttpResponse:
         next_page = clean_next_page(request, request.POST.get('next', settings.CAS_REDIRECT_URL))
         service_url = get_service_url(request, next_page)
         client = get_cas_client(service_url=service_url, request=request)
@@ -91,7 +97,7 @@ class LoginView(View):
 
         return HttpResponseRedirect(client.get_login_url())
 
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         """
         Forwards to CAS login URL or verifies CAS ticket
 
@@ -171,7 +177,7 @@ class LoginView(View):
 
 
 class LogoutView(View):
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         """
         Redirects to CAS logout page
 
@@ -220,17 +226,17 @@ class CallbackView(View):
     """
 
     @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
         return super().dispatch(request, *args, **kwargs)
 
-    def post(self, request):
+    def post(self, request: HttpRequest) -> HttpResponse:
         if request.POST.get('logoutRequest'):
             clean_sessions(get_cas_client(request=request), request)
             return HttpResponse("{}\n".format(_('ok')), content_type="text/plain")
 
         return HttpResponseBadRequest('Missing logoutRequest')
 
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         pgtid = request.GET.get('pgtId')
         pgtiou = request.GET.get('pgtIou')
 
