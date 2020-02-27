@@ -176,4 +176,4 @@ here. For additional detail, read the complete `commit history`_.
 **django-cas-ng 3.1.0** ``[2014-05-25]``
    * Support Django 1.5 custom user model.
 
-.. _commit history: https://github.com/mingchen/django-cas-ng/commits
+.. _commit history: https://github.com/django-cas-ng/django-cas-ng/commits
