@@ -97,6 +97,8 @@ html_theme_options = {
 
 html_show_sourcelink = False
 
+html_show_sphinx = False
+
 # https://pypi.org/project/sphinx-sitemap/
 html_baseurl = 'https://djangocas.dev/docs/'
 
