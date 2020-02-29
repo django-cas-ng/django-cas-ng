@@ -4,7 +4,7 @@ Signals
 *Signals* allow decoupled applications get notified when actions occur elsewhere in the framework.
 In a nutshell, signals allow certain senders to notify a set of receivers that some action has taken place.
 
-*django-cas-ng* defined two signals:
+*django-cas-ng* defines two signals:
 
 * `cas_user_authenticated`
 * `cas_user_logout`
@@ -17,25 +17,25 @@ Sent on successful authentication, the ``CASBackend`` will fire the ``cas_user_a
 **Arguments sent with this signal**
 
 **sender**
-  The authentication backend instance that authenticated the user.
+  [CASBackend] The authentication backend instance that authenticated the user.
 
 **user**
-  The user instance that was just authenticated.
+  [str] The user instance that was just authenticated.
 
 **created**
-  Boolean as to whether the user was just created.
+  [bool] Boolean as to whether the user was just created.
 
 **attributes**
-  Attributes returned during by the CAS during authentication.
+  [Dict] Attributes returned during by the CAS during authentication.
 
 **ticket**
-  The ticket used to authenticate the user with the CAS.
+  [str] The ticket used to authenticate the user with the CAS.
 
 **service**
-  The service used to authenticate the user with the CAS.
+  [str] The service used to authenticate the user with the CAS.
 
 **request**
-  The request that was used to login.
+  [HttpRequest] The request that was used to login.
 
 
 django_cas_ng.signals.cas_user_logout
@@ -46,20 +46,21 @@ Sent on user logout. Will be fired over manual logout or logout via CAS SingleLo
 **Arguments sent with this signal**
 
 **sender**
-  ``manual`` if manual logout, ``slo`` on SingleLogOut
+  [str] ``manual`` if manual logout, ``slo`` on SingleLogOut
 
 **user**
-  The user instance that is logged out.
+  [str] The user instance that is logged out.
 
 **session**
-  The current session we are loging out.
+  [Session] The current session we are loging out.
 
 **ticket**
-  The ticket used to authenticate the user with the CAS. (if found, else value if set to ``None``)
+  [str] The ticket used to authenticate the user with the CAS.
+  (if found, else value if set to ``None``)
 
 
-Example
--------
+Receiver Example
+----------------
 
 Here is a simple example to use `@receiver` decorator to receive signals.
 
