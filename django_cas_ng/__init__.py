@@ -32,6 +32,7 @@ _DEFAULTS = {
     'CAS_VERIFY_SSL_CERTIFICATE': True,
     'CAS_LOCAL_NAME_FIELD': None,
     'CAS_FORCE_SSL_SERVICE_URL': False,
+    'CAS_CHECK_NEXT': True,
 }
 
 for key, value in list(_DEFAULTS.items()):

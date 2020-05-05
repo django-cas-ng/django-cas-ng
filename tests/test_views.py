@@ -7,7 +7,8 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from django.core.exceptions import PermissionDenied
 from django.test import RequestFactory
 from django_cas_ng.models import ProxyGrantingTicket, SessionTicket
-from django_cas_ng.views import CallbackView, LoginView, LogoutView, is_local_url
+from django_cas_ng.utils import RedirectException
+from django_cas_ng.views import CallbackView, LoginView, LogoutView, is_local_url, clean_next_page
 
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
@@ -41,6 +42,25 @@ def test_is_local_url():
     assert is_local_url('https://a.com/', '/path')
     assert is_local_url('https://a.com/', 'https://a.com')
     assert is_local_url('https://a.com/path', 'https://a.com/path/folder')
+
+
+def test_clean_next_page(rf):
+    request = rf.get('/login/')
+    next_page = clean_next_page(request=request, next_page='testserver/next/path')
+    assert next_page == 'testserver/next/path'
+
+
+def test_clean_next_page_invalid(rf):
+    request = rf.get('/login/')
+    with pytest.raises(RedirectException):
+        clean_next_page(request=request, next_page='http://invalid.com')
+
+
+def test_clean_next_page_invalid_override(rf, settings):
+    request = rf.get('/login/')
+    settings.CAS_CHECK_NEXT = False
+    next_page = clean_next_page(request=request, next_page='http://invalid.com')
+    assert next_page == 'http://invalid.com'
 
 
 @pytest.mark.django_db
