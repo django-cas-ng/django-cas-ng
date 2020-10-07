@@ -15,6 +15,11 @@ from django.contrib.sessions.backends.base import SessionBase
 from django.shortcuts import resolve_url
 
 
+class RedirectException(Exception):
+    """Signals that a redirect could not be handled."""
+    pass
+
+
 def get_protocol(request):
     """Returns 'http' or 'https' for the request protocol"""
     if request.is_secure():

@@ -30,6 +30,7 @@ from .utils import (
     get_redirect_url,
     get_service_url,
     get_user_from_session,
+    RedirectException
 )
 
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
@@ -46,7 +47,7 @@ def clean_next_page(request, next_page):
     is_safe = getattr(settings, 'CAS_CHECK_NEXT',
                       lambda _next_page: is_local_url(request.build_absolute_uri('/'), _next_page))
     if not is_safe(next_page):
-        raise Exception("Non-local url is forbidden to be redirected to.")
+        raise RedirectException("Non-local url is forbidden to be redirected to.")
     return next_page
 
 
