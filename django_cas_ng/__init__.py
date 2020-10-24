@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 __all__ = []
 
 _DEFAULTS = {
+    'CAS_ADMIN_REDIRECT': True,
     'CAS_ADMIN_PREFIX': None,
     'CAS_CREATE_USER': True,
     'CAS_LOGIN_URL_NAME': 'cas_ng_login',
