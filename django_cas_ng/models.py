@@ -17,7 +17,7 @@ class ProxyError(ValueError):
 class ProxyGrantingTicket(models.Model):
     class Meta:
         unique_together = ('session_key', 'user')
-    session_key = models.CharField(max_length=1025, blank=True, null=True)
+    session_key = models.CharField(max_length=1024, blank=True, null=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="+",
