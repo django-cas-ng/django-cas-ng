@@ -1,5 +1,5 @@
 import warnings
-from typing import Union
+from typing import Union, Optional
 from urllib import parse as urllib_parse
 
 from cas import CASClient
@@ -12,6 +12,7 @@ from django.contrib.auth import (
 )
 from django.contrib.auth.models import AnonymousUser, User
 from django.contrib.sessions.backends.base import SessionBase
+from django.http import HttpRequest
 from django.shortcuts import resolve_url
 
 
@@ -20,14 +21,14 @@ class RedirectException(Exception):
     pass
 
 
-def get_protocol(request):
+def get_protocol(request: HttpRequest) -> str:
     """Returns 'http' or 'https' for the request protocol"""
     if request.is_secure():
         return 'https'
     return 'http'
 
 
-def get_redirect_url(request):
+def get_redirect_url(request: HttpRequest) -> str:
     """Redirects to referring page, or CAS_REDIRECT_URL if no referrer is
     set.
     """
@@ -47,7 +48,7 @@ def get_redirect_url(request):
     return next_
 
 
-def get_service_url(request, redirect_to=None):
+def get_service_url(request: HttpRequest, redirect_to: Optional[str] = None) -> str:
     """Generates application django service URL for CAS"""
     if hasattr(django_settings, 'CAS_ROOT_PROXIED_AS'):
         service = urllib_parse.urljoin(django_settings.CAS_ROOT_PROXIED_AS, request.path)
@@ -71,7 +72,10 @@ def get_service_url(request, redirect_to=None):
     return service
 
 
-def get_cas_client(service_url=None, request=None):
+def get_cas_client(
+    service_url: Optional[str] = None,
+    request: Optional[HttpRequest] = None,
+) -> CASClient:
     """
     initializes the CASClient according to
     the CAS_* settigs
