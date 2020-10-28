@@ -7,9 +7,9 @@ Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
 **django-cas-ng 4.1.1** ``[2020-02-26]``
-
   * PR #246: Mark package as PEP 561 typing compliant. @intgr
   * PR #247: Improved type annotations. @intgr
+  * Add russian and ukranian translations.
 
 **django-cas-ng 4.1.0** ``[2020-02-25]``
 
