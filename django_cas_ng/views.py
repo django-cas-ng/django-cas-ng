@@ -22,7 +22,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import ProxyGrantingTicket, SessionTicket
+from .models import ProxyGrantingTicket, SessionTicket, SESSION_KEY_MAXLENGTH
 from .signals import cas_user_logout
 from .utils import (
     get_cas_client,
@@ -136,16 +136,22 @@ class LoginView(View):
         pgtiou = request.session.get("pgtiou")
         if user is not None:
             auth_login(request, user)
-            if not request.session.exists(request.session.session_key):
+
+            # Truncate session key to a max of its value length.
+            # When using the signed_cookies session backend, the
+            # session key can potentially be longer than this.
+            session_key = request.session.session_key[:SESSION_KEY_MAXLENGTH]
+
+            if not request.session.exists(session_key):
                 request.session.create()
 
             try:
-                st = SessionTicket.objects.get(session_key=request.session.session_key)
+                st = SessionTicket.objects.get(session_key=session_key)
                 st.ticket = ticket
                 st.save()
             except SessionTicket.DoesNotExist:
                 SessionTicket.objects.create(
-                    session_key=request.session.session_key,
+                    session_key=session_key,
                     ticket=ticket
                 )
 
@@ -153,13 +159,13 @@ class LoginView(View):
                 # Delete old PGT
                 ProxyGrantingTicket.objects.filter(
                     user=user,
-                    session_key=request.session.session_key
+                    session_key=session_key
                 ).delete()
                 # Set new PGT ticket
                 try:
                     pgt = ProxyGrantingTicket.objects.get(pgtiou=pgtiou)
                     pgt.user = user
-                    pgt.session_key = request.session.session_key
+                    pgt.session_key = session_key
                     pgt.save()
                 except ProxyGrantingTicket.DoesNotExist:
                     pass
@@ -188,8 +194,16 @@ class LogoutView(View):
         next_page = clean_next_page(request, request.GET.get('next'))
 
         # try to find the ticket matching current session for logout signal
+
+        # Truncate session key to a max of its value length
+        # When using the signed_cookies session backend, the
+        # session key can potentially be longer than this.
+        session_key = None
+        if request.session and request.session.session_key:
+            session_key = request.session.session_key[:SESSION_KEY_MAXLENGTH]
+
         try:
-            st = SessionTicket.objects.get(session_key=request.session.session_key)
+            st = SessionTicket.objects.get(session_key=session_key)
             ticket = st.ticket
         except SessionTicket.DoesNotExist:
             ticket = None
@@ -202,8 +216,8 @@ class LogoutView(View):
         )
 
         # clean current session ProxyGrantingTicket and SessionTicket
-        ProxyGrantingTicket.objects.filter(session_key=request.session.session_key).delete()
-        SessionTicket.objects.filter(session_key=request.session.session_key).delete()
+        ProxyGrantingTicket.objects.filter(session_key=session_key).delete()
+        SessionTicket.objects.filter(session_key=session_key).delete()
         auth_logout(request)
 
         next_page = next_page or get_redirect_url(request)
