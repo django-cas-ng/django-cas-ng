@@ -10,6 +10,9 @@ from .utils import get_cas_client, get_user_from_session
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
 
+SESSION_KEY_MAXLENGTH = 1024
+
+
 class ProxyError(ValueError):
     pass
 
@@ -17,7 +20,9 @@ class ProxyError(ValueError):
 class ProxyGrantingTicket(models.Model):
     class Meta:
         unique_together = ('session_key', 'user')
-    session_key = models.CharField(max_length=1024, blank=True, null=True)
+    session_key = models.CharField(
+        max_length=SESSION_KEY_MAXLENGTH,
+        blank=True, null=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="+",
@@ -45,7 +50,10 @@ class ProxyGrantingTicket(models.Model):
         The function return a Proxy Ticket or raise `ProxyError`
         """
         try:
-            pgt = cls.objects.get(user=request.user, session_key=request.session.session_key).pgt
+            pgt = cls.objects.get(
+                user=request.user,
+                session_key=request.session.session_key[:SESSION_KEY_MAXLENGTH]
+            ).pgt
         except cls.DoesNotExist:
             raise ProxyError(
                 "INVALID_TICKET",
@@ -64,7 +72,7 @@ class ProxyGrantingTicket(models.Model):
 
 
 class SessionTicket(models.Model):
-    session_key = models.CharField(max_length=1024)
+    session_key = models.CharField(max_length=SESSION_KEY_MAXLENGTH)
     ticket = models.CharField(max_length=255)
 
     @classmethod
