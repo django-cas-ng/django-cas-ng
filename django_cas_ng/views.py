@@ -113,7 +113,7 @@ class LoginView(View):
 
         if not next_page and settings.CAS_STORE_NEXT and 'CASNEXT' in request.session:
             next_page = request.session['CASNEXT']
-            del request.session['CASNEXT']
+            request.session['CASNEXT'] = None
 
         if not next_page:
             next_page = get_redirect_url(request)
