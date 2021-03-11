@@ -1,5 +1,5 @@
 import warnings
-from typing import Union, Optional
+from typing import Optional, Union
 from urllib import parse as urllib_parse
 
 from cas import CASClient

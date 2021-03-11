@@ -8,6 +8,7 @@ from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.models import User
 from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpRequest
+
 from django_cas_ng.signals import cas_user_authenticated
 
 from .utils import get_cas_client

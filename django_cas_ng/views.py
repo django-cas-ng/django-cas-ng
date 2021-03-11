@@ -22,15 +22,15 @@ from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import ProxyGrantingTicket, SessionTicket, SESSION_KEY_MAXLENGTH
+from .models import SESSION_KEY_MAXLENGTH, ProxyGrantingTicket, SessionTicket
 from .signals import cas_user_logout
 from .utils import (
+    RedirectException,
     get_cas_client,
     get_protocol,
     get_redirect_url,
     get_service_url,
     get_user_from_session,
-    RedirectException
 )
 
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
