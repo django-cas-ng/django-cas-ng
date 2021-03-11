@@ -257,7 +257,7 @@ def test_login_redirect_based_on_cookie(monkeypatch, django_user_model, settings
     assert response.status_code == 302
     assert response['Location'] == '/admin/'
 
-    assert 'CASNEXT' not in request.session
+    assert request.session['CASNEXT'] is None
     assert django_user_model.objects.get(username='test@example.com').is_authenticated is True
 
 
