@@ -304,6 +304,18 @@ Force the service url to always target HTTPS by setting ``CAS_FORCE_SSL_SERVICE_
 
 The default is ``False``.
 
+
+``CAS_CHECK_NEXT`` [Optional]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Available in ``4.1.2``.
+
+The URL provided by `?next` is validated so that only local URLs are allowed. This check can be disabled by
+turning this setting to `False` (e.g. for local development).
+
+The default is ``True``.
+
+
 URL dispatcher
 ^^^^^^^^^^^^^^
 

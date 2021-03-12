@@ -22,15 +22,15 @@ from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import ProxyGrantingTicket, SessionTicket, SESSION_KEY_MAXLENGTH
+from .models import SESSION_KEY_MAXLENGTH, ProxyGrantingTicket, SessionTicket
 from .signals import cas_user_logout
 from .utils import (
+    RedirectException,
     get_cas_client,
     get_protocol,
     get_redirect_url,
     get_service_url,
     get_user_from_session,
-    RedirectException
 )
 
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
@@ -39,14 +39,9 @@ __all__ = ['LoginView', 'LogoutView', 'CallbackView']
 
 
 def clean_next_page(request, next_page):
-    """
-    set settings.CAS_CHECK_NEXT to lambda _: True if you want to bypass this check.
-    """
     if not next_page:
         return next_page
-    is_safe = getattr(settings, 'CAS_CHECK_NEXT',
-                      lambda _next_page: is_local_url(request.build_absolute_uri('/'), _next_page))
-    if not is_safe(next_page):
+    if settings.CAS_CHECK_NEXT and not is_local_url(request.build_absolute_uri('/'), next_page):
         raise RedirectException("Non-local url is forbidden to be redirected to.")
     return next_page
 
