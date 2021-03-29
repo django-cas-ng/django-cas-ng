@@ -468,3 +468,27 @@ def test_backend_user_can_authenticate_with_cas_username_attribute(monkeypatch, 
     )
 
     assert user is None
+
+
+@pytest.mark.django_db
+def test_backend_user_can_authenticate_with_cas_username_attribute(monkeypatch, settings):
+    """
+    Test CAS_USERNAME_ATTRIBUTE setting.
+    """
+    factory = RequestFactory()
+    request = factory.get('/login/')
+    request.session = {}
+
+    settings.CAS_USERNAME_ATTRIBUTE = 'cas:user'
+
+    # Test to make user we return the cas:user value and not an attibute named cas:user
+    def mock_verify(ticket, service):
+        return 'good', {'ticket': ticket, 'service': service, 'cas:user': 'bad'}, None
+
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
+
+    user = backends.CASBackend().authenticate(
+        request, ticket='fake-ticket', service='fake-service',
+    )
+
+    assert user.username == 'good'
