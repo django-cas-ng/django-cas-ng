@@ -471,7 +471,7 @@ def test_backend_user_can_authenticate_with_cas_username_attribute(monkeypatch, 
 
 
 @pytest.mark.django_db
-def test_backend_user_can_authenticate_with_cas_username_attribute(monkeypatch, settings):
+def test_backend_user_can_authenticate_with_cas_username_attribute2(monkeypatch, settings):
     """
     Test CAS_USERNAME_ATTRIBUTE setting.
     """

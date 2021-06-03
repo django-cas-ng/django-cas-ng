@@ -6,6 +6,27 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+**django-cas-ng 4.2.0** ``[2021-06-03]``
+
+* PR #285: Fix #284: Change default of CAS_USERNAME_ATTRIBUTE to cas:user @b4ldr
+* PR #282: Bugfix: Let checking of the "next" URL parameter be configurable @sebastianmanger
+* PR #278: Add Django 3.1 to tox @nikolas
+* PR #277: Fix tox isort command @nikolas
+* PR #276: Don't use 'del' statement, to fix deepsource error @nikolas
+* PR #275: Fix deepsource error @nikolas
+* PR #274: Truncate session key if it's longer than possible @nikolas
+* PR #273:  Remove Signal(providing_args=) argument, deprecated in Django 3.1 @intgr
+* PR #268: returned translations after merging a broken branch @jolob5l
+* PR #267: Add annotations for utils.py @jolob5l
+* PR #266: typing support @jolob5l
+* PR #265: Add russian and ukranian translations @jolob5l
+* PR #263: Fix typo in ProxyGrantingTicket.session_key max_length @nikolas
+* PR #262: Add the CAS_ADMIN_REDIRECT option to disable admin redirect @nikolas
+* PR #261: Increase session_key size to account for signed cookies - closes #260 @nikolas
+* PR #259: Change thrown exception to specific type @spielmannj
+* PR #258: Fix: v1 cas client create error @ibuler
+* PR #257: Fix: urljoin @LeoSirius
+
 **django-cas-ng 4.1.1** ``[2020-02-26]``
   * PR #246: Mark package as PEP 561 typing compliant. @intgr
   * PR #247: Improved type annotations. @intgr
