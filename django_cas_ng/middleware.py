@@ -49,8 +49,8 @@ class CASMiddleware(MiddlewareMixin):
             if settings.CAS_ADMIN_PREFIX:
                 if not request.path.startswith(settings.CAS_ADMIN_PREFIX):
                     return None
-                elif not view_func.__module__.startswith('django.contrib.admin.'):
-                    return None
+            elif not view_func.__module__.startswith('django.contrib.admin.'):
+                return None
         else:
             return None
 
