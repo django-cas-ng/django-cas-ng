@@ -6,6 +6,10 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+**django-cas-ng 4.2.0** ``[2021-06-11]``
+
+* PR #290: Fix #289 Change in conditional in Middleware to avoid infinite redirects @elyak123
+
 **django-cas-ng 4.2.0** ``[2021-06-03]``
 
 * PR #285: Fix #284: Change default of CAS_USERNAME_ATTRIBUTE to cas:user @b4ldr
