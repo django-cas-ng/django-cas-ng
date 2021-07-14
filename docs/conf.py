@@ -37,7 +37,7 @@ extensions = [
     'sphinx.ext.napoleon',  # Support for NumPy and Google style docstrings
     'sphinx.ext.viewcode',  # Generate HTML highlighted source code
     'sphinx_sitemap',
-    'm2r'
+    'm2r2'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
