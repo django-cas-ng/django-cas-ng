@@ -73,7 +73,7 @@ class ProxyGrantingTicket(models.Model):
 
 class SessionTicket(models.Model):
     session_key = models.CharField(max_length=SESSION_KEY_MAXLENGTH)
-    ticket = models.CharField(max_length=255)
+    ticket = models.CharField(max_length=1024)
 
     @classmethod
     def clean_deleted_sessions(cls) -> None:
