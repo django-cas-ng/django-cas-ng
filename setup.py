@@ -50,7 +50,7 @@ setup(
     python_requires=">=3.5",
     install_requires=[
         'Django>=2.0',
-        'python-cas>=1.4.0',
+        'python-cas>=1.6.0',
     ],
     zip_safe=False,  # dot not package as egg or django will not found management commands
 )

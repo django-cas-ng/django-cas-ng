@@ -33,6 +33,7 @@ _DEFAULTS = {
     'CAS_LOCAL_NAME_FIELD': None,
     'CAS_FORCE_SSL_SERVICE_URL': False,
     'CAS_CHECK_NEXT': True,
+    'CAS_SESSION_FACTORY': None,
 }
 
 for key, value in list(_DEFAULTS.items()):

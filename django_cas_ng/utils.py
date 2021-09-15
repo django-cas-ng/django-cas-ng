@@ -105,6 +105,8 @@ def get_cas_client(
         proxy_callback=django_settings.CAS_PROXY_CALLBACK,
         verify_ssl_certificate=django_settings.CAS_VERIFY_SSL_CERTIFICATE
     )
+    if django_settings.CAS_SESSION_FACTORY:
+        kwargs['session'] = django_settings.CAS_SESSION_FACTORY()
     if django_settings.CAS_VERSION == 1:
         kwargs.pop('proxy_callback')
 

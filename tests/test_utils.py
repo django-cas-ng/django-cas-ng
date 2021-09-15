@@ -1,5 +1,8 @@
+from unittest.mock import Mock
+
+import requests
 from django.test import RequestFactory
-from django_cas_ng.utils import get_redirect_url, get_service_url
+from django_cas_ng.utils import get_redirect_url, get_service_url, get_cas_client
 
 
 #
@@ -193,3 +196,13 @@ def test_redirect_url_next_no_named_pattern(settings):
     expected = 'home'
 
     assert actual == expected
+
+
+def test_session_factory(settings):
+    session = requests.Session()
+    settings.CAS_SESSION_FACTORY = Mock(return_value=session)
+
+    client = get_cas_client()
+
+    assert settings.CAS_SESSION_FACTORY.called
+    assert client.session is session
