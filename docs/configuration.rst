@@ -316,6 +316,31 @@ turning this setting to `False` (e.g. for local development).
 The default is ``True``.
 
 
+``CAS_SESSION_FACTORY`` [Optional]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Available in ``4.2.2``.
+
+Can be a callable that returns a ``requests.Session`` instance. This can be used to to change behaviors when
+doing HTTP requests via the underlying ``requests`` library, such as HTTP headers, proxies, hooks and more.
+See `requests library documentation`_ for more details.
+
+The default is ``None``.
+
+Example usage:
+
+..  code-block:: python
+
+    from requests import Session
+
+    def cas_get_session():
+        session = Session()
+        session.proxies["https"] = "http://proxy.example.org:3128"
+        return session
+
+    CAS_SESSION_FACTORY = cas_get_session
+
+
 URL dispatcher
 ^^^^^^^^^^^^^^
 
@@ -382,3 +407,4 @@ Users should now be able to log into your site using CAS.
 
 .. _simplified URL routing syntax: https://docs.djangoproject.com/en/dev/releases/2.0/#simplified-url-routing-syntax
 .. _clearsessions: https://docs.djangoproject.com/en/1.8/topics/http/sessions/#clearing-the-session-store
+.. _requests library documentation: https://docs.python-requests.org/en/master/user/advanced/#session-objects
