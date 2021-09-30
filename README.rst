@@ -21,9 +21,10 @@ library to support SSO (Single Sign On) and Single Logout (SLO).
 
 It supports Django 2.0, 2.1, 2.2, 3.0 and Python 3.5+!
 
-This project inherits from `django-cas`_ (which has not been updated since
-April 2013) at 2014. The `ng` stands for "next generation".
-Our fork will include bugfixes and new features contributed by the community.
+**NOTE:**
+
+Since there is no more further CAS protocol development,
+Code in this repo is stable and in maintain mode, accept PR for bugfix and minor enhancement.
 
 Document
 --------
