@@ -1,8 +1,5 @@
 django-cas-ng
 =============
-
-.. image:: https://travis-ci.org/django-cas-ng/django-cas-ng.svg?branch=master
-    :target: https://travis-ci.org/django-cas-ng/django-cas-ng
 .. image:: https://img.shields.io/pypi/v/django-cas-ng.svg
     :target: https://pypi.org/project/django-cas-ng/
 .. image:: https://img.shields.io/pypi/pyversions/django-cas-ng.svg
@@ -11,10 +8,6 @@ django-cas-ng
     :target: https://codecov.io/gh/django-cas-ng/django-cas-ng
 .. image:: https://static.deepsource.io/deepsource-badge-light-mini.svg
     :target: https://deepsource.io/gh/django-cas-ng/django-cas-ng/?ref=repository-badge
-.. image:: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
-    :target: https://travis-ci.org/django-cas-ng/django-cas-ng/pull/new
-.. image:: https://img.shields.io/badge/maintainers-wanted-red.svg
-    :target: https://travis-ci.org/django-cas-ng/django-cas-ng
 
 `django-cas-ng`_ is Django CAS (Central Authentication Service) 1.0/2.0/3.0 client
 library to support SSO (Single Sign On) and Single Logout (SLO).
