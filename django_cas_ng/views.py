@@ -132,6 +132,10 @@ class LoginView(View):
         if user is not None:
             auth_login(request, user)
 
+            # from https://code.djangoproject.com/ticket/19147
+            if not request.session.session_key:
+                request.session.save()
+
             # Truncate session key to a max of its value length.
             # When using the signed_cookies session backend, the
             # session key can potentially be longer than this.
