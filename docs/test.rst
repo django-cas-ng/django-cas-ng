@@ -2,11 +2,6 @@
 Test
 ====
 
-.. image:: https://travis-ci.org/django-cas-ng/django-cas-ng.svg?branch=master
-    :target: https://travis-ci.org/django-cas-ng/django-cas-ng
-
-Every code commit triggers a **travis-ci** build. checkout current build status at https://travis-ci.org/django-cas-ng/django-cas-ng
-
 Testing is managed by ``pytest`` and ``tox``.
 
 Before run install, you need install required packages for testing::
@@ -35,12 +30,6 @@ tox.ini - tox Configuration Reference
 -------------------------------------
 
 .. literalinclude:: ../tox.ini
-   :language: ini
-
-.travis.yml - travis-ci Configuration Reference
------------------------------------------------
-
-.. literalinclude:: ../.travis.yml
    :language: ini
 
 Tests Module Reference
