@@ -89,7 +89,7 @@ The default is ``False``.
 Welcome message send via the messages framework upon
 successful authentication. Take the user login as formatting argument.
 
-You cas disable it by setting this parametter to ``None``
+You can disable it by setting this parameter to ``None``
 
 The default is ``"Login succeeded. Welcome, %s."`` or some translation of it
 if you have enabled django internationalization (``USE_I18N = True``)
@@ -102,7 +102,7 @@ Welcome message send via the messages framework upon
 authentication attempt if the user is already authenticated.
 Take the user login as formatting argument.
 
-You cas disable it by setting this parametter to ``None``
+You can disable it by setting this parameter to ``None``
 
 The default is ``"You are logged in as %s."`` or some translation of it
 if you have enabled django internationalization (``USE_I18N = True``)
