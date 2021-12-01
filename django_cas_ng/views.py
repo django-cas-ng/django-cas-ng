@@ -221,8 +221,11 @@ class LogoutView(View):
 
         next_page = next_page or get_redirect_url(request)
         if settings.CAS_LOGOUT_COMPLETELY:
-            protocol = get_protocol(request)
-            host = request.get_host()
+            if hasattr(settings, 'CAS_ROOT_PROXIED_AS'):
+                protocol, host, _, _, _, _ = urllib_parse.urlparse(settings.CAS_ROOT_PROXIED_AS)
+            else:
+                protocol = get_protocol(request)
+                host = request.get_host()
             redirect_url = urllib_parse.urlunparse(
                 (protocol, host, next_page, '', '', ''),
             )
