@@ -50,7 +50,7 @@ def get_redirect_url(request: HttpRequest) -> str:
 
 def get_service_url(request: HttpRequest, redirect_to: Optional[str] = None) -> str:
     """Generates application django service URL for CAS"""
-    if hasattr(django_settings, 'CAS_ROOT_PROXIED_AS'):
+    if hasattr(django_settings, 'CAS_ROOT_PROXIED_AS') and django_settings.CAS_ROOT_PROXIED_AS:
         service = urllib_parse.urljoin(django_settings.CAS_ROOT_PROXIED_AS, request.path)
     else:
         if django_settings.CAS_FORCE_SSL_SERVICE_URL:

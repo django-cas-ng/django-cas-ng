@@ -69,6 +69,22 @@ def test_service_url_root_proxied_as(settings):
     assert actual == expected
 
 
+def test_service_url_root_proxied_as_empty_string(settings):
+    """
+    If the settings module has the attribute CAS_ROOT_PROXIED_AS but its value
+    is an empty string (or another falsy value), we must make sure the setting
+    is not considered while constructing the redirect url.
+    """
+    settings.CAS_ROOT_PROXIED_AS = ''
+
+    factory = RequestFactory()
+    request = factory.get('/login/')
+
+    actual = get_service_url(request)
+    expected = 'http://testserver/login/?next=%2F'
+    assert actual == expected
+
+
 def test_force_ssl_service_url(settings):
     settings.CAS_FORCE_SSL_SERVICE_URL = True
 

@@ -6,6 +6,10 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+**django-cas-ng x.y.z** ``[YYYY-MM-DD]``
+
+* PR #308: Improve redirect url when CAS_ROOT_PROXIED_AS is empty @mbaechtold
+
 **django-cas-ng 4.2.1** ``[2021-06-11]``
 
 * PR #290: Fix #289 Change in conditional in Middleware to avoid infinite redirects @elyak123
