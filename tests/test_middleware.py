@@ -6,7 +6,7 @@ from django_cas_ng.middleware import CASMiddleware
 
 def _process_view_with_middleware(
         middleware_cls, url, view_func):
-    middleware = middleware_cls()
+    middleware = middleware_cls(view_func)
     request_factory = RequestFactory()
     request = request_factory.get(url)
     request.user = AnonymousUser()

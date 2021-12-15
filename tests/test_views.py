@@ -15,7 +15,7 @@ SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
 # function takes a request and applies a middleware process
 def process_request_for_middleware(request, middleware):
-    middleware = middleware()
+    middleware = middleware("response")
     middleware.process_request(request)
 
 

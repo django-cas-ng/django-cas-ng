@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.http.response import HttpResponseBase
-from django.utils.http import urlquote
+from urllib.parse import quote
 
 __all__ = ['login_required', 'permission_required', 'user_passes_test']
 # Retains the arguments and return type of original decorated function
@@ -40,7 +40,7 @@ def user_passes_test(test_func: Callable[[User], bool],
                 raise PermissionDenied
 
             path = '%s?%s=%s' % (login_url, redirect_field_name,
-                                 urlquote(request.get_full_path()))
+                                 quote(request.get_full_path()))
             return HttpResponseRedirect(path)
         return wrapper
     return decorator
