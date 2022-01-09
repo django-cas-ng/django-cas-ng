@@ -6,9 +6,17 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
-**django-cas-ng x.y.z** ``[YYYY-MM-DD]``
+**django-cas-ng 4.3.0** ``[2022-01-08]``
 
 * PR #308: Improve redirect url when CAS_ROOT_PROXIED_AS is empty @mbaechtold
+* PR #307: Fix #306 the logout service url when using `CAS_ROOT_PROXIED_AS` @doomse
+* Add compatibility with Django 4.0. @mbaechtold
+* PR #305: Fix #304: warning on system check from Django 3.2 @corralien
+* PR #303: Remove unused travis files@nikolas
+* PR #302: Add django 3.2 and py3.9/3.10 testing @nikolas
+* PR #298: Add CAS_SESSION_FACTORY setting to  allow customizing requests Session @intgr
+* PR #296: Fix #281: session.session_key is None for signed_cookies sessions on first request @davidmgvaz
+* PR #295: Fix #294 DataError at /accounts/login/ value too long
 
 **django-cas-ng 4.2.1** ``[2021-06-11]``
 
