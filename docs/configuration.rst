@@ -218,10 +218,12 @@ The default is ``'2'``.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The CAS user name attribute from response.
-The default behaviour is to map the cas:user value to the django username.  This attribute allows
-one to override this behaviour and map a different attribute to the username e.g. mail, cn or uid
-This feature is not available when ``CAS_VERSION`` is ``'CAS_2_SAML_1_0'``.
-Note that the attribute is checked before ``CAS_RENAME_ATTRIBUTES`` is applied.
+The default behaviour is to map the cas:user value to the django
+username.  This attribute allows one to override this behaviour and
+map a different attribute to the username e.g. mail, cn or uid.
+This feature is not available when ``CAS_VERSION`` is
+``'CAS_2_SAML_1_0'``.  Note that the attribute is checked before
+``CAS_RENAME_ATTRIBUTES`` is applied.
 
 The default is ``cas:user``.
 
