@@ -78,7 +78,7 @@ def get_cas_client(
 ) -> CASClient:
     """
     initializes the CASClient according to
-    the CAS_* settigs
+    the CAS_* settings
     """
     # Handle CAS_SERVER_URL without protocol and hostname
     server_url = django_settings.CAS_SERVER_URL
