@@ -79,7 +79,7 @@ html_theme = 'custom_sphinx_rtd_theme'
 html_theme_path = ["_themes", ]
 
 html_theme_options = {
-    'canonical_url': 'https://djangocas.dev/docs/' + version + '/',
+    'canonical_url': 'https://djangocas.dev/docs/latest/',
     'analytics_id': 'UA-156453684-1',
     # 'logo_only': False,
     'display_version': True,
