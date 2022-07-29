@@ -1,7 +1,7 @@
 sphinx==4.4.0
 sphinx-rtd-theme==0.4.3
 sphinx-sitemap==1.1.0
-mistune==0.8.4  # required by m2r.
+mistune==2.0.3  # required by m2r.
 m2r==0.2.1
 m2r2==0.3.2
 pytest  # autodoc tests package have a dependence on pytest
