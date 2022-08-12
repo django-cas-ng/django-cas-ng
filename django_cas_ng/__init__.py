@@ -34,6 +34,7 @@ _DEFAULTS = {
     'CAS_FORCE_SSL_SERVICE_URL': False,
     'CAS_CHECK_NEXT': True,
     'CAS_SESSION_FACTORY': None,
+    'CAS_MAP_AFFILIATIONS': False,
 }
 
 for key, value in list(_DEFAULTS.items()):

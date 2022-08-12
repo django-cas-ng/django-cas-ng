@@ -5,7 +5,7 @@ from typing import Mapping, Optional
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpRequest
 
@@ -87,6 +87,14 @@ class CASBackend(ModelBackend):
 
         if pgtiou and settings.CAS_PROXY_CALLBACK and request:
             request.session['pgtiou'] = pgtiou
+
+        # Map CAS affiliations to Django groups
+        if settings.CAS_MAP_AFFILIATIONS and user and attributes:
+            affils = attributes.get('affiliation', [])
+            for affil in affils:
+                if affil:
+                    g = Group.objects.get_or_create(affil)
+                    user.groups.add(g)
 
         if settings.CAS_APPLY_ATTRIBUTES_TO_USER and attributes:
             # If we are receiving None for any values which cannot be NULL
