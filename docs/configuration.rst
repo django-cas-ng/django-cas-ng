@@ -343,6 +343,16 @@ Example usage:
     CAS_SESSION_FACTORY = cas_get_session
 
 
+``CAS_MAP_AFFILIATIONS`` [Optional]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If ``True``, django-cas-ng will create a Django group for each
+``affiliation`` that the CAS server associates with the user, during
+the authentication process.
+
+The default is ``False``.
+
+
 URL dispatcher
 ^^^^^^^^^^^^^^
 
