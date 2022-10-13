@@ -226,6 +226,11 @@ class LogoutView(View):
             else:
                 protocol = get_protocol(request)
                 host = request.get_host()
+
+            absolute_url = request.build_absolute_uri('/')
+            if next_page.startswith(absolute_url):
+                next_page = next_page.replace(absolute_url, '', 1)
+
             redirect_url = urllib_parse.urlunparse(
                 (protocol, host, next_page, '', '', ''),
             )
