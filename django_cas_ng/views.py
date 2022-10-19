@@ -221,19 +221,18 @@ class LogoutView(View):
 
         next_page = next_page or get_redirect_url(request)
         if settings.CAS_LOGOUT_COMPLETELY:
-            if hasattr(settings, 'CAS_ROOT_PROXIED_AS') and settings.CAS_ROOT_PROXIED_AS:
-                protocol, host, _, _, _, _ = urllib_parse.urlparse(settings.CAS_ROOT_PROXIED_AS)
+            if next_page.lower().startswith("https://") or next_page.lower().startswith("http://"):
+                redirect_url = next
             else:
-                protocol = get_protocol(request)
-                host = request.get_host()
+                if hasattr(settings, 'CAS_ROOT_PROXIED_AS') and settings.CAS_ROOT_PROXIED_AS:
+                    protocol, host, _, _, _, _ = urllib_parse.urlparse(settings.CAS_ROOT_PROXIED_AS)
+                else:
+                    protocol = get_protocol(request)
+                    host = request.get_host()
 
-            absolute_url = request.build_absolute_uri('/')
-            if next_page.startswith(absolute_url):
-                next_page = next_page.replace(absolute_url, '', 1)
-
-            redirect_url = urllib_parse.urlunparse(
-                (protocol, host, next_page, '', '', ''),
-            )
+                redirect_url = urllib_parse.urlunparse(
+                    (protocol, host, next_page, '', '', ''),
+                )
             client = get_cas_client(request=request)
             return HttpResponseRedirect(client.get_logout_url(redirect_url))
 
