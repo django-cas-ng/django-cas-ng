@@ -497,7 +497,7 @@ def test_backend_user_can_authenticate_with_cas_username_attribute2(monkeypatch,
 @pytest.mark.django_db
 def test_backend_user_can_map_cas_affils(monkeypatch, settings):
     """
-    Test CAS_USERNAME_ATTRIBUTE setting.
+    Test CAS_MAP_AFFILIATIONS setting.
     """
     factory = RequestFactory()
     request = factory.get('/login/')
@@ -518,3 +518,7 @@ def test_backend_user_can_map_cas_affils(monkeypatch, settings):
     # Checking user data
     assert user is not None
     assert user.groups.count() == 2
+
+    group_names = [g.name for g in user.groups.all()]
+    assert 'affil_group1' in group_names
+    assert 'affil_group2' in group_names
