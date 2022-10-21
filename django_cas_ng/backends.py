@@ -93,7 +93,7 @@ class CASBackend(ModelBackend):
             affils = attributes.get('affiliation', [])
             for affil in affils:
                 if affil:
-                    g = Group.objects.get_or_create(affil)
+                    g, created = Group.objects.get_or_create(name=affil)
                     user.groups.add(g)
 
         if settings.CAS_APPLY_ATTRIBUTES_TO_USER and attributes:
