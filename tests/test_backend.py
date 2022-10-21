@@ -492,3 +492,29 @@ def test_backend_user_can_authenticate_with_cas_username_attribute2(monkeypatch,
     )
 
     assert user.username == 'good'
+
+
+@pytest.mark.django_db
+def test_backend_user_can_map_cas_affils(monkeypatch, settings):
+    """
+    Test CAS_USERNAME_ATTRIBUTE setting.
+    """
+    factory = RequestFactory()
+    request = factory.get('/login/')
+    request.session = {}
+
+    def mock_verify(ticket, service):
+        return 'test@example.com', \
+            {'affiliation': ['affil_group1', 'affil_group2']}, \
+            None
+
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
+    settings.CAS_MAP_AFFILIATIONS = True
+
+    user = backends.CASBackend().authenticate(
+        request, ticket='fake-ticket', service='fake-service',
+    )
+
+    # Checking user data
+    assert user is not None
+    assert user.groups.count() == 2
