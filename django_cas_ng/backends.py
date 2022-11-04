@@ -96,9 +96,9 @@ class CASBackend(ModelBackend):
                     g, created = Group.objects.get_or_create(name=affil)
                     user.groups.add(g)
 
-        if settings.CAS_AFFILIATION_HANDLERS and user and attributes:
+        if settings.CAS_AFFILIATIONS_HANDLERS and user and attributes:
             affils = attributes.get('affiliation', [])
-            for handler in settings.CAS_AFFILIATION_HANDLERS:
+            for handler in settings.CAS_AFFILIATIONS_HANDLERS:
                 if (callable(handler)):
                     handler(user, affils)
 
