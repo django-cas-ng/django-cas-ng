@@ -96,6 +96,12 @@ class CASBackend(ModelBackend):
                     g, created = Group.objects.get_or_create(name=affil)
                     user.groups.add(g)
 
+        if settings.CAS_AFFILIATION_HANDLERS and user and attributes:
+            affils = attributes.get('affiliation', [])
+            for handler in settings.CAS_AFFILIATION_HANDLERS:
+                if (callable(handler)):
+                    handler(user, affils)
+
         if settings.CAS_APPLY_ATTRIBUTES_TO_USER and attributes:
             # If we are receiving None for any values which cannot be NULL
             # in the User model, set them to an empty string instead.
