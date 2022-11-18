@@ -365,12 +365,10 @@ URL dispatcher
 ^^^^^^^^^^^^^^
 
 Make sure your project knows how to log users in and out by adding these to
-your URL mappings, noting the `simplified URL routing syntax`_ in Django 2.0
-and later:
+your URL mappings:
 
 ..  code-block:: python
 
-    # Django 2.0+
     from django.urls import path
     import django_cas_ng.views
 
@@ -379,19 +377,6 @@ and later:
 	path('accounts/login', django_cas_ng.views.LoginView.as_view(), name='cas_ng_login'),
         path('accounts/logout', django_cas_ng.views.LogoutView.as_view(), name='cas_ng_logout'),
     ]
-
-..  code-block:: python
-
-    # Django < 2.0
-    from django.conf.urls import url
-    import django_cas_ng.views
-
-    urlpatterns = [
-        # ...
-        url(r'^accounts/login$', django_cas_ng.views.LoginView.as_view(), name='cas_ng_login'),
-        url(r'^accounts/logout$', django_cas_ng.views.LogoutView.as_view(), name='cas_ng_logout'),
-    ]
-
 
 If you use the middleware, the ``login`` and ``logout`` url must be given the
 name ``cas_ng_login`` and ``cas_ng_logout`` or it will create redirection
@@ -402,13 +387,7 @@ configured:
 
 ..  code-block:: python
 
-    # Django 2.0+
     path('accounts/callback', django_cas_ng.views.CallbackView.as_view(), name='cas_ng_proxy_callback'),
-
-..  code-block:: python
-
-    # Django < 2.0
-    url(r'^accounts/callback$', django_cas_ng.views.CallbackView.as_view(), name='cas_ng_proxy_callback'),
 
 
 Database
