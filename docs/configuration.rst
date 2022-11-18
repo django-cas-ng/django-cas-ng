@@ -273,14 +273,6 @@ For example, if ``CAS_RENAME_ATTRIBUTES = {'ln':'last_name'}`` the ``ln`` attrib
 will be renamed as ``last_name``. Used with ``CAS_APPLY_ATTRIBUTES_TO_USER = True``, this provides an easy way
 to fill in Django Users' info independently from the attributes' keys returned by the CAS server.
 
-``CAS_AFFILIATION_HANDLERS`` [Optional]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This is an optional list of functions to apply to the user's CAS
-affiliations. The callback is: ``handler(user, affils)``.
-
-The default is ``[]``.
-
 
 ``CAS_VERIFY_SSL_CERTIFICATE`` [Optional]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -359,6 +351,15 @@ If ``True``, django-cas-ng will create a Django group for each
 the authentication process.
 
 The default is ``False``.
+
+
+``CAS_AFFILIATIONS_HANDLERS`` [Optional]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This is an optional list of functions to apply to the user's CAS
+affiliations. The callback is: ``handler(user, affils)``.
+
+The default is ``[]``.
 
 
 URL dispatcher

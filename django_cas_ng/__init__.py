@@ -28,7 +28,6 @@ _DEFAULTS = {
     'CAS_STORE_NEXT': False,
     'CAS_APPLY_ATTRIBUTES_TO_USER': False,
     'CAS_RENAME_ATTRIBUTES': {},
-    'CAS_AFFILIATION_HANDLERS': [],
     'CAS_CREATE_USER_WITH_ID': False,
     'CAS_VERIFY_SSL_CERTIFICATE': True,
     'CAS_LOCAL_NAME_FIELD': None,
@@ -36,6 +35,7 @@ _DEFAULTS = {
     'CAS_CHECK_NEXT': True,
     'CAS_SESSION_FACTORY': None,
     'CAS_MAP_AFFILIATIONS': False,
+    'CAS_AFFILIATIONS_HANDLERS': [],
 }
 
 for key, value in list(_DEFAULTS.items()):
