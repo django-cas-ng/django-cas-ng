@@ -10,7 +10,7 @@ from .utils import get_cas_client, get_user_from_session
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
 
-SESSION_KEY_MAXLENGTH = 1024
+SESSION_KEY_MAXLENGTH = 768
 
 
 class ProxyError(ValueError):
