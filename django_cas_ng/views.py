@@ -100,7 +100,13 @@ class LoginView(View):
         :param request:
         :return:
         """
-        next_page = clean_next_page(request, request.GET.get('next'))
+        next_url = getattr(
+            settings,
+            "CAS_LOGIN_NEXT_PAGE",
+            request.GET.get("next"),
+        )
+        next_page = clean_next_page(request, next_url)
+
         required = request.GET.get('required', False)
 
         service_url = get_service_url(request, next_page)
@@ -190,7 +196,12 @@ class LogoutView(View):
         :param request:
         :return:
         """
-        next_page = clean_next_page(request, request.GET.get('next'))
+        next_url = getattr(
+            settings,
+            "CAS_LOGOUT_NEXT_PAGE",
+            request.GET.get("next"),
+        )
+        next_page = clean_next_page(request, next_url)
 
         # try to find the ticket matching current session for logout signal
 
