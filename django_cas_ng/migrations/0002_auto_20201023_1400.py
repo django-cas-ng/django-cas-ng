@@ -13,11 +13,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='proxygrantingticket',
             name='session_key',
-            field=models.CharField(blank=True, max_length=1024, null=True),
+            field=models.CharField(blank=True, max_length=736, null=True),
         ),
         migrations.AlterField(
             model_name='sessionticket',
             name='session_key',
-            field=models.CharField(max_length=1024),
+            field=models.CharField(max_length=736),
         ),
     ]
