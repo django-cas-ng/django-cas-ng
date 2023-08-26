@@ -373,6 +373,24 @@ affiliations. The callback is: ``handler(user, affils)``.
 
 The default is ``[]``.
 
+``CAS_LOGIN_NEXT_PAGE`` [Optional]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The relative path where to send a user after logging in.
+It may be different than CAS_REDIRECT_URL, for example if you want to use a
+specific callback function.
+
+The default is ``None``.
+
+``CAS_LOGOUT_NEXT_PAGE`` [Optional]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The relative path where to send a user after logging out.
+It may be different than CAS_REDIRECT_URL, for example if you want to use a
+specific callback function.
+
+The default is ``None``.
+
 
 URL dispatcher
 ^^^^^^^^^^^^^^

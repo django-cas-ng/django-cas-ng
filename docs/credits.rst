@@ -22,6 +22,7 @@ Credits
 * `Peter Baehr`_
 * `laymonage`_
 * `Michael Phelps`_
+* `Alica Burlot`_
 
 .. _django-cas: https://bitbucket.org/cpcc/django-cas
 .. _Jasig CAS server: http://jasig.github.io/cas
@@ -44,3 +45,4 @@ Credits
 .. _Peter Baehr: https://github.com/pbaehr
 .. _laymonage: https://github.com/laymonage
 .. _Michael Phelps: https://github.com/nottheswimmer
+.. _Alica Burlot: https://github.com/B-Alica
