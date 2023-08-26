@@ -54,12 +54,24 @@ This is the only setting you must explicitly define.
 Set it to the base URL of your CAS source (e.g. https://account.example.com/cas/).
 
 
+``CAS_ADMIN_REDIRECT`` [Optional]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If ``True``, django-cas-ng will also take over the Django administration site.
+If you use a mix of CAS accounts and local Django accounts, and want to use
+the latter to log in to the administration site, you should set it to ``False``.
+
+The default is ``True``.
+
+
 ``CAS_ADMIN_PREFIX`` [Optional]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The URL prefix of the Django administration site.
 If undefined, the CAS middleware will check the view being rendered to
 see if it lives in ``django.contrib.admin.views``.
+
+If ``CAS_ADMIN_REDIRECT`` is ``False``, this option will be ignored.
 
 The default is ``None``.
 
