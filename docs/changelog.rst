@@ -6,6 +6,20 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+**django-cas-ng 5.0.0** ``[2023-09-05]``
+
+* PR #332: Allow custom "next_page" in LoginView and LogoutView get method @B-Alica
+* PR #334: Add doc CAS_ADMIN_REDIRECT @YDX-2147483647
+* PR #331 to close #317: Change session_key max length to 768 for utf8mb4
+* PR #330: Add testing on python 3.11 @nikolas
+* PR #330: Add testing on python 3.11 @nikolas
+* PR #326: Rename new setting to use AFFILIATIONS for consistency @nikolas
+* PR #327: Remove support for django 2.0 and 2.1 @nikolas
+* PR #325: Introduce new config setting CAS_AFFILIATION_HANDLERS @nikolas
+* PR #323: Remove python 3.5 @nikolas
+* PR #322: Fix bug where group creation in affils mapper failed @nikolas
+* PR #318: Add new CAS_MAP_AFFILIATIONS config option to support CAS affiliation - close #314 @nikolas
+
 **django-cas-ng 4.3.0** ``[2022-01-08]``
 
 * PR #308: Improve redirect url when CAS_ROOT_PROXIED_AS is empty @mbaechtold
