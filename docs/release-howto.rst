@@ -27,13 +27,15 @@ How To Make A Release
 7. Upload release to pypi.python.org
 
     # update setuptools if needed.
-    #pip install -U pip setuptools twine
-
-    pip install wheel
-    python setup.py sdist bdist_wheel upload
-
-    or
-
+    # pip install -U pip setuptools twine
+    #
+    # pip install wheel
+    # python setup.py sdist bdist_wheel upload
+    #
+    # or
+    #
+    # should always use `twine` to upload
+    #
     pip install twine
     python setup.py sdist bdist_wheel
     twine upload dist/django-cas-ng-4.3.0.tar.gz dist/django_cas_ng-4.3.0-py2.py3-none-any.whl
