@@ -6,6 +6,10 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+**django-cas-ng 5.0.1** ``[2023-10-07]``
+
+* PR #337: Typo in assigning redirect_url to next_page @jaumemoral
+
 **django-cas-ng 5.0.0** ``[2023-09-05]``
 
 * PR #332: Allow custom "next_page" in LoginView and LogoutView get method @B-Alica

@@ -7,6 +7,7 @@
 /dist/
 /docs/_build/
 /htmlcov/
+/venv/
 
 # Mac OS X garbage
 .DS_Store

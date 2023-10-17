@@ -7,6 +7,10 @@ How To Make A Release
 1. Update `docs/changelog.txt`
 2. Update version in `docs/conf.py`, `setup.py`.
 3. commit changes.
+
+    git add docs/changelog.rst docs/conf.py setup.py
+    git commit -m 'Release <version here>' docs/changelog.rst docs/conf.py setup.py
+
 4. Tag a version, e.g.
 
     git tag v3.2.0
