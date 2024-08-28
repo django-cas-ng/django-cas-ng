@@ -5,9 +5,9 @@ Features
 - Support Single Sign Out
 - Supports Token auth schemes
 - Supports fetch Proxy Granting Ticket (PGT)
-- Supports Django 2.2, 3.0, 3.1, 3.2 and 4.0
+- Supports Django 2.2 to 4.2
 - Supports using a `User custom model`_
-- Supports Python 3.7+
+- Supports Python 3.8+
 - Supports typing hints in public API
 
 .. _User custom model: https://docs.djangoproject.com/en/3.0/topics/auth/customizing/
