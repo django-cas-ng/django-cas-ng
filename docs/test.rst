@@ -2,7 +2,7 @@
 Test
 ====
 
-Testing is managed by ``pytest`` and ``tox``.
+Testing is managed by ``pytest``.
 
 Before run install, you need install required packages for testing::
 
@@ -21,16 +21,6 @@ To run testing on locally with code coverage::
     ...
     ...
     Coverage HTML written to dir htmlcov
-
-To run all testing on all environments locally::
-
-    $ tox
-
-tox.ini - tox Configuration Reference
--------------------------------------
-
-.. literalinclude:: ../tox.ini
-   :language: ini
 
 Tests Module Reference
 ----------------------
