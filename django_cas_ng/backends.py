@@ -90,14 +90,14 @@ class CASBackend(ModelBackend):
 
         # Map CAS affiliations to Django groups
         if settings.CAS_MAP_AFFILIATIONS and user and attributes:
-            affils = attributes.get('affiliation', [])
+            affils = attributes.get(settings.CAS_AFFILIATIONS_KEY, [])
             for affil in affils:
                 if affil:
                     g, created = Group.objects.get_or_create(name=affil)
                     user.groups.add(g)
 
         if settings.CAS_AFFILIATIONS_HANDLERS and user and attributes:
-            affils = attributes.get('affiliation', [])
+            affils = attributes.get(settings.CAS_AFFILIATIONS_KEY, [])
             for handler in settings.CAS_AFFILIATIONS_HANDLERS:
                 if (callable(handler)):
                     handler(user, affils)

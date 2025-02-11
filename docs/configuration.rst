@@ -373,6 +373,17 @@ affiliations. The callback is: ``handler(user, affils)``.
 
 The default is ``[]``.
 
+
+``CAS_AFFILIATIONS_KEY`` [Optional]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This variable defines the key used to retrieve the CAS affiliations
+from the authentication attributes. If your CAS server returns the
+affiliations under a different key, you can change this value accordingly.
+
+The default is ``affiliation``.
+
+
 ``CAS_LOGIN_NEXT_PAGE`` [Optional]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
