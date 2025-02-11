@@ -104,10 +104,9 @@ class CASBackend(ModelBackend):
 
         if settings.CAS_STAFF_AFFILIATION and user and attributes:
             affils = attributes.get('affiliation', [])
-            if settings.CAS_STAFF_AFFILIATION in affils:
-                if not user.is_staff:
-                    user.is_staff = True
-                    user.save()
+            if settings.CAS_STAFF_AFFILIATION in affils and not user.is_staff:
+                user.is_staff = True
+                user.save()
 
         if settings.CAS_APPLY_ATTRIBUTES_TO_USER and attributes:
             # If we are receiving None for any values which cannot be NULL
