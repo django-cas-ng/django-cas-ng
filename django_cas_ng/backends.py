@@ -90,11 +90,33 @@ class CASBackend(ModelBackend):
 
         # Map CAS affiliations to Django groups
         if settings.CAS_MAP_AFFILIATIONS and user and attributes:
+            affil_mapping = settings.CAS_AFFILIATIONS_MAPPING
             affils = attributes.get('affiliation', [])
+            desired_django_groups = set()
+
             for affil in affils:
-                if affil:
-                    g, created = Group.objects.get_or_create(name=affil)
-                    user.groups.add(g)
+                django_group = affil_mapping.get(affil)
+                # Validate that the mapping is a non-null, non-empty string
+                if not django_group or not isinstance(django_group, str) or not django_group.strip():
+                    continue
+
+                try:
+                    g = Group.objects.get(name=django_group)
+                except Group.DoesNotExist:
+                    if settings.CAS_CREATE_AFFIL_GROUPS:
+                        g, created = Group.objects.get_or_create(name=django_group)
+                    else:
+                        continue
+
+                desired_django_groups.add(django_group)
+                user.groups.add(g)
+
+            # Remove from the user any groups that are part of the mapping but not desired anymore.
+            mapping_django_groups = {django_group for django_group in affil_mapping.values()
+                                     if isinstance(django_group, str) and django_group.strip()}
+            groups_to_remove = user.groups.filter(name__in=list(mapping_django_groups - desired_django_groups))
+            if groups_to_remove:
+                user.groups.remove(*groups_to_remove)
 
         if settings.CAS_AFFILIATIONS_HANDLERS and user and attributes:
             affils = attributes.get('affiliation', [])
