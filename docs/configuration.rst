@@ -373,6 +373,16 @@ affiliations. The callback is: ``handler(user, affils)``.
 
 The default is ``[]``.
 
+
+``CAS_STAFF_AFFILIATION`` [Optional]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This variable specifies the CAS affiliation that, when present in the user's
+authentication attributes, causes the user to be marked as staff in Django.
+
+The default is ``None``.
+
+
 ``CAS_LOGIN_NEXT_PAGE`` [Optional]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
