@@ -23,6 +23,7 @@ Credits
 * `laymonage`_
 * `Michael Phelps`_
 * `Alica Burlot`_
+* `Rodrigo Fernandez`_
 
 .. _django-cas: https://bitbucket.org/cpcc/django-cas
 .. _Jasig CAS server: http://jasig.github.io/cas
@@ -46,3 +47,4 @@ Credits
 .. _laymonage: https://github.com/laymonage
 .. _Michael Phelps: https://github.com/nottheswimmer
 .. _Alica Burlot: https://github.com/B-Alica
+.. _Rodrigo Fernandez: https://github.com/rfernandezfranco
