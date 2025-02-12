@@ -89,7 +89,7 @@ class CASBackend(ModelBackend):
             request.session['pgtiou'] = pgtiou
 
         # Map CAS affiliations to Django groups
-        if settings.CAS_MAP_AFFILIATIONS and user and attributes:
+        if settings.CAS_MAP_AFFILIATIONS and settings.CAS_AFFILIATIONS_MAPPING and user and attributes:
             affil_mapping = settings.CAS_AFFILIATIONS_MAPPING
             affils = attributes.get('affiliation', [])
             desired_django_groups = set()
