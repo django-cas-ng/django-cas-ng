@@ -380,10 +380,12 @@ processed for group assignment.
 
 For example:
 
-CAS_AFFILIATIONS_MAPPING = {
-    "cas_affil_group1": "django_group1",
-    "cas_affil_group2": "django_group2",
-}
+..  code-block:: python
+
+    CAS_AFFILIATIONS_MAPPING = {
+        "cas_affil_group1": "django_group1",
+        "cas_affil_group2": "django_group2",
+    }
 
 The default is an empty dictionary (``{}``).
 
