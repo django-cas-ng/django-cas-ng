@@ -102,6 +102,13 @@ class CASBackend(ModelBackend):
                 if (callable(handler)):
                     handler(user, affils)
 
+        if settings.CAS_ADMIN_AFFILIATION and user and attributes:
+            affils = attributes.get('affiliation', [])
+            admin_status = settings.CAS_ADMIN_AFFILIATION in affils
+            if user.is_superuser != admin_status:
+                user.is_superuser = admin_status
+                user.save()
+
         if settings.CAS_APPLY_ATTRIBUTES_TO_USER and attributes:
             # If we are receiving None for any values which cannot be NULL
             # in the User model, set them to an empty string instead.
