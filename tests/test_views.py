@@ -126,8 +126,6 @@ def test_login_authenticate_and_create_user(monkeypatch, django_user_model, sett
     settings.CAS_LOGIN_MSG = None
     # Make sure we use our backend
     settings.AUTHENTICATION_BACKENDS = ['django_cas_ng.backends.CASBackend']
-    # Json serializer was havinga  hard time
-    settings.SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
     def mock_verify(ticket, service):
         return 'test@example.com', {'ticket': ticket, 'service': service}, None
@@ -160,8 +158,6 @@ def test_login_authenticate_do_not_create_user(monkeypatch, django_user_model, s
     settings.CAS_LOGIN_MSG = None
     # Make sure we use our backend
     settings.AUTHENTICATION_BACKENDS = ['django_cas_ng.backends.CASBackend']
-    # Json serializer was havinga  hard time
-    settings.SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
     def mock_verify(ticket, service):
         return 'test@example.com', {'ticket': ticket, 'service': service}, None
@@ -192,8 +188,6 @@ def test_login_proxy_callback(monkeypatch, django_user_model, settings):
     settings.CAS_LOGIN_MSG = None
     # Make sure we use our backend
     settings.AUTHENTICATION_BACKENDS = ['django_cas_ng.backends.CASBackend']
-    # Json serializer was havinga  hard time
-    settings.SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
     def mock_verify(ticket, service):
         return 'test@example.com', {'ticket': ticket, 'service': service}, None
@@ -233,8 +227,6 @@ def test_login_redirect_based_on_cookie(monkeypatch, django_user_model, settings
     settings.CAS_LOGIN_MSG = None
     # Make sure we use our backend
     settings.AUTHENTICATION_BACKENDS = ['django_cas_ng.backends.CASBackend']
-    # Json serializer was havinga  hard time
-    settings.SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
     # Store next as cookie
     settings.CAS_STORE_NEXT = True
 
