@@ -1,4 +1,5 @@
 from importlib import import_module
+from unittest.mock import Mock
 
 import pytest
 from django.conf import settings
@@ -14,9 +15,11 @@ SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
 
 # function takes a request and applies a middleware process
-def process_request_for_middleware(request, middleware):
-    middleware = middleware("response")
+def process_request_for_middleware(request, middleware_cls):
+    middleware = middleware_cls(lambda r: None)
     middleware.process_request(request)
+    if hasattr(request, 'session'):
+        request.session.save()
 
 
 def test_is_local_url():
@@ -126,12 +129,6 @@ def test_login_authenticate_and_create_user(monkeypatch, django_user_model, sett
     settings.CAS_LOGIN_MSG = None
     # Make sure we use our backend
     settings.AUTHENTICATION_BACKENDS = ['django_cas_ng.backends.CASBackend']
-    # Json serializer was havinga  hard time
-    settings.SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
-
-    def mock_verify(ticket, service):
-        return 'test@example.com', {'ticket': ticket, 'service': service}, None
-    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
 
     factory = RequestFactory()
     request = factory.get('/login/', {'ticket': 'fake-ticket',
@@ -141,6 +138,16 @@ def test_login_authenticate_and_create_user(monkeypatch, django_user_model, sett
     process_request_for_middleware(request, SessionMiddleware)
     # Create a user object from middleware
     process_request_for_middleware(request, AuthenticationMiddleware)
+
+    mock_client = Mock()
+    mock_client.verify_ticket.return_value = (
+        'test@example.com',
+        {'ticket': 'fake-ticket'},
+        None)
+    mock_client.verify_ssl_certificate = False
+
+    monkeypatch.setattr('django_cas_ng.backends.get_cas_client',
+                        lambda *args, **kwargs: mock_client)
 
     response = LoginView().get(request)
     assert response.status_code == 302
@@ -160,8 +167,6 @@ def test_login_authenticate_do_not_create_user(monkeypatch, django_user_model, s
     settings.CAS_LOGIN_MSG = None
     # Make sure we use our backend
     settings.AUTHENTICATION_BACKENDS = ['django_cas_ng.backends.CASBackend']
-    # Json serializer was havinga  hard time
-    settings.SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
     def mock_verify(ticket, service):
         return 'test@example.com', {'ticket': ticket, 'service': service}, None
@@ -192,12 +197,14 @@ def test_login_proxy_callback(monkeypatch, django_user_model, settings):
     settings.CAS_LOGIN_MSG = None
     # Make sure we use our backend
     settings.AUTHENTICATION_BACKENDS = ['django_cas_ng.backends.CASBackend']
-    # Json serializer was havinga  hard time
-    settings.SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
-    def mock_verify(ticket, service):
+    def mock_verify(ticket, service=None):
         return 'test@example.com', {'ticket': ticket, 'service': service}, None
-    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
+
+    mock_client = Mock()
+    mock_client.verify_ticket.side_effect = mock_verify
+    monkeypatch.setattr('django_cas_ng.backends.get_cas_client',
+                        lambda *args, **kwargs: mock_client)
 
     factory = RequestFactory()
     request = factory.get('/login/', {'ticket': 'fake-ticket',
@@ -233,14 +240,16 @@ def test_login_redirect_based_on_cookie(monkeypatch, django_user_model, settings
     settings.CAS_LOGIN_MSG = None
     # Make sure we use our backend
     settings.AUTHENTICATION_BACKENDS = ['django_cas_ng.backends.CASBackend']
-    # Json serializer was havinga  hard time
-    settings.SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
     # Store next as cookie
     settings.CAS_STORE_NEXT = True
 
-    def mock_verify(ticket, service):
+    def mock_verify(ticket, service=None):
         return 'test@example.com', {'ticket': ticket, 'service': service}, None
-    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
+
+    mock_client = Mock()
+    mock_client.verify_ticket.side_effect = mock_verify
+    monkeypatch.setattr('django_cas_ng.backends.get_cas_client',
+                        lambda *args, **kwargs: mock_client)
 
     factory = RequestFactory()
     request = factory.get('/login/', {'ticket': 'fake-ticket',
