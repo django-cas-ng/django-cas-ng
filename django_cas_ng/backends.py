@@ -19,7 +19,7 @@ __all__ = ['CASBackend']
 class CASBackend(ModelBackend):
     """CAS authentication backend"""
 
-    def authenticate(self, request: HttpRequest, ticket: str, service: str) -> Optional[User]:
+    def authenticate(self, request: HttpRequest, ticket: str, service: str) -> Optional[User]: # skipcq: PY-R1000
         """
         Verifies CAS ticket and gets or creates User object
 
