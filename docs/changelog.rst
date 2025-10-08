@@ -6,6 +6,11 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+**django-cas-ng 5.1.0** ``[2025-10-08]``
+
+* PR #364: Added new option CAS_ADMIN_AFFILIATION
+* Dropped Python 3.8 and 3.9 support.
+
 **django-cas-ng 5.0.1** ``[2023-10-07]``
 
 * PR #337: Typo in assigning redirect_url to next_page @jaumemoral
