@@ -17,7 +17,7 @@ It supports Django 4.2+ and Python 3.10+!
 **NOTE:**
 
 Since there is no more further CAS protocol development,
-Code in this repo is stable and in maintain mode, accept PR for bugfix and minor enhancement.
+Code in this repo is stable and actively maintained.
 
 Document
 --------
