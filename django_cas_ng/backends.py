@@ -19,7 +19,7 @@ __all__ = ['CASBackend']
 class CASBackend(ModelBackend):
     """CAS authentication backend"""
 
-    def authenticate(self, request: HttpRequest, ticket: str, service: str) -> Optional[User]:
+    def authenticate(self, request: HttpRequest, ticket: str, service: str) -> Optional[User]: # skipcq: PY-R1000
         """
         Verifies CAS ticket and gets or creates User object
 
@@ -101,6 +101,13 @@ class CASBackend(ModelBackend):
             for handler in settings.CAS_AFFILIATIONS_HANDLERS:
                 if (callable(handler)):
                     handler(user, affils)
+
+        if settings.CAS_ADMIN_AFFILIATION and user and attributes:
+            affils = attributes.get('affiliation', [])
+            admin_status = settings.CAS_ADMIN_AFFILIATION in affils
+            if user.is_superuser != admin_status:
+                user.is_superuser = admin_status
+                user.save()
 
         if settings.CAS_APPLY_ATTRIBUTES_TO_USER and attributes:
             # If we are receiving None for any values which cannot be NULL
