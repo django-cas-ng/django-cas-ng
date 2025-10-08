@@ -51,16 +51,16 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'django-cas-ng'
-copyright = '2014-2020, django-cas-ng'
+copyright = '2014-2025, django-cas-ng'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 # The short X.Y version.
-version = '5.0'
+version = '5.1'
 # The full version, including alpha/beta/rc tags.
-release = '5.0.1'
+release = '5.1.0'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
