@@ -409,6 +409,8 @@ if it is absent, any existing staff status is removed. This ensures
 that staff privileges are dynamically managed based on the current
 CAS affiliations.
 
+The default is ``None``.
+
 
 ``CAS_LOGIN_NEXT_PAGE`` [Optional]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
