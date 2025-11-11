@@ -102,6 +102,13 @@ class CASBackend(ModelBackend):
                 if (callable(handler)):
                     handler(user, affils)
 
+        if settings.CAS_STAFF_AFFILIATION and user and attributes:
+            affils = attributes.get(settings.CAS_AFFILIATIONS_KEY, [])
+            staff_status = settings.CAS_STAFF_AFFILIATION in affils
+            if user.is_staff != staff_status:
+                user.is_staff = staff_status
+                user.save()
+
         if settings.CAS_ADMIN_AFFILIATION and user and attributes:
             affils = attributes.get('affiliation', [])
             admin_status = settings.CAS_ADMIN_AFFILIATION in affils
