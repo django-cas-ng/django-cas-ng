@@ -251,6 +251,9 @@ class LogoutView(View):
         # simply be logged in again on next request requiring authorization.
         return HttpResponseRedirect(next_page)
 
+    def post(self, request: HttpRequest) -> HttpResponse:
+        return self.get(request)
+
 
 class CallbackView(View):
     """

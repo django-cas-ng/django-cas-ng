@@ -6,6 +6,10 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+**django-cas-ng 5.1.X** ``[YYYY-MM-DD]``
+
+* PR #386: Support POST logout requests
+
 **django-cas-ng 5.1.0** ``[2025-10-08]``
 
 * PR #364: Added new option CAS_ADMIN_AFFILIATION
