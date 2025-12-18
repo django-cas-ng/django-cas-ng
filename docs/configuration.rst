@@ -398,6 +398,20 @@ CAS affiliations.
 The default is ``None``.
 
 
+``CAS_STAFF_AFFILIATION`` [Optional]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This variable specifies the CAS affiliation that, when present in the
+user's authentication attributes, will cause the user's staff status
+in Django to be updated on every login. If the specified affiliation
+is found in the user's attributes, the user is marked as staff;
+if it is absent, any existing staff status is removed. This ensures
+that staff privileges are dynamically managed based on the current
+CAS affiliations.
+
+The default is ``None``.
+
+
 ``CAS_LOGIN_NEXT_PAGE`` [Optional]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
