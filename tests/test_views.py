@@ -365,6 +365,25 @@ def test_logout_completely(django_user_model, settings):
 
 
 @pytest.mark.django_db
+def test_post_logout(django_user_model, settings):
+    """
+    Test Django 4.1+ POST logout view.
+    """
+    factory = RequestFactory()
+    request = factory.post('/logout/')
+    # Create a session object from the middleware
+    process_request_for_middleware(request, SessionMiddleware)
+
+    user = django_user_model.objects.create_user('test@example.com', '')
+    assert user is not None
+    request.user = user
+
+    response = LogoutView().post(request)
+    assert response.status_code == 302
+    assert request.user.is_anonymous is True
+
+
+@pytest.mark.django_db
 def test_callback_create_pgt():
     """
     Test the case where a pgt callback is used.
