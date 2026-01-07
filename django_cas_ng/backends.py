@@ -110,7 +110,7 @@ class CASBackend(ModelBackend):
                 user.save()
 
         if settings.CAS_ADMIN_AFFILIATION and user and attributes:
-            affils = attributes.get('affiliation', [])
+            affils = attributes.get(settings.CAS_AFFILIATIONS_KEY, [])
             admin_status = settings.CAS_ADMIN_AFFILIATION in affils
             if user.is_superuser != admin_status:
                 user.is_superuser = admin_status
