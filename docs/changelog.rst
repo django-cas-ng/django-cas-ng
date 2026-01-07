@@ -9,6 +9,7 @@ here. For additional detail, read the complete `commit history`_.
 **django-cas-ng 5.1.X** ``[YYYY-MM-DD]``
 
 * PR #386: Support POST logout requests
+* Add support for Django 5.2.
 
 **django-cas-ng 5.1.0** ``[2025-10-08]``
 

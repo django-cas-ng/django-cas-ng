@@ -1,4 +1,5 @@
-Django==4.2.27
+Django==5.2.10
+lxml>=3.4
 
 # If you want the latest python-cas, uncomment following line.
 #-e git+https://github.com/python-cas/python-cas.git#egg=python_cas
