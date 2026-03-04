@@ -1,4 +1,4 @@
-Django==5.2.10
+Django==5.2.12
 lxml>=3.4
 
 # If you want the latest python-cas, uncomment following line.
