@@ -1,0 +1,8 @@
+5.1.1 (2026-05-05)
+==================
+* Fixed bug where it was possible for CAS_APPLY_ATTRIBUTES_TO_USER to
+  interfere with the username.
+* Support POST logout requests
+* Add support for Django 5.2.
+* Add CAS_STAFF_AFFILIATION setting
+* Refactored clean_sessions()

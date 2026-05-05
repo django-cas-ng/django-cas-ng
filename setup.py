@@ -31,11 +31,17 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
     ],
     description='Django CAS 1.0/2.0/3.0 client authentication library',
-    keywords=['django', 'cas', 'cas2', 'cas3', 'client', 'sso', 'single sign-on', 'Central Authentication Service', 'authentication', 'auth'],
+    keywords=[
+        'django', 'cas', 'cas2', 'cas3', 'client', 'sso', 'single sign-on',
+        'Central Authentication Service', 'authentication', 'auth'
+    ],
     license='BSD',
     long_description=readme,
     name='django-cas-ng',
-    packages=['django_cas_ng', 'django_cas_ng.management', 'django_cas_ng.management.commands', 'django_cas_ng.migrations'],
+    packages=[
+        'django_cas_ng', 'django_cas_ng.management',
+        'django_cas_ng.management.commands', 'django_cas_ng.migrations'
+    ],
     package_data={
         'django_cas_ng': [
             'locale/*/LC_MESSAGES/*',
@@ -44,7 +50,7 @@ setup(
     },
     url='https://djangocas.dev',
     download_url='https://github.com/django-cas-ng/django-cas-ng/releases',
-    version='5.1.0',
+    version='5.1.1',
     python_requires=">=3.10",
     install_requires=[
         'Django>=4.2',
