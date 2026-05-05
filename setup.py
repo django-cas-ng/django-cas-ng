@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-
 import codecs
 
 from setuptools import setup
@@ -17,6 +16,7 @@ setup(
         'Framework :: Django',
         'Framework :: Django :: 4.2',
         'Framework :: Django :: 5.1',
+        'Framework :: Django :: 5.2',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
@@ -30,7 +30,7 @@ setup(
         'Programming Language :: Python :: 3.13',
         'Topic :: Internet :: WWW/HTTP',
     ],
-    description='Django CAS 1.0/2.0/3.0 client authentication library, support Django 4.2+ and Python 3.10+',
+    description='Django CAS 1.0/2.0/3.0 client authentication library',
     keywords=['django', 'cas', 'cas2', 'cas3', 'client', 'sso', 'single sign-on', 'Central Authentication Service', 'authentication', 'auth'],
     license='BSD',
     long_description=readme,
