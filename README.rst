@@ -34,7 +34,7 @@ Features
 - Supports Token auth schemes
 - Can fetch Proxy Granting Ticket
 - Supports Django 4.2+
-- Supports using a `User custom model`_
+- Supports using a `Custom User model`_
 - Supports Python 3.10+
 - Supports typing hints in public API.
 
@@ -53,7 +53,7 @@ Pre-5.0.0 changelog: https://djangocas.dev/docs/latest/changelog.html
 
 
 .. _django-cas: https://bitbucket.org/cpcc/django-cas
-.. _User custom model: https://docs.djangoproject.com/en/3.0/topics/auth/customizing/
+.. _Custom User model: https://docs.djangoproject.com/en/5.2/topics/auth/customizing/
 .. _CAS 101: https://djangocas.dev/blog/cas-101-introduction-to-cas-central-authentication-service/
 .. _Example integration: https://djangocas.dev/blog/django-cas-ng-example-project/
 .. _Contribution: https://djangocas.dev/docs/latest/contribution.html
