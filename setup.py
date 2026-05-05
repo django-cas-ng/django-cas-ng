@@ -49,7 +49,7 @@ setup(
             'py.typed',
         ],
     },
-    url='https://djangocas.dev',
+    url='https://github.com/django-cas-ng/django-cas-ng',
     download_url='https://github.com/django-cas-ng/django-cas-ng/releases',
     version='5.1.1',
     python_requires=">=3.10",
