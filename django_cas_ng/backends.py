@@ -140,7 +140,14 @@ class CASBackend(ModelBackend):
                     except KeyError:
                         continue
 
-            user.__dict__.update(attributes)
+            for k, v in attributes.items():
+                # CAS_APPLY_ATTRIBUTES_TO_USER ignores setting the
+                # user's username attribute, as this can get
+                # problematic when used with other options such as
+                # CAS_FORCE_CHANGE_USERNAME_CASE, and is not what this
+                # option is intended for.
+                if k != 'username':
+                    setattr(user, k, v)
 
             # If we are keeping a local copy of the user model we
             # should save these attributes which have a corresponding

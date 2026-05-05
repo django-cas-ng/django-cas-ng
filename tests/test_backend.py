@@ -1,6 +1,7 @@
 import pytest
 from django.core.exceptions import ImproperlyConfigured
 from django.test import RequestFactory
+from django.contrib.auth.models import User
 from django_cas_ng import backends
 
 
@@ -239,6 +240,41 @@ def test_backend_applies_attributes_when_set(monkeypatch, settings):
 
 
 @pytest.mark.django_db
+def test_backend_applies_attributes_duplicate_user_bug(monkeypatch, settings):
+    """
+    Test to make sure that a duplicate user isn't created when the
+    following settings are used together:
+    * CAS_USERNAME_ATTRIBUTE
+    * CAS_APPLY_ATTRIBUTES_TO_USER
+    * CAS_FORCE_CHANGE_USERNAME_CASE
+    """
+    factory = RequestFactory()
+    request = factory.get('/login/')
+    request.session = {}
+
+    def mock_verify(ticket, service):
+        return 'test@example.com', {
+            'username': 'test@example.com',
+            'is_staff': 'True',
+            'is_superuser': 'False'
+        }, None
+
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
+
+    settings.CAS_USERNAME_ATTRIBUTE = 'username'
+    settings.CAS_FORCE_CHANGE_USERNAME_CASE = 'upper'
+    settings.CAS_APPLY_ATTRIBUTES_TO_USER = True
+    backend = backends.CASBackend()
+    user = backend.authenticate(
+        request, ticket='fake-ticket', service='fake-service')
+
+    assert user.username == 'TEST@EXAMPLE.COM'
+    assert User.objects.count() == 1
+    assert user is not None
+    assert user.is_staff is True
+
+
+@pytest.mark.django_db
 def test_cas_attributes_renaming_working(monkeypatch, settings):
     """
     Test to make sure attributes are renamed according to the setting file
@@ -443,6 +479,7 @@ def test_backend_user_can_authenticate_with_cas_username_attribute(monkeypatch, 
         request, ticket='fake-ticket', service='fake-service',
     )
 
+    assert User.objects.count() == 1
     assert user.username == 'GOOD@EXAMPLE.COM'
 
     # Testing to make sure None is returned if username attribute is missing.
@@ -517,6 +554,7 @@ def test_backend_user_can_map_cas_affils(monkeypatch, settings):
 
     # Checking user data
     assert user is not None
+    assert User.objects.count() == 1
     assert user.groups.count() == 2
 
     group_names = [g.name for g in user.groups.all()]
