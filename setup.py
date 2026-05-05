@@ -37,6 +37,7 @@ setup(
     ],
     license='BSD',
     long_description=readme,
+    long_description_content_type='text/x-rst',
     name='django-cas-ng',
     packages=[
         'django_cas_ng', 'django_cas_ng.management',
