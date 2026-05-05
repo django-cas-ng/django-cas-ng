@@ -43,8 +43,6 @@ Features
 - Supports Python 3.10+
 - Supports typing hints in public API.
 
-To support django 1.x and Python 2.x, please use `3.6.0`.
-
 Contributing
 ------------
 
