@@ -9,8 +9,8 @@ django-cas-ng
 .. image:: https://static.deepsource.io/deepsource-badge-light-mini.svg
     :target: https://deepsource.io/gh/django-cas-ng/django-cas-ng/?ref=repository-badge
 
-`django-cas-ng`_ is Django CAS (Central Authentication Service) 1.0/2.0/3.0 client
-library to support SSO (Single Sign On) and Single Logout (SLO).
+`django-cas-ng`_ is a Django CAS (Central Authentication Service) 1.0/2.0/3.0 client
+library to support SSO (Single Sign-On) and Single Logout (SLO).
 
 It supports Django 4.2+ and Python 3.10+!
 
