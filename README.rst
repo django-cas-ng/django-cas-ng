@@ -17,7 +17,7 @@ It supports Django 4.2+ and Python 3.10+!
 **NOTE:**
 
 Since there is no more further CAS protocol development,
-Code in this repo is stable and actively maintained.
+code in this repo is stable and actively maintained.
 
 Document
 --------
@@ -54,7 +54,7 @@ New contributors are always welcome! Check out `Contribution`_ to get involved.
 Change Log
 ----------
 
-This project adheres to Semantic Versioning. Checkout all the `Changelog`_.
+This project adheres to Semantic Versioning. Check out the `Changelog`_.
 
 
 .. _django-cas-ng: https://djangocas.dev
