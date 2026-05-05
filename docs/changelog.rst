@@ -6,10 +6,14 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
-**django-cas-ng 5.1.X** ``[YYYY-MM-DD]``
+**django-cas-ng 5.1.1** ``[2026-05-05]``
 
-* PR #386: Support POST logout requests
+* Fixed bug where it was possible for CAS_APPLY_ATTRIBUTES_TO_USER to
+  interfere with the username.
+* PR #386: Support POST logout requests @phette23
 * Add support for Django 5.2.
+* Add CAS_STAFF_AFFILIATION setting @rfernandezfranco
+* Refactored clean_sessions()
 
 **django-cas-ng 5.1.0** ``[2025-10-08]``
 
