@@ -290,20 +290,32 @@ def clean_sessions(client, request):
     if not hasattr(client, 'get_saml_slos'):
         return
 
-    for slo in client.get_saml_slos(request.POST.get('logoutRequest')):
+    logout_request = request.POST.get('logoutRequest')
+    if not logout_request:
+        return
+
+    for slo in client.get_saml_slos(logout_request):
+        ticket = slo.text
+        if not ticket:
+            continue
+
         try:
             st = SessionTicket.objects.get(ticket=slo.text)
-            session = SessionStore(session_key=st.session_key)
-            # send logout signal
-            cas_user_logout.send(
-                sender="slo",
-                user=get_user_from_session(session),
-                session=session,
-                ticket=slo.text,
-            )
-            session.flush()
-            # clean logout session ProxyGrantingTicket and SessionTicket
-            ProxyGrantingTicket.objects.filter(session_key=st.session_key).delete()
-            SessionTicket.objects.filter(session_key=st.session_key).delete()
         except SessionTicket.DoesNotExist:
-            pass
+            continue
+
+        session_key = st.session_key
+        session = SessionStore(session_key=session_key)
+        user = get_user_from_session(session)
+
+        # send logout signal
+        cas_user_logout.send(
+            sender='slo',
+            user=user,
+            session=session,
+            ticket=ticket,
+        )
+
+        session.delete(session_key)
+        ProxyGrantingTicket.objects.filter(session_key=session_key).delete()
+        SessionTicket.objects.filter(session_key=session_key).delete()
