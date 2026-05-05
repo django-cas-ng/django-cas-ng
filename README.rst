@@ -51,10 +51,12 @@ Contributing
 New contributors are always welcome! Check out `Contribution`_ to get involved.
 
 
-Change Log
+Changelog
 ----------
 
-This project adheres to Semantic Versioning. Check out the `Changelog`_.
+Recent changes are here: https://github.com/django-cas-ng/django-cas-ng/releases
+
+Pre-5.0.0 changelog: https://djangocas.dev/docs/latest/changelog.html
 
 
 .. _django-cas-ng: https://djangocas.dev
@@ -63,6 +65,5 @@ This project adheres to Semantic Versioning. Check out the `Changelog`_.
 .. _CAS 101: https://djangocas.dev/blog/cas-101-introduction-to-cas-central-authentication-service/
 .. _Example integration: https://djangocas.dev/blog/django-cas-ng-example-project/
 .. _Contribution: https://djangocas.dev/docs/latest/contribution.html
-.. _Changelog: https://djangocas.dev/docs/latest/changelog.html
 .. _Installation: https://djangocas.dev/docs/latest/install.html
 .. _Configuration: https://djangocas.dev/docs/latest/configuration.html
