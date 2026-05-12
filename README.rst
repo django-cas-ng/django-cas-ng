@@ -12,7 +12,7 @@ django-cas-ng
 django-cas-ng is a Django CAS (Central Authentication Service) 1.0/2.0/3.0 client
 library to support SSO (Single Sign-On) and Single Logout (SLO).
 
-It supports Django 4.2+ and Python 3.10+.
+It supports Django 5.2+ and Python 3.10+.
 
 Documentation
 --------
@@ -34,7 +34,7 @@ Features
 - Support Single Logout (needs CAS server support)
 - Supports Token auth schemes
 - Can fetch Proxy Granting Ticket
-- Supports Django 4.2+
+- Supports Django 5.2+
 - Supports using a `Custom User model`_
 - Supports Python 3.10+
 - Supports typing hints in public API.
