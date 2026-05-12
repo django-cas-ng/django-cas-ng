@@ -18,7 +18,7 @@ Documentation
 --------
 
 Documentation can be seen here: https://github.com/django-cas-ng/django-cas-ng/tree/master/docs
-Some parts of this may be outdated.
+Parts of this may be out-of-date, the documentation has not been updated recently.
 
 Quick links:
 
