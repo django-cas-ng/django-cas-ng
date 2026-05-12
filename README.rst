@@ -17,7 +17,8 @@ It supports Django 4.2+ and Python 3.10+.
 Documentation
 --------
 
-Check out documentation at https://djangocas.dev/docs/latest/
+Documentation can be seen here: https://github.com/django-cas-ng/django-cas-ng/tree/master/docs
+Some parts of this may be outdated.
 
 Quick links:
 
