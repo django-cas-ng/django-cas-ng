@@ -232,7 +232,7 @@ class LogoutView(View):
 
         next_page = next_page or get_redirect_url(request)
         if settings.CAS_LOGOUT_COMPLETELY:
-            if next_page.lower().startswith("https://") or next_page.lower().startswith("http://"):
+            if next_page.lower().startswith(("https://", "http://")):
                 redirect_url = next_page
             else:
                 if hasattr(settings, 'CAS_ROOT_PROXIED_AS') and settings.CAS_ROOT_PROXIED_AS:
