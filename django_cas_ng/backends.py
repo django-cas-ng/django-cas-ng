@@ -146,7 +146,10 @@ class CASBackend(ModelBackend):
                 # problematic when used with other options such as
                 # CAS_FORCE_CHANGE_USERNAME_CASE, and is not what this
                 # option is intended for.
-                if k != 'username':
+                # Groups are also ignored, because they cannot be
+                # assigned directly, and automatically adopting groups
+                # is not a feature at this point.
+                if k not in ['username', 'groups']:
                     setattr(user, k, v)
 
             # If we are keeping a local copy of the user model we
