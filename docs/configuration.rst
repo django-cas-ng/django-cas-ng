@@ -271,6 +271,9 @@ The default is ``False``.
 If ``True`` any attributes returned by the CAS provider
 included in the ticket will be applied to the User model returned by authentication. This is
 useful if your provider is including details about the User which should be reflected in your model.
+The attributes are saved to the database only when ``CAS_CREATE_USER`` is ``True``. When
+``CAS_CREATE_USER`` is ``False``, they update the authenticated User instance for the current login
+but are not persisted by the CAS backend.
 
 The default is ``False``.
 
