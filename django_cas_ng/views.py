@@ -39,6 +39,7 @@ __all__ = ['LoginView', 'LogoutView', 'CallbackView']
 
 
 def clean_next_page(request, next_page):
+    """Validate a redirect, rejecting non-local URLs by default."""
     if not next_page:
         return next_page
     if settings.CAS_CHECK_NEXT and not is_local_url(request.build_absolute_uri('/'), next_page):
@@ -64,6 +65,12 @@ def is_local_url(host_url, url):
     url_path = parsed_url.path if parsed_url.path.endswith('/') else parsed_url.path + '/'
     host_path = parsed_host.path if parsed_host.path.endswith('/') else parsed_host.path + '/'
     return url_path.startswith(host_path)
+
+
+def _get_login_next_page(request):
+    """Choose and validate the configured or requested login redirect."""
+    next_url = settings.CAS_LOGIN_NEXT_PAGE or request.GET.get('next')
+    return clean_next_page(request, next_url)
 
 
 class LoginView(View):
@@ -100,8 +107,7 @@ class LoginView(View):
         :param request:
         :return:
         """
-        next_url = settings.CAS_LOGIN_NEXT_PAGE or request.GET.get('next')
-        next_page = clean_next_page(request, next_url)
+        next_page = _get_login_next_page(request)
 
         required = request.GET.get('required', False)
 
