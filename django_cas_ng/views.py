@@ -100,11 +100,7 @@ class LoginView(View):
         :param request:
         :return:
         """
-        next_url = getattr(
-            settings,
-            "CAS_LOGIN_NEXT_PAGE",
-            request.GET.get("next"),
-        )
+        next_url = settings.CAS_LOGIN_NEXT_PAGE or request.GET.get('next')
         next_page = clean_next_page(request, next_url)
 
         required = request.GET.get('required', False)

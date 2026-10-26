@@ -66,6 +66,52 @@ def test_clean_next_page_invalid_override(rf, settings):
     assert next_page == 'http://invalid.com'
 
 
+@pytest.mark.parametrize('configured_next', [None, ''])
+def test_login_validates_next_when_setting_is_unset(
+    rf, settings, monkeypatch, configured_next
+):
+    settings.CAS_LOGIN_NEXT_PAGE = configured_next
+    settings.CAS_LOGGED_MSG = None
+    request = rf.get('/login/', {'next': 'https://other.example/after-login/'})
+    request.user = Mock(is_authenticated=True)
+    request.session = {}
+    monkeypatch.setattr('django_cas_ng.views.get_cas_client', Mock())
+
+    with pytest.raises(RedirectException):
+        LoginView().get(request)
+
+
+@pytest.mark.parametrize('configured_next, expected', [
+    (None, '/requested/'),
+    ('', '/requested/'),
+    ('/configured/', '/configured/'),
+])
+def test_login_next_setting_precedence(
+    rf, settings, monkeypatch, configured_next, expected
+):
+    settings.CAS_LOGIN_NEXT_PAGE = configured_next
+    settings.CAS_LOGGED_MSG = None
+    request = rf.get('/login/', {'next': '/requested/'})
+    request.user = Mock(is_authenticated=True)
+    request.session = {}
+    get_client = Mock()
+    monkeypatch.setattr('django_cas_ng.views.get_cas_client', get_client)
+
+    response = LoginView().get(request)
+
+    assert response['Location'] == expected
+    assert get_client.call_args.kwargs['service_url'].endswith(
+        '?next=' + expected.replace('/', '%2F'))
+
+
+def test_login_validates_configured_next(rf, settings):
+    settings.CAS_LOGIN_NEXT_PAGE = 'https://other.example/after-login/'
+    request = rf.get('/login/', {'next': '/requested/'})
+
+    with pytest.raises(RedirectException):
+        LoginView().get(request)
+
+
 @pytest.mark.django_db
 def test_login_post_logout(django_user_model, settings):
     """
