@@ -70,6 +70,7 @@ def test_clean_next_page_invalid_override(rf, settings):
 def test_login_validates_next_when_setting_is_unset(
     rf, settings, monkeypatch, configured_next
 ):
+    """An unset redirect setting still validates the request's next parameter."""
     settings.CAS_LOGIN_NEXT_PAGE = configured_next
     settings.CAS_LOGGED_MSG = None
     request = rf.get('/login/', {'next': 'https://other.example/after-login/'})
@@ -89,6 +90,7 @@ def test_login_validates_next_when_setting_is_unset(
 def test_login_next_setting_precedence(
     rf, settings, monkeypatch, configured_next, expected
 ):
+    """The chosen redirect is used by both the response and CAS service URL."""
     settings.CAS_LOGIN_NEXT_PAGE = configured_next
     settings.CAS_LOGGED_MSG = None
     request = rf.get('/login/', {'next': '/requested/'})
@@ -105,6 +107,7 @@ def test_login_next_setting_precedence(
 
 
 def test_login_validates_configured_next(rf, settings):
+    """Configured redirects go through the same local URL validation."""
     settings.CAS_LOGIN_NEXT_PAGE = 'https://other.example/after-login/'
     request = rf.get('/login/', {'next': '/requested/'})
 
