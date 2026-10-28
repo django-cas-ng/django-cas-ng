@@ -6,6 +6,10 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
+**django-cas-ng x.x.x**
+
+* Validate the login ``next`` parameter when ``CAS_LOGIN_NEXT_PAGE`` is unset.
+
 **django-cas-ng 5.1.1** ``[2026-05-05]``
 
 * Fixed bug where it was possible for CAS_APPLY_ATTRIBUTES_TO_USER to
