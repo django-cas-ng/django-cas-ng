@@ -17,6 +17,7 @@ setup(
         'Framework :: Django :: 5.1',
         'Framework :: Django :: 5.2',
         'Framework :: Django :: 6.0',
+        'Framework :: Django :: 6.1',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
@@ -52,7 +53,7 @@ setup(
     },
     url='https://github.com/django-cas-ng/django-cas-ng',
     download_url='https://github.com/django-cas-ng/django-cas-ng/releases',
-    version='5.1.1',
+    version='5.1.2',
     python_requires=">=3.10",
     install_requires=[
         'Django>=4.2',
