@@ -15,7 +15,7 @@ library to support SSO (Single Sign-On) and Single Logout (SLO).
 It supports Django 5.2+ and Python 3.10+.
 
 Documentation
---------
+-------------
 
 Documentation can be seen here: https://github.com/django-cas-ng/django-cas-ng/tree/master/docs.
 Parts of this may be out-of-date - the documentation has not been updated recently.
