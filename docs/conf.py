@@ -60,7 +60,7 @@ copyright = '2014-2026, django-cas-ng'
 # The short X.Y version.
 version = '5.1'
 # The full version, including alpha/beta/rc tags.
-release = '5.1.1'
+release = '5.1.2'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.

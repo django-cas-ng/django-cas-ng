@@ -6,9 +6,11 @@ Listed are the high-level, notable changes for each django-cas-ng release.
 Backwards incompatible changes or other upgrade issues are also described
 here. For additional detail, read the complete `commit history`_.
 
-**django-cas-ng x.x.x**
-
+**django-cas-ng 5.1.2** ``[2026-10-28]``
+* Updated homepage and doc links
+* Update docs to encourage minimum version Django 5.2.
 * Validate the login ``next`` parameter when ``CAS_LOGIN_NEXT_PAGE`` is unset.
+* Don't update groups via attribute with CAS_APPLY_ATTRIBUTES_TO_USER.
 
 **django-cas-ng 5.1.1** ``[2026-05-05]``
 
