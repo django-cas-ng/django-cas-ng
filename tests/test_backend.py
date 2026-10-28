@@ -275,6 +275,34 @@ def test_backend_applies_attributes_duplicate_user_bug(monkeypatch, settings):
 
 
 @pytest.mark.django_db
+def test_backend_applies_attributes_with_groups_set(monkeypatch, settings):
+    """
+    Test to make sure that applying user attributes still works
+    with `groups` attribute present. As long as we do not implement
+    a feature to automatically handle group memberships, this
+    would break the application.
+    """
+    factory = RequestFactory()
+    request = factory.get('/login/')
+    request.session = {}
+
+    def mock_verify(ticket, service):
+        return 'test@example.com', {
+            'groups': ['some', 'groups', 'to', 'be', 'ignored'],
+        }, None
+
+    monkeypatch.setattr('cas.CASClientV2.verify_ticket', mock_verify)
+
+    settings.CAS_APPLY_ATTRIBUTES_TO_USER = True
+    backend = backends.CASBackend()
+    user = backend.authenticate(
+        request, ticket='fake-ticket', service='fake-service')
+
+    assert User.objects.count() == 1
+    assert user is not None
+
+
+@pytest.mark.django_db
 def test_cas_attributes_renaming_working(monkeypatch, settings):
     """
     Test to make sure attributes are renamed according to the setting file
